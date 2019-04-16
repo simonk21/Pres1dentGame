@@ -139,6 +139,14 @@ public class PresidentLocalGame extends LocalGame {
         state.getPlayers().get(turn).setPass();
         if(state.checkPass()) {
             state.getCurrentSet().clear();
+
+            for(int i = 0; i < state.getPlayers().size(); i++) {
+                if (state.getPlayers().get(i).getPass() == 1) {
+                } else {
+                    state.setTurn(i);
+                }
+            }
+
             for(int i =  0; i < state.getPlayers().size();i++){
                state.getPlayers().get(i).resetPass();
             }
@@ -148,7 +156,7 @@ public class PresidentLocalGame extends LocalGame {
         return true;
     }
 
-    public boolean checkNoCards(){
+    private boolean checkNoCards(){
         int count = 0;
         if(state.getPlayers().get(state.getTurn()).getHand().size() < 1) {
             while (state.getPlayers().get(state.getTurn()).getHand().size() < 1) {

@@ -134,6 +134,8 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
             ArrayList<Card> temp = new ArrayList<Card>();
             temp.add(getGUICard());
             selectedCard.getBackground().clearColorFilter();
+            // Line of code that disables the button of the card last pressed.
+          //  selectedCard.setEnabled(false);
             action = new PresidentPlayAction(this, temp);
         } else if (button.getId() == R.id.passButton) {
             selectedCard = null;
