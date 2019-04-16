@@ -88,7 +88,6 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
      * sets the counter value in the text view
      */
     protected void updateDisplay() {
-        //updatePlayerGui();
         switch (this.state.getTurn()) {
             case 0:
                 switchHighlight(0);
@@ -103,9 +102,9 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 switchHighlight(3);
                 break;
         }
-//        if(selectedCard != null){
-//            selectedCard.setBackgroundResource(R.drawable.scoreboard);
-//        }
+        if(selectedCard != null){
+            selectedCard.setBackgroundResource(R.drawable.scoreboard);
+        }
     }
 
     /**

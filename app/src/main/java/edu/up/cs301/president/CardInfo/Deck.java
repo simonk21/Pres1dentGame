@@ -1,11 +1,12 @@
 package edu.up.cs301.president.CardInfo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import edu.up.cs301.president.PlayerTracker;
 
-public class Deck {
+public class Deck implements Serializable {
 
     private ArrayList<Card> deck;
     public Deck(){

@@ -1,10 +1,11 @@
 package edu.up.cs301.president;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import edu.up.cs301.president.CardInfo.Card;
 
-public class PlayerTracker {
+public class PlayerTracker implements Serializable {
 
     private int score; // player's score
     private int pass; // 0 if didn't pass, 1 if passed
@@ -65,8 +66,8 @@ public class PlayerTracker {
 
     /* player's pass */
     public int getPass() { return pass; }
-    public void setPass() { this.pass = 1; }
-    public void resetPass() { this.pass = 0; }
+    public void setPass() { pass = 1; }
+    public void resetPass() { pass = 0; }
 
     /**
      * removeCard

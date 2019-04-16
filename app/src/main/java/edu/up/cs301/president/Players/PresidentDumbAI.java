@@ -51,7 +51,6 @@ public class PresidentDumbAI extends GameComputerPlayer {
             }
             else{
                 if(savedState.getCurrentSet().get(0).getValue() >= temp.get(0).getValue()){
-                    sleep(1000);
                     game.sendAction(new PresidentPassAction(this));
                 }
                 else{
@@ -59,6 +58,38 @@ public class PresidentDumbAI extends GameComputerPlayer {
                     game.sendAction(new PresidentPlayAction(this, temp));
                 }
             }
+//            if(savedState.checkPass() && savedState.getPrev() == this.playerNum){
+//                savedState.setPrev();
+//                game.sendAction(new PresidentPlayAction(this,temp));
+//                savedState.getCurrentSet().clear();
+//            }
+//            else if(Math.random() < 0.5){
+//                sleep(1000);
+//                if(savedState.getCurrentSet().size() != 0){
+//                    game.sendAction(new PresidentPassAction(this));
+//                }
+//                else{
+//                    mustMove = true;
+//                }
+//            }
+//            else{
+//                if(savedState.getCurrentSet().size() != 0) {
+//                    if (savedState.getCurrentSet().get(0).getValue() >= temp.get(0).getValue()) {
+//                        game.sendAction(new PresidentPassAction(this));
+//                    }
+//                    else {
+//                        savedState.setPrev();
+//                        game.sendAction(new PresidentPlayAction(this, temp));
+//                    }
+//                }
+//                savedState.setPrev();
+//                game.sendAction(new PresidentPlayAction(this,temp));
+//
+//            } //TODO: adding a card doesn't work or accessing the state?
+//            if(mustMove){
+//                savedState.setPrev();
+//                game.sendAction(new PresidentPlayAction(this, temp));
+//            }
         }
     }
 

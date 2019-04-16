@@ -128,15 +128,15 @@
 
                 <TextView
                     android:id="@+id/Player3Text"
+                    android:text="Player 3"
                     android:layout_width="200dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:background="#000000"
                     android:gravity="center"
-                    android:text="PLAYER 3"
                     android:textColor="#FFFFFF"
-                    android:textSize="14dp" />
+                    android:layout_weight="1"
+                    android:textSize="14dp"/>
 
             </LinearLayout>
 
@@ -151,11 +151,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="10" />
 
                 <ImageButton
                     android:id="@+id/currentPlay"
@@ -181,91 +176,91 @@
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/card_back"/>
+                    android:background="@drawable/seven_spades"/>
 
                 <ImageButton
                     android:id="@+id/card1"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/card_back"/>
+                    android:background="@drawable/seven_spades"/>
 
                 <ImageButton
                     android:id="@+id/card2"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/card_back"/>
+                    android:background="@drawable/seven_spades"/>
 
                 <ImageButton
                     android:id="@+id/card3"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/card_back" />
+                    android:background="@drawable/seven_spades" />
 
                 <ImageButton
                     android:id="@+id/card4"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/card_back" />
+                    android:background="@drawable/seven_spades" />
 
                 <ImageButton
                     android:id="@+id/card5"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/card_back" />
+                    android:background="@drawable/seven_spades" />
 
                 <ImageButton
                     android:id="@+id/card6"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/card_back" />
+                    android:background="@drawable/seven_spades" />
 
                 <ImageButton
                     android:id="@+id/card7"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/card_back" />
+                    android:background="@drawable/seven_spades" />
 
                 <ImageButton
                     android:id="@+id/card8"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/card_back" />
+                    android:background="@drawable/seven_spades" />
 
                 <ImageButton
                     android:id="@+id/card9"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/card_back" />
+                    android:background="@drawable/seven_spades" />
 
                 <ImageButton
                     android:id="@+id/card10"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/card_back" />
+                    android:background="@drawable/seven_spades" />
 
                 <ImageButton
                     android:id="@+id/card11"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/card_back" />
+                    android:background="@drawable/seven_spades" />
 
                 <ImageButton
                     android:id="@+id/card12"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/card_back" />
+                    android:background="@drawable/seven_spades" />
 
             </LinearLayout>
             <Space

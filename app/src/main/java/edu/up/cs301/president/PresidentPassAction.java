@@ -5,8 +5,6 @@ import edu.up.cs301.game.actionMsg.GameAction;
 
 public class PresidentPassAction extends GameAction {
 
-    PresidentState state;
-    GamePlayer p;
     /**
      * constructor for GameAction
      *

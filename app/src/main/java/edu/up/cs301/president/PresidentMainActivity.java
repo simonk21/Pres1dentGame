@@ -35,7 +35,6 @@ public class PresidentMainActivity extends GameMainActivity {
 	 */
 	@Override
 	public GameConfig createDefaultConfig() {
-		// TODO: changed this part
 		// Define the allowed player types
 		ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
 		
