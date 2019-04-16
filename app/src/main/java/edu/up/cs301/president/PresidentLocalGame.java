@@ -14,9 +14,6 @@ public class PresidentLocalGame extends LocalGame {
 
     private PresidentState state;
 
-
-    private static final int NUM_PLAYERS = 4;
-
     public PresidentLocalGame() {
         Log.i("SJLocalGame", "creating game");
         // create the state for the beginning of the game
@@ -46,10 +43,7 @@ public class PresidentLocalGame extends LocalGame {
     @Override
     protected boolean canMove(int playerIdx) {
         int whoseTurn = state.getTurn();
-        if( playerIdx == whoseTurn ){
-            return true;
-        }
-        return false;
+        return playerIdx == whoseTurn;
     }
 
     @Override
@@ -59,34 +53,26 @@ public class PresidentLocalGame extends LocalGame {
             return null;
         }
         return null; // TODO: need to print message for winner
-    }
+    } // TODO need to change the checkIfGameOver
 
     @Override
     protected boolean makeMove(GameAction action) {
-        if(action == null){
+        if( action == null ){
             Log.i("PresidentLocalGame.java", "action is null");
             return false;
         }
+        int playerIdx = getPlayerIdx(action.getPlayer());
         if( action instanceof PresidentPassAction ) {
-            int playerIdx = getPlayerIdx(action.getPlayer());
-            if(pass(playerIdx)) {
-                return true;
-            }
-            return false;
+            return pass(playerIdx);
         }
         if ( action instanceof PresidentPlayAction ) {
-            int playerIdx = getPlayerIdx(action.getPlayer());
-            ArrayList<Card> temp = ((PresidentPlayAction) action).getCards();
-            if(play(playerIdx, temp)) {
-                return true;
-            }
-            return false;
+            ArrayList<Card> temp = ((PresidentPlayAction) action).getCards(); // grabs cards from PresidentPlayAction class
+            return play(playerIdx, temp);
         }
-        if ( action instanceof PresidentTradeAction ) {
-            // TODO need to add something
-            return true;
+        if ( action instanceof PresidentOrderAction ){
+            return order(playerIdx);
         }
-        return false; // TODO: we actually can remove it
+        return false;
     }
 
     public boolean play(int idx, ArrayList<Card> temp) {
@@ -132,7 +118,7 @@ public class PresidentLocalGame extends LocalGame {
      *
      * @return true (player can pass turn) or false (player cannot pass turn)
      */
-    public boolean pass(int turn){
+    private boolean pass(int turn){
         if(state.getTurn() != turn){
             return false;
         }
@@ -156,6 +142,25 @@ public class PresidentLocalGame extends LocalGame {
         return true;
     }
 
+    private boolean order(int idx){
+        for (int i = 0; i < state.getPlayers().get(idx).getHand().size(); i++) {
+            for (int j = i + 1; j < state.getPlayers().get(idx).getHand().size(); j++)
+            {
+                if (state.getPlayers().get(idx).getHand().get(i).getValue() >
+                    state.getPlayers().get(idx).getHand().get(j).getValue())
+                {
+                    Card temp = new Card(-1,  "Default");
+                    temp.setCardVal(state.getPlayers().get(idx).getHand().get(i).getValue());
+                    temp.setCardSuit(state.getPlayers().get(idx).getHand().get(i).getSuit());
+                    state.getPlayers().get(idx).getHand().get(i).setCardSuit(state.getPlayers().get(idx).getHand().get(j).getSuit());
+                    state.getPlayers().get(idx).getHand().get(i).setCardVal(state.getPlayers().get(idx).getHand().get(j).getValue());
+                    state.getPlayers().get(idx).getHand().get(j).setCardVal(temp.getValue());
+                    state.getPlayers().get(idx).getHand().get(j).setCardSuit(temp.getSuit());
+                }
+            }
+        }
+        return true;
+    }
     private boolean checkNoCards(){
         int count = 0;
         if(state.getPlayers().get(state.getTurn()).getHand().size() < 1) {
