@@ -86,6 +86,18 @@ public class PresidentLocalGame extends LocalGame {
         if(temp == null){
             return false;
         }
+        int checkHandContainsCard = 0;
+        for(int i = 0; i < state.getPlayers().get(idx).getHand().size(); i++){
+            for(int j = 0; j < temp.size(); j++){
+                if(temp.get(j).getValue() == state.getPlayers().get(idx).getHand().get(i).getValue() &&
+                    temp.get(j).getSuit().equals(state.getPlayers().get(idx).getHand().get(i).getSuit())){
+                    checkHandContainsCard++;
+                }
+            }
+        }
+        if(checkHandContainsCard != temp.size()){
+            return false;
+        }
         int setValid = checkSetValid(temp);
         if (setValid == -1){
             return false; // set is not all the same cards or has two

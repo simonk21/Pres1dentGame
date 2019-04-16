@@ -317,7 +317,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
     private void updatePlayerGui() { // updates the player's hand
         int i = 0;
         for (int j = 0; j < 13; j++) {
-            playersCards[j].setBackgroundResource(R.drawable.scoreboard);
+            playersCards[j].setBackgroundResource(R.drawable.scoreboard); // TODO player can select cards that they don't have
         }
         for (Card c : state.getPlayers().get(0).getHand()) {
             updateCardGui(i);
