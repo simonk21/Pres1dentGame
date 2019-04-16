@@ -85,7 +85,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
      * sets whose turn it is
      * changes selected card to scoreboard
      */
-    protected void updateDisplay() { // TODO: we should put all gui updates in here or have this method call other methods
+    private void updateDisplay() { // TODO: we should put all gui updates in here or have this method call other methods
         switch (this.state.getTurn()) {
             case 0:
                 switchHighlight(0);
@@ -102,7 +102,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         }
         if(state.getCurrentSet().size() != 0 ){
             int id = getImageId(state.getCurrentSet().get(0));
-            currentSet.setTag(Integer.valueOf(id));
+            currentSet.setTag(id); // TODO: It was recommended I change this, so I did. Don't know about functionality
             currentSet.setBackgroundResource(id);
         }
         else{
@@ -272,13 +272,12 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
      *
      * @return void
      */
-    public void updateCardGui(int i) {
-        Card theCard = state.getPlayers().get(0).getHand().get(i);
+    private void updateCardGui(int i) {
+        Card theCard = state.getPlayers().get(this.playerNum).getHand().get(i);
         int imageId = getImageId(theCard);
         playersCards[i].setTag(imageId);
         playersCards[i].setBackgroundResource(imageId);
-    } // TODO: need to change to not just 0
-
+    }
 
     /**
      * updatePlayerGui
@@ -287,7 +286,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
      *
      * @return void
      */
-    public void updatePlayerGui() { // updates the player's hand
+    private void updatePlayerGui() { // updates the player's hand
         int i = 0;
         for (int j = 0; j < 13; j++) {
             playersCards[j].setBackgroundResource(R.drawable.scoreboard);
@@ -307,7 +306,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
      *
      * @return the ID of the card image
      */
-    public int getImageId(Card theCard) { // grabs Image Button ID
+    private int getImageId(Card theCard) { // grabs Image Button ID
         int imageId = 0;
         if (theCard.getSuit().equals("Spades")) {
             switch (theCard.getValue()) {
@@ -482,27 +481,13 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
     }
 
     /**
-     * checkSetFinish
-     * <p>
-     * Checks if a player is out of cards
-     *
-     * @return true if a player is out of cards
-     */
-    public boolean checkSetFinish(int idx) {
-        if (state.setFinish()) { // checks if player is out of cards
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * switchHighlight
      * <p>
      * highlights a player on the GUI if it is their turn
      *
      * @return void
      */
-    public void switchHighlight(int idx) {
+    private void switchHighlight(int idx) {
         switch (idx) {
             case 0:
                 player4Text.setBackgroundResource(R.color.yellow);
@@ -550,16 +535,22 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         player2Text.invalidate();
         player3Text.invalidate();
     }
-
-    public Card getGUICard() {
-        /**
+    /**
+     * getGUICard
+     * <p>
+     * Cases to find which ImageButton was selected and what it represents
+     *
+     * @return the Card that represents the ImageID
+     */
+    private Card getGUICard() {
+        /*
          * Obtains the the tag value of a given card
          * sets the card value and suit depending on which drawable was used
          */
         Card toAdd = new Card(-1, "Default");
         int tagValue = (Integer) selectedCard.getTag();
         switch (tagValue) {
-            case 0: //need to fix this case
+            case 0: //TODO need to fix this case (this was here, don't know if we need to fix it or we could remove)
                 Toast.makeText(myActivity.getApplication().getApplicationContext(), "No card selected!",
                         Toast.LENGTH_SHORT).show();
                 break;
@@ -827,4 +818,4 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         }
         return toAdd;
     }
-}// class CounterHumanPlayer
+}// class PresidentHumanPlayer

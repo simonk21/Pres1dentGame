@@ -24,7 +24,7 @@ public class PresidentSmartAI extends GameComputerPlayer {
         sleep(1000);
 
         if(info == null) {
-            Log.i("PresidentDumbAI", "info is null");
+            Log.i("PresidentSmartAI", "info is null");
         }
         if(info instanceof NotYourTurnInfo){
             return;
