@@ -7,7 +7,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
+
 import edu.up.cs301.game.GameHumanPlayer;
 import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.R;
@@ -100,16 +102,16 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 switchHighlight(3);
                 break;
         }
+        if(state.getCurrentSet().size() == 0){
+            for(int i = 0; i < 4; i++) {
+                currentSet[i].setBackgroundResource(0);
+            }
+        }
         if(state.getCurrentSet().size() != 0 ){
             for(int i = 0; i < state.getCurrentSet().size(); i++) {
                 int id = getImageId(state.getCurrentSet().get(i));
                 currentSet[i].setTag(id); // TODO: It was recommended I change this, so I did. Don't know about functionality
                 currentSet[i].setBackgroundResource(id);
-            }
-        }
-        else{
-            for(int i = 0; i < state.getCurrentSet().size(); i++) {
-                currentSet[i].setBackgroundResource(R.drawable.card_back);
             }
         }
     }
@@ -176,8 +178,8 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 }
             }
             state = (PresidentState) info;
-            updatePlayerGui(); // TODO possibly add this to updateDisplay() instead of receiveInfo
             updateDisplay();
+            updatePlayerGui(); // TODO possibly add this to updateDisplay() instead of receiveInfo
         } else if (info instanceof NotYourTurnInfo) {
             // if we had an out-of-turn or illegal move, flash the screen
             Toast.makeText(this.myActivity, "Not your turn!", Toast.LENGTH_SHORT).show();
@@ -270,14 +272,14 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 }
                 else if(selectedCard[i].getId() == v.getId()){
                     selectedCard[i].getBackground().clearColorFilter();
-                    selectedCard = null;
+                    selectedCard[i] = null;
                     return;
                 }
             }
             selectedCard[count] = (ImageButton) v;
             selectedCard[count].getBackground().setColorFilter(0x77000000,
                     PorterDuff.Mode.SRC_ATOP);
-            v.invalidate(); // TODO: all cards are getting selected ?
+            v.invalidate();
 
         }
     }

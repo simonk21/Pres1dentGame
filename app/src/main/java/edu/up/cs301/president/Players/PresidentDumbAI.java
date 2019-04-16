@@ -59,7 +59,7 @@ public class PresidentDumbAI extends GameComputerPlayer {
                 case 2:
                     sleep(500);
                     ArrayList<Card> twoCard = getDoubleMax(temp);
-                    if (twoCard == null) {
+                    if (twoCard == null || twoCard.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()) {
                         game.sendAction(new PresidentPassAction(this));
                         return; // TODO need to add a if statement when cards are not higher than current
                     }
