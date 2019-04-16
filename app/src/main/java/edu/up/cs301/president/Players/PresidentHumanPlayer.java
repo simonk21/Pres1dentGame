@@ -269,16 +269,20 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
 
             // selected card will have color filter
             int count = 0;
-            for(int i = 0; i < 4; i++) {
-                if(selectedCard[i] == null) { // TODO null pointer array error ?
-                    count = i;
-                    break;
+            if(selectedCard != null) {
+                for (int i = 0; i < 4; i++) {
+                    if (selectedCard[i] == null) { // TODO null pointer array error ?
+                        count = i;
+                        break;
+                    } else if (selectedCard[i].getId() == v.getId()) {
+                        selectedCard[i].getBackground().clearColorFilter();
+                        selectedCard[i] = null;
+                        return;
+                    }
                 }
-                else if(selectedCard[i].getId() == v.getId()){
-                    selectedCard[i].getBackground().clearColorFilter();
-                    selectedCard[i] = null;
-                    return;
-                }
+            }
+            else{
+                return;
             }
             selectedCard[count] = (ImageButton) v;
             selectedCard[count].getBackground().setColorFilter(0x77000000,
@@ -287,6 +291,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
 
         }
     }
+    // https://stackoverflow.com/questions/36953702/java-lang-nullpointerexception-attempt-to-read-from-null-array
 
     /**
      * updateCardGui

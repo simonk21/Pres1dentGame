@@ -1,7 +1,9 @@
 package edu.up.cs301.president;
 
 import android.util.Log;
+
 import java.util.ArrayList;
+
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.LocalGame;
 import edu.up.cs301.game.actionMsg.GameAction;
@@ -81,6 +83,13 @@ public class PresidentLocalGame extends LocalGame {
      * @return true (if able to place) or false (if not able to)
      */
     public boolean play(int idx, ArrayList<Card> temp) {
+        if(temp == null){
+            return false;
+        }
+        int setValid = checkSetValid(temp);
+        if (setValid == -1){
+            return false; // set is not all the same cards or has two
+        }
         if(temp.size() != state.getCurrentSet().size() && state.getCurrentSet().size() != 0){
             return false;
         } // temp must be same size as current set or current set must be 0
@@ -209,4 +218,26 @@ public class PresidentLocalGame extends LocalGame {
         }
         return false;
     } // TODO this looks weird too?
+
+    private int checkSetValid(ArrayList<Card> temp){
+        Card c = new Card(-1, "Default");
+        int count = 0;
+        for(int i = 0; i < temp.size(); i++){
+            if(temp.get(i).getValue() != 2){ // since two is a wild
+                c.setCardSuit(temp.get(i).getSuit());
+                c.setCardVal(temp.get(i).getValue());
+                break;
+            }
+            count++;
+        }
+        if(c.getValue() == -1 && count == temp.size()){
+            return 0; // all cards are twos
+        }
+        for(int i = 0; i < temp.size(); i++){
+            if(c.getValue() != temp.get(i).getValue()){ // if value doesn't match this cards value then return
+                return -1;
+            }
+        }
+        return 0;
+    }
 }
