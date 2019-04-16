@@ -1,6 +1,5 @@
 package edu.up.cs301.president.Players;
 
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.View;
@@ -8,10 +7,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-
-import edu.up.cs301.animation.AnimationSurface;
 import edu.up.cs301.game.GameHumanPlayer;
 import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.R;
@@ -26,46 +22,47 @@ import edu.up.cs301.president.PresidentPlayAction;
 import edu.up.cs301.president.PresidentState;
 
 /**
- * A GUI of a counter-player. The GUI displays the current value of the counter,
- * and allows the human player to press the '+' and '-' buttons in order to
- * send moves to the game.
+ * A GUI of a Human Player. The GUI displays the player's hand, score and rank
+ * of all players, the current set and allows the human player to press on their
+ * cards, the pass, play, order, and leave game buttons in order to send moves
+ * to the game
  *
- * Just for fun, the GUI is implemented so that if the player presses either button
- * when the counter-value is zero, the screen flashes briefly, with the flash-color
- * being dependent on whether the player is player 0 or player 1.
- *
- * @author Steven R. Vegdahl
- * @author Andrew M. Nuxoll
- * @version July 2013
+ * @author Kama Simon
+ * @author Geryl Vinoya
+ * @author Ben Pirkl
+ * @author Hera Malik
+ * @version April 2019
  */
 public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClickListener {
 
     /* instance variables */
 
-    // the most recent game state, as given to us by the CounterLocalGame
+    // the most recent game state, as given to us by the PresidentLocalGame
     private PresidentState state;
 
     // the android activity that we are running
     private GameMainActivity myActivity;
 
-    // textview in GUI
-    private TextView player1Text, player2Text, player3Text, player4Text;
-    private TextView cards_1, cards_2, cards_3; // shows rem. cards
+    // textview of player's name
+    private TextView player1Text, player2Text, player3Text, player4Text; // TODO: attach name from the config menu
 
-    // buttons in GUI
-    private Button playButton, passButton, orderButton;
+    // textview of the number of cards in each of the other player's hands
+    private TextView cards_1, cards_2, cards_3; // shows rem. cards // TODO: might take this out?
 
-    // card ImageButton
+    // buttons in GUI (except for pause button)
+    private Button playButton, passButton, orderButton, leaveGameButton; // TODO: add in functionality of order and leaveGameButton
+
+    // ImageButton array of all the human player's cards
     private ImageButton[] playersCards = new ImageButton[13];
 
+    // ImageButton of the current set (will display one card)
+    private ImageButton currentSet; // TODO: need to add functionality of multiple cards
+
+    // ImageButton of card(s) that player selects
+    private ImageButton selectedCard; // TODO: need to add functionality of multiple cards
+
+    // human players number (turn)
     private int turn;
-
-    private ImageButton currentSet;
-
-    private ImageButton selectedCard;
-    private Card cardToPlay;
-
-
     /**
      * constructor
      *
@@ -73,7 +70,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
      */
     public PresidentHumanPlayer(String name) {
         super(name);
-    }
+    } // TODO we can use this to update name
 
     /**
      * Returns the GUI's top view object
@@ -85,9 +82,10 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
     }
 
     /**
-     * sets the counter value in the text view
+     * sets whose turn it is
+     * changes selected card to scoreboard
      */
-    protected void updateDisplay() {
+    protected void updateDisplay() { // TODO: we should put all gui updates in here or have this method call other methods
         switch (this.state.getTurn()) {
             case 0:
                 switchHighlight(0);
@@ -102,14 +100,23 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 switchHighlight(3);
                 break;
         }
+        if(state.getCurrentSet().size() != 0 ){
+            int id = getImageId(state.getCurrentSet().get(0));
+            currentSet.setTag(Integer.valueOf(id));
+            currentSet.setBackgroundResource(id);
+        }
+        else{
+            currentSet.setBackgroundResource(R.drawable.card_back);
+        }
         if(selectedCard != null){
             selectedCard.setBackgroundResource(R.drawable.scoreboard);
         }
     }
 
     /**
-     * this method gets called when the user clicks the '+' or '-' button. It
-     * creates a new CounterMoveAction to return to the parent activity.
+     * this method gets called when the user clicks the pass, play, or order button. It
+     * creates a new PresidentOrderAction, PresidentPassAction or PresidentPlayAction
+     * to return to the parent activity.
      *
      * @param button the button that was clicked
      */
@@ -136,13 +143,14 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
 
             action = new PresidentOrderAction(this);
 
-        } else {
+        } else if (button.getId() == R.id.leaveGame){
+            // TODO: need to add leaveGame functionality
+        }
+        else {
             // something else was pressed: ignore
             return;
         }
-
         game.sendAction(action); // send action to the game
-        receiveInfo(state);
     }// onClick
 
     /**
@@ -152,7 +160,6 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
      */
     @Override
     public void receiveInfo(GameInfo info) {
-        //updateDisplay(); // TODO updates the GUI to show change of turn, human still can play tho
         if (info instanceof PresidentState) {
             // we do not want to update if it is the same state
             if (state != null) {
@@ -161,22 +168,14 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 }
             }
             state = (PresidentState) info;
-            if(state.getCurrentSet().size() != 0 ){
-                int id = getImageId(state.getCurrentSet().get(0));
-                currentSet.setTag(Integer.valueOf(id));
-                currentSet.setBackgroundResource(id);
-            }
-            else{
-                currentSet.setBackgroundResource(R.drawable.card_back);
-            }
-            updatePlayerGui();
+            updatePlayerGui(); // TODO possibly add this to updateDisplay() instead of receiveInfo
             updateDisplay();
         } else if (info instanceof NotYourTurnInfo) {
             // if we had an out-of-turn or illegal move, flash the screen
-            Toast.makeText(this.myActivity, "Not your turn", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.myActivity, "Not your turn!", Toast.LENGTH_SHORT).show();
         }
         else if (info instanceof IllegalMoveInfo){
-            Toast.makeText(this.myActivity, "Illegal Move", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.myActivity, "Illegal Move!", Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -195,6 +194,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         // Load the layout resource for our GUI
         activity.setContentView(R.layout.in_game_layout);
 
+        // adding the ImageButton to array
         playersCards[0] = activity.findViewById(R.id.card0);
         playersCards[1] = activity.findViewById(R.id.card1);
         playersCards[2] = activity.findViewById(R.id.card2);
@@ -209,6 +209,8 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         playersCards[11] = activity.findViewById(R.id.card11);
         playersCards[12] = activity.findViewById(R.id.card12);
         currentSet = activity.findViewById(R.id.currentPlay);
+
+        // create a Card Click Listener
         for (int i = 0; i < 13; i++) {
             playersCards[i].setOnClickListener(new CardClickListener());
         }
@@ -218,7 +220,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         player3Text = activity.findViewById(R.id.Player3Text);
         player4Text = activity.findViewById(R.id.userPlayer);
 
-        // player's rem. cards except for human player
+        // player's remaining cards except for human player
         cards_1 = activity.findViewById(R.id.p1);
         cards_2 = activity.findViewById(R.id.p2);
         cards_3 = activity.findViewById(R.id.p3);
