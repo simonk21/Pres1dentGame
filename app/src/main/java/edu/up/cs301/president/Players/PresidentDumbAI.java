@@ -38,6 +38,10 @@ public class PresidentDumbAI extends GameComputerPlayer {
             savedState = (PresidentState) info;
             ArrayList<Card> temp = savedState.getPlayers().get(this.playerNum).getHand();
             Card t = getMax(temp);
+            if(savedState.getCurrentSet().size() != 0 && Math.random() < 0.5){
+                game.sendAction(new PresidentPassAction(this));
+                return;
+            }
             switch (savedState.getCurrentSet().size()) {
                 case 0:
                     sleep(500);
@@ -55,15 +59,6 @@ public class PresidentDumbAI extends GameComputerPlayer {
                     else {
                         game.sendAction(new PresidentPlayAction(this, temp));
                     }
-                    break;
-                case 2:
-                    sleep(500);
-                    ArrayList<Card> twoCard = getDoubleMax(temp);
-                    if (twoCard == null || twoCard.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()) {
-                        game.sendAction(new PresidentPassAction(this));
-                        return; // TODO need to add a if statement when cards are not higher than current
-                    }
-                    game.sendAction(new PresidentPlayAction(this, twoCard));
                     break;
                 default:
                     sleep(500);

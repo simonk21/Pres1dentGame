@@ -223,8 +223,12 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         currentSet[2] = activity.findViewById(R.id.current2);
         currentSet[3] = activity.findViewById(R.id.current3);
 
+        for(int i = 0; i < 4; i++){
+            currentSet[i].setBackgroundResource(0);
+        }
         // create a Card Click Listener
         for (int i = 0; i < 13; i++) {
+            playersCards[i].setBackgroundResource(0);
             playersCards[i].setOnClickListener(new CardClickListener());
         }
         // player's name
