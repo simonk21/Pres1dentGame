@@ -249,6 +249,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         passButton.setOnClickListener(this);
         orderButton = activity.findViewById(R.id.orderButton);
         orderButton.setOnClickListener(this);
+
         // if we have a game state, "simulate" that we have just received
         // the state from the game so that the GUI values are updated
         if (state != null) {
