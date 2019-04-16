@@ -61,7 +61,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
     private ImageButton[] currentSet = new ImageButton[4]; // TODO: need to add functionality of multiple cards
 
     // ImageButton of card(s) that player selects
-    private ImageButton[] selectedCard = new ImageButton[4]; // TODO: need to add functionality of multiple cards
+    private ImageButton[] selectedCard; // TODO: need to add functionality of multiple cards
 
     // human players number (turn)
     private int turn;
@@ -235,7 +235,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         player2Text = activity.findViewById(R.id.player2Text);
         player3Text = activity.findViewById(R.id.Player3Text);
         player4Text = activity.findViewById(R.id.userPlayer);
-
+        selectedCard = new ImageButton[4];
         // player's remaining cards except for human player
         cards_1 = activity.findViewById(R.id.p1);
         cards_2 = activity.findViewById(R.id.p2);
