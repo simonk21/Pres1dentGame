@@ -229,8 +229,13 @@ public class PresidentLocalGame extends LocalGame {
             return true;
         }
         return false;
-    } // TODO this looks weird too?
+    } // TODO sometimes it will skip my turn but sometimes it doesn't :(, when i run out of cards
 
+    /**
+     *
+     * @param temp
+     * @return
+     */
     private int checkSetValid(ArrayList<Card> temp){
         Card c = new Card(-1, "Default");
         int count = 0;
@@ -247,7 +252,12 @@ public class PresidentLocalGame extends LocalGame {
         }
         for(int i = 0; i < temp.size(); i++){
             if(c.getValue() != temp.get(i).getValue()){ // if value doesn't match this cards value then return
-                return -1;
+                if(temp.get(i).getValue() == 13) {
+                    return 0;
+                }
+                else{
+                    return -1;
+                }
             }
         }
         return 0;

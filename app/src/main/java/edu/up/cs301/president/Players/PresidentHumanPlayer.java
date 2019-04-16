@@ -64,7 +64,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
     private ImageButton[] selectedCard; // TODO: need to add functionality of multiple cards
 
     // human players number (turn)
-    private int turn;
+    private int turn; //TODO when I reach 5 cards left unable to select cards anymore ?? Apr 16 3:22
     /**
      * constructor
      *
@@ -282,6 +282,11 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 }
             }
             else{
+                selectedCard = new ImageButton[4];
+                selectedCard[count] = (ImageButton) v;
+                selectedCard[count].getBackground().setColorFilter(0x77000000,
+                        PorterDuff.Mode.SRC_ATOP);
+                v.invalidate();
                 return;
             }
             selectedCard[count] = (ImageButton) v;

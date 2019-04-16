@@ -38,19 +38,18 @@ public class PresidentDumbAI extends GameComputerPlayer {
             savedState = (PresidentState) info;
             ArrayList<Card> temp = savedState.getPlayers().get(this.playerNum).getHand();
             Card t = getMax(temp);
-            if(savedState.getCurrentSet().size() != 0 && Math.random() < 0.5){
+            sleep(1000);
+            if(savedState.getCurrentSet().size() != 0 && Math.random() < 0.2){
                 game.sendAction(new PresidentPassAction(this));
                 return;
             }
             switch (savedState.getCurrentSet().size()) {
                 case 0:
-                    sleep(500);
                     temp.clear();
                     temp.add(t);
                     game.sendAction(new PresidentPlayAction(this, temp));
-                    break;
+                    return;
                 case 1:
-                    sleep(500);
                     temp.clear();
                     temp.add(t);
                     if(temp.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()){
@@ -59,12 +58,9 @@ public class PresidentDumbAI extends GameComputerPlayer {
                     else {
                         game.sendAction(new PresidentPlayAction(this, temp));
                     }
-                    break;
-                default:
-                    sleep(500);
-                    game.sendAction(new PresidentPassAction(this));
-                    break;
+                    return;
             }
+            game.sendAction(new PresidentPassAction(this));
         }
     }
 
