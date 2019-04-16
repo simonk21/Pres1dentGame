@@ -26,7 +26,7 @@ public class PresidentDumbAI extends GameComputerPlayer {
     }
 
     @Override
-    protected void receiveInfo(GameInfo info) {
+    protected void receiveInfo(GameInfo info) { // TODO I think I fucked up this part
         sleep(1000);
         if(info == null) {
             Log.i("PresidentDumbAI", "info is null");

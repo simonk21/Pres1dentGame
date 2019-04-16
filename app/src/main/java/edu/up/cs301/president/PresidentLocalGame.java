@@ -75,42 +75,64 @@ public class PresidentLocalGame extends LocalGame {
         return false;
     }
 
+    /**
+     * play
+     * play action will play cards that player wants to play
+     * unless cards are not of higher value of current set
+     * @param idx player's index/number
+     * @param temp cards that player wants to play
+     * @return true (if able to place) or false (if not able to)
+     */
     public boolean play(int idx, ArrayList<Card> temp) {
-        if(state.getCurrentSet().size() != 0) {
-            if (temp.get(0).getValue() > state.getCurrentSet().get(0).getValue()){
+        if(temp.size() != state.getCurrentSet().size() && state.getCurrentSet().size() != 0){
+            return false;
+        } // temp must be same size as current set or current set must be 0
+        if(state.getCurrentSet().size() == 0){
+            state.getCurrentSet().clear();
+            state.setCurrentSet(temp); // then set current set to temp
+            if(!checkNoCards()){
+                state.nextPlayer();
+            }
+            return true;
+        }
+        else{
+            int currentVal = -1; // set currentVal to something
+            int playerVal = -1; // set playerVal to something
+            int count = 0;
+            for(int i = 0; i < state.getCurrentSet().size(); i++){
+                if(state.getCurrentSet().get(i).getValue() != 2){
+                    currentVal = state.getCurrentSet().get(i).getValue();
+                    break; // found a card that isn't a two
+                }
+                count++;
+            }
+            if(count == state.getCurrentSet().size()){
+                return false; // all cards in set are two's (unbeatable)
+            }
+            count = 0;
+            for(int i = 0; i < temp.size(); i++){
+                if(temp.get(i).getValue() != 2){
+                    playerVal = temp.get(i).getValue();
+                    break;
+                }
+                count++;
+            }
+            if(count == temp.size() || playerVal > currentVal){
                 state.getCurrentSet().clear();
-                state.setCurrentSet(temp);
-                for(int i = 0; i < state.getPlayers().get(idx).getHand().size();i++) {
-                    if(state.getPlayers().get(idx).getHand().get(i).getValue() ==
-                            temp.get(0).getValue() &&
-                            state.getPlayers().get(idx).getHand().get(i).getSuit().equals(temp.get(0).getSuit())){
-                        int val = temp.get(0).getValue();
-                        String suit = temp.get(0).getSuit();
-                        state.getPlayers().get(idx).removeCard(suit,val);
-                    }
+                state.setCurrentSet(temp); // player's set is all two's or players set is higher
+                for(int i = 0; i < temp.size(); i++){ // removes all cards from player's hand
+                    state.getPlayers().get(idx).removeCard(temp.get(i).getSuit(), temp.get(i).getValue());
                 }
                 state.getPlayers().get(idx).resetPass();
-                if(!checkNoCards()) {
+                if(!checkNoCards()){
                     state.nextPlayer();
                 }
                 return true;
             }
-            return false;
-        }
-        state.setCurrentSet(temp);
-        for(int i = 0; i < state.getPlayers().get(idx).getHand().size();i++) {
-            if(state.getPlayers().get(idx).getHand().get(i).getValue() ==
-                    temp.get(0).getValue() &&
-                    state.getPlayers().get(idx).getHand().get(i).getSuit().equals(temp.get(0).getSuit())){
-                int val = temp.get(0).getValue();
-                String suit = temp.get(0).getSuit();
-                state.getPlayers().get(idx).removeCard(suit,val);
+            else{
+                return false;
             }
         }
-        state.getPlayers().get(idx).resetPass();
-        state.nextPlayer();
-        checkNoCards();
-        return true;
     }
 
     /**
@@ -142,6 +164,12 @@ public class PresidentLocalGame extends LocalGame {
         return true;
     }
 
+    /**
+     * order
+     * order action will order hand from least to greatest value
+     * @param idx the player's index/number
+     * @return true (all the time since you should always be able to order)
+     */
     private boolean order(int idx){
         for (int i = 0; i < state.getPlayers().get(idx).getHand().size(); i++) {
             for (int j = i + 1; j < state.getPlayers().get(idx).getHand().size(); j++)
@@ -161,6 +189,10 @@ public class PresidentLocalGame extends LocalGame {
         }
         return true;
     }
+    /**
+     * https://www.sanfoundry.com/java-program-sort-array-ascending-order/ //TODO need to add citation
+     */
+
     private boolean checkNoCards(){
         int count = 0;
         if(state.getPlayers().get(state.getTurn()).getHand().size() < 1) {
