@@ -56,10 +56,10 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
     private ImageButton[] playersCards = new ImageButton[13];
 
     // ImageButton of the current set (will display one card)
-    private ImageButton currentSet; // TODO: need to add functionality of multiple cards
+    private ImageButton[] currentSet = new ImageButton[4]; // TODO: need to add functionality of multiple cards
 
     // ImageButton of card(s) that player selects
-    private ImageButton selectedCard; // TODO: need to add functionality of multiple cards
+    private ImageButton[] selectedCard = new ImageButton[4]; // TODO: need to add functionality of multiple cards
 
     // human players number (turn)
     private int turn;
@@ -101,15 +101,16 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 break;
         }
         if(state.getCurrentSet().size() != 0 ){
-            int id = getImageId(state.getCurrentSet().get(0));
-            currentSet.setTag(id); // TODO: It was recommended I change this, so I did. Don't know about functionality
-            currentSet.setBackgroundResource(id);
+            for(int i = 0; i < state.getCurrentSet().size(); i++) {
+                int id = getImageId(state.getCurrentSet().get(i));
+                currentSet[i].setTag(id); // TODO: It was recommended I change this, so I did. Don't know about functionality
+                currentSet[i].setBackgroundResource(id);
+            }
         }
         else{
-            currentSet.setBackgroundResource(R.drawable.card_back);
-        }
-        if(selectedCard != null){
-            selectedCard.setBackgroundResource(R.drawable.scoreboard);
+            for(int i = 0; i < state.getCurrentSet().size(); i++) {
+                currentSet[i].setBackgroundResource(R.drawable.card_back);
+            }
         }
     }
 
@@ -132,8 +133,13 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 return;
             }
             ArrayList<Card> temp = new ArrayList<Card>();
-            temp.add(getGUICard());
-            selectedCard.getBackground().clearColorFilter();
+            for(int i = 0; i < selectedCard.length; i++) {
+                if(selectedCard[i] != null) {
+                    temp.add(getGUICard(i));
+                    selectedCard[i].getBackground().clearColorFilter();
+                    selectedCard[i] = null;
+                }
+            }
             // Line of code that disables the button of the card last pressed.
           //  selectedCard.setEnabled(false);
             action = new PresidentPlayAction(this, temp);
@@ -210,7 +216,10 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         playersCards[10] = activity.findViewById(R.id.card10);
         playersCards[11] = activity.findViewById(R.id.card11);
         playersCards[12] = activity.findViewById(R.id.card12);
-        currentSet = activity.findViewById(R.id.currentPlay);
+        currentSet[0] = activity.findViewById(R.id.current0);
+        currentSet[1] = activity.findViewById(R.id.current1);
+        currentSet[2] = activity.findViewById(R.id.current2);
+        currentSet[3] = activity.findViewById(R.id.current3);
 
         // create a Card Click Listener
         for (int i = 0; i < 13; i++) {
@@ -251,14 +260,22 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
 
         @Override
         public void onClick(View v) {
-            // removes Color Filter from all card Image Buttons
-            for (int i = 0; i < 13; i++) {
-                playersCards[i].getBackground().clearColorFilter();
-                v.invalidate();
-            }
+
             // selected card will have color filter
-            selectedCard = (ImageButton) v;
-            selectedCard.getBackground().setColorFilter(0x77000000,
+            int count = 0;
+            for(int i = 0; i < selectedCard.length; i++) {
+                if(selectedCard[i] == null) {
+                    count = i;
+                    break;
+                }
+                else if(selectedCard[i].getId() == v.getId()){
+                    selectedCard[i].getBackground().clearColorFilter();
+                    selectedCard = null;
+                    return;
+                }
+            }
+            selectedCard[count] = (ImageButton) v;
+            selectedCard[count].getBackground().setColorFilter(0x77000000,
                     PorterDuff.Mode.SRC_ATOP);
             v.invalidate(); // TODO: all cards are getting selected ?
 
@@ -542,13 +559,13 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
      *
      * @return the Card that represents the ImageID
      */
-    private Card getGUICard() {
+    private Card getGUICard(int idx) {
         /*
          * Obtains the the tag value of a given card
          * sets the card value and suit depending on which drawable was used
          */
         Card toAdd = new Card(-1, "Default");
-        int tagValue = (Integer) selectedCard.getTag();
+        int tagValue = (Integer) selectedCard[idx].getTag();
         switch (tagValue) {
             case 0: //TODO need to fix this case (this was here, don't know if we need to fix it or we could remove)
                 Toast.makeText(myActivity.getApplication().getApplicationContext(), "No card selected!",

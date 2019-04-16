@@ -23,7 +23,7 @@ public class PresidentPlayAction extends GameAction {
 
     public PresidentPlayAction(GamePlayer player){
         super(player);
-    }
+    } // TODO should we remove this?
 
     public ArrayList<Card> getCards() { return cards; }
 }

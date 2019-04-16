@@ -151,9 +151,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
+                <Space
+                    android:layout_width="200dp"
+                    android:layout_height="10dp" />
 
                 <ImageButton
-                    android:id="@+id/currentPlay"
+                    android:id="@+id/current0"
+                    android:layout_width="110dp"
+                    android:layout_height="150dp"
+                    android:background="@drawable/card_back" />
+                <ImageButton
+                    android:id="@+id/current1"
+                    android:layout_width="110dp"
+                    android:layout_height="150dp"
+                    android:background="@drawable/card_back" />
+                <ImageButton
+                    android:id="@+id/current2"
+                    android:layout_width="110dp"
+                    android:layout_height="150dp"
+                    android:background="@drawable/card_back" />
+                <ImageButton
+                    android:id="@+id/current3"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:background="@drawable/card_back" />

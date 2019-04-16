@@ -10,9 +10,6 @@ public class PresidentPassAction extends GameAction {
      *
      * @param player the player who created the action
      */
-    public PresidentPassAction(GamePlayer player) {
-
-        super(player);
-    }
+    public PresidentPassAction(GamePlayer player) { super(player); }
 
 }

@@ -18,10 +18,6 @@ public class PresidentState extends GameState {
     private ArrayList<Card> currentSet;
     private ArrayList<Card> tradeDeck;
     private int turn; // the current turn in game
-
-    private int rankCount[];
-    private int numRank;
-    private int PassAll[];
     private int prev;
 
     private boolean roundStart;
@@ -31,27 +27,18 @@ public class PresidentState extends GameState {
     public PresidentState() {
         deck = new Deck(); // initializes deck
         currentSet = new ArrayList<>(); // current set played
-        tradeDeck = new ArrayList<>();
+        tradeDeck = new ArrayList<>(); // cards to trade
 
         players = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             players.add(new PlayerTracker());
         }
-
         deck.deal(players); // deals cards (unsorted)
 
         turn = 0; //(int) (Math.random() * 4 + 1); // selects random player to start
 
-        rankCount = new int[4];
-        PassAll = new int[4];
-        for (int i = 0; i < rankCount.length; i++) {
-            rankCount[i] = 0;
-            PassAll[i] = 0;
-        }
-        numRank = 0;
         prev = -1;
         roundStart = false;
-        startRound();
     }
 
     public PresidentState(PresidentState orig, int idx) {
@@ -60,72 +47,34 @@ public class PresidentState extends GameState {
             currentSet.add(new Card(orig.getCurrentSet().get(i)));
         }
         turn = orig.turn;
+        prev = orig.prev;
+        roundStart = orig.roundStart;
         players = new ArrayList<>();
         for(int i = 0; i < orig.players.size(); i++){
-//            if(i == idx){
+            if(i == idx){
                 players.add(new PlayerTracker(orig.players.get(i)));
-//            }
-//            else{
-//                players.add(new PlayerTracker());
-//            }
-        }
-    }
-
-    /**
-     * startRound
-     * if players got rid of hand
-     * need to check if game is over, someone reached 11 pts.
-     */
-    public void startRound() {
-        //currentSet.clear();
-        if (checkGame() != -1) {
-            // TODO: someone won
-        } else {
-            // TODO: then trade and change score
-            // TODO: deal deck and restart
-        }
-    }
-
-    /**
-     * if all players passed then clear board and let
-     * last player to put something down start
-     * returns if set restarts (true) and not restart (false)
-     */
-    public boolean setRestart() {
-        currentSet.clear();
-        int count = 0;
-        int lastPlay = -1;
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getPass() == 1) {
-                count++;
-            } else {
-                lastPlay = i;
+            }
+            else{
+                players.add(new PlayerTracker());
             }
         }
-        if (count == 3 && lastPlay != -1) {
-            turn = lastPlay;
-            return true;
-        } else if (count == 4) {
-            Log.i("PresidentState.java", "All players passed, shouldn't happen");
-        }
-        return false;
     }
 
-    /**
-     * getters and setters
-     */
+    /** getters and setters */
     public void setTurn(int idx) {
         this.turn = idx;
     }
-
     public int getTurn() {
         return turn;
     }
-
-    public int getScore(int idx) {
-        return players.get(idx).getScore();
-    }
     public ArrayList<Card> getCurrentSet() { return currentSet; }
+    public int getPrev() { return prev; }
+    public void setPrev() { prev = turn; }
+    public void setCurrentSet( ArrayList<Card> in) {
+        this.currentSet = in;
+    }
+    public ArrayList<PlayerTracker> getPlayers() { return players; }
+    /** end of getters and setters */
 
     public int checkGame() {
         for (int i = 0; i < players.size(); i++) {
@@ -134,10 +83,6 @@ public class PresidentState extends GameState {
             }
         }
         return -1;
-    }
-
-    public ArrayList<PlayerTracker> getPlayers() {
-        return players;
     }
 
     /**
@@ -157,26 +102,7 @@ public class PresidentState extends GameState {
             }
         }
         return false;
-    }
-
-    /**
-     * setFinish
-     *
-     * Checks if someone won the game
-     *
-     * @return boolean if someone won the game
-     */
-    public boolean setFinish() {
-        /**
-         * If all players have played their cards,
-         * then the round is over and
-         * initialize the trade.
-         */
-        if (playersWithCards() == 0) {
-            setRoundStart(true);
-        }
-        return false;
-    }
+    } // TODO this doesn't make sense
 
     /**
      * playersWithCards
@@ -212,6 +138,40 @@ public class PresidentState extends GameState {
         }
     }
 
+    /**
+     * checkPass
+     *
+     * @return boolean if a player can pass
+     */
+    public boolean checkPass(){
+        int count = 0;
+        for(int i = 0; i < players.size(); i++){
+            if(players.get(i).getPass() == 1){
+                count++;
+            }
+        }
+        if(count == 3){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * nextPlayer
+     *
+     * Updates turn
+     */
+    public void nextPlayer() {
+        if (turn == players.size() - 1) {
+            turn = 0;
+        } else {
+            turn++;
+        }
+    }
+
+
+    /** trade functions */
+
     public void checkPresident(int turn) {
         if(players.get(turn).getRank() == -1){
             int count = 0;
@@ -223,12 +183,12 @@ public class PresidentState extends GameState {
             if(count == 0){
                 players.get(turn).setRank(3); // set to president
                 players.get(turn).setScore(3);
-                // TODO: need to check if player reached 11 pts
+                gameWon(players.get(turn));
             }
             else if(count == 1){
                 players.get(turn).setRank(2); // set to vp
                 players.get(turn).setScore(2);
-                // TODO: need to check if player reached 11 pts
+                gameWon(players.get(turn));
             }
             else if(count == 2){
                 players.get(turn).setRank(1); // set to vs
@@ -343,44 +303,6 @@ public class PresidentState extends GameState {
             currentIndex++;
         }
         return minCard;
-    }
-
-
-    public int getPrev() { return prev; }
-    public void setPrev() { prev = turn; }
-    /**
-     * checkPass
-     *
-     * @return boolean if a player can pass
-     */
-    public boolean checkPass(){
-        int count = 0;
-        for(int i = 0; i < players.size(); i++){
-            if(players.get(i).getPass() == 1){
-                count++;
-            }
-        }
-        if(count == 3){
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * nextPlayer
-     *
-     * Updates turn
-     */
-    public void nextPlayer() {
-        if (turn == players.size() - 1) {
-            turn = 0;
-        } else {
-            turn++;
-        }
-    }
-
-    public void setCurrentSet( ArrayList<Card> in) {
-        this.currentSet = in;
     }
 
 }

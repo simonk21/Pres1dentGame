@@ -1,10 +1,7 @@
 package edu.up.cs301.president;
 
 import android.util.Log;
-import android.widget.Toast;
-
 import java.util.ArrayList;
-
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.LocalGame;
 import edu.up.cs301.game.actionMsg.GameAction;
@@ -89,7 +86,11 @@ public class PresidentLocalGame extends LocalGame {
         } // temp must be same size as current set or current set must be 0
         if(state.getCurrentSet().size() == 0){
             state.getCurrentSet().clear();
+            for(int i = 0; i < temp.size(); i++) {
+                state.getPlayers().get(idx).removeCard(temp.get(i).getSuit(), temp.get(i).getValue());
+            }
             state.setCurrentSet(temp); // then set current set to temp
+            state.setPrev(); // sets player who last played
             if(!checkNoCards()){
                 state.nextPlayer();
             }
@@ -123,7 +124,8 @@ public class PresidentLocalGame extends LocalGame {
                 for(int i = 0; i < temp.size(); i++){ // removes all cards from player's hand
                     state.getPlayers().get(idx).removeCard(temp.get(i).getSuit(), temp.get(i).getValue());
                 }
-                state.getPlayers().get(idx).resetPass();
+                state.getPlayers().get(idx).resetPass(); // TODO might be able to remove this method
+                state.setPrev(); // sets the player who last played
                 if(!checkNoCards()){
                     state.nextPlayer();
                 }
@@ -142,24 +144,16 @@ public class PresidentLocalGame extends LocalGame {
      */
     private boolean pass(int turn){
         if(state.getTurn() != turn){
-            return false;
+            return false; // not player's turn
         }
         state.getPlayers().get(turn).setPass();
-        if(state.checkPass()) {
+        state.nextPlayer();
+        if(state.getPrev() == state.getTurn()) {
             state.getCurrentSet().clear();
-
-            for(int i = 0; i < state.getPlayers().size(); i++) {
-                if (state.getPlayers().get(i).getPass() == 1) {
-                } else {
-                    state.setTurn(i);
-                }
-            }
-
             for(int i =  0; i < state.getPlayers().size();i++){
-               state.getPlayers().get(i).resetPass();
+                state.getPlayers().get(i).resetPass();
             }
         }
-        state.nextPlayer();
         checkNoCards();
         return true;
     }
@@ -193,6 +187,12 @@ public class PresidentLocalGame extends LocalGame {
      * https://www.sanfoundry.com/java-program-sort-array-ascending-order/ //TODO need to add citation
      */
 
+    /**
+     * checkNoCards
+     * after a pass or play it checks if anyone got rid of their cards and if they can be ranked
+     * also checks if a new round can start
+     * @return
+     */
     private boolean checkNoCards(){
         int count = 0;
         if(state.getPlayers().get(state.getTurn()).getHand().size() < 1) {
@@ -208,5 +208,5 @@ public class PresidentLocalGame extends LocalGame {
             return true;
         }
         return false;
-    }
+    } // TODO this looks weird too?
 }

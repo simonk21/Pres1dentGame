@@ -37,23 +37,31 @@ public class PresidentDumbAI extends GameComputerPlayer {
         if(info instanceof PresidentState) { //TODO updated DumbAi for 0-2 card current set
             savedState = (PresidentState) info;
             ArrayList<Card> temp = savedState.getPlayers().get(this.playerNum).getHand();
+            Card t = getMax(temp);
             switch (savedState.getCurrentSet().size()) {
                 case 0:
                     sleep(500);
+                    temp.clear();
+                    temp.add(t);
                     game.sendAction(new PresidentPlayAction(this, temp));
                     break;
                 case 1:
                     sleep(500);
-                    Card t = getMax(temp);
                     temp.clear();
                     temp.add(t);
+                    if(temp.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()){
+                        game.sendAction(new PresidentPassAction(this));
+                    }
+                    else {
+                        game.sendAction(new PresidentPlayAction(this, temp));
+                    }
                     break;
                 case 2:
                     sleep(500);
                     ArrayList<Card> twoCard = getDoubleMax(temp);
                     if (twoCard == null) {
                         game.sendAction(new PresidentPassAction(this));
-                        return;
+                        return; // TODO need to add a if statement when cards are not higher than current
                     }
                     game.sendAction(new PresidentPlayAction(this, twoCard));
                     break;
