@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@drawable/background"
     android:layout_height="match_parent"
@@ -175,11 +173,139 @@
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:background="@drawable/card_back" />
-
                 <Space
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="10" />
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:text="Name"
+                        android:background="@color/white"
+                        android:textStyle="bold"
+                        android:gravity="center"/>
+                    <TextView
+                        android:id="@+id/youText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="You"
+                        android:background="@color/white"/>
+                    <TextView
+                        android:id="@+id/player1NameText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Player 1"
+                        android:background="@color/white"/>
+
+                    <TextView
+                        android:id="@+id/player2NameText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Player 2"
+                        android:background="@color/white"/>
+
+                    <TextView
+                        android:id="@+id/player3NameText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Player 3"
+                        android:background="@color/white"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Score"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/youScore"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:background="@color/white"
+                        android:gravity="center"/>
+                    <TextView
+                        android:id="@+id/player1Score"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        />
+
+                    <TextView
+                        android:id="@+id/player2Score"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:background="@color/white"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/player3Score"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:background="@color/white"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Rank"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/youRank"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="none"
+                        android:background="@color/white"
+                        android:gravity="center"/>
+                    <TextView
+                        android:id="@+id/player1Rank"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="none"
+                        android:background="@color/white"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/player2Rank"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="none"
+                        android:background="@color/white"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/player3Rank"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="none"
+                        android:background="@color/white"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout

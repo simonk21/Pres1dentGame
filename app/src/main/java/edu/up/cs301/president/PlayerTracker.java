@@ -55,6 +55,25 @@ public class PlayerTracker implements Serializable {
         }
     }
 
+    public String getStringRank(){
+        String stringRank = "none";
+        switch(rank){
+            case 0:
+                stringRank = "Scum";
+                break;
+            case 1:
+                stringRank = "Vice Scum";
+                break;
+            case 2:
+                stringRank = "Vice President";
+                break;
+            case 3:
+                stringRank = "President";
+                break;
+        }
+        return stringRank;
+    }
+
     /* player's rank */
     public int getRank() { return rank; }
     public void setRank(int rank) { this.rank = rank; }

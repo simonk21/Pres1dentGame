@@ -46,7 +46,16 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
     private GameMainActivity myActivity;
 
     // textview of player's name
-    private TextView player1Text, player2Text, player3Text, player4Text; // TODO: attach name from the config menu
+    private TextView youText, player1Text, player2Text, player3Text; // TODO: attach name from the config menu
+
+    // textview of player's names on scoreboard
+    private TextView youName, p1Name, p2Name, p3Name;
+
+    // textview of player's score
+    private TextView youScore, player1Score, player2Score, player3Score;
+
+    // textview of player's rank
+    private TextView youRank, player1Rank, player2Rank, player3Rank;
 
     // textview of the number of cards in each of the other player's hands
     private TextView cards_1, cards_2, cards_3; // shows rem. cards // TODO: might take this out?
@@ -88,6 +97,23 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
      * changes selected card to scoreboard
      */
     private void updateDisplay() { // TODO: we should put all gui updates in here or have this method call other methods
+
+        player3Text.setText(allPlayerNames[0]);
+        player1Text.setText(allPlayerNames[1]);
+        player2Text.setText(allPlayerNames[2]);
+        youText.setText(allPlayerNames[3]);
+        youName.setText(allPlayerNames[0]);
+        p1Name.setText(allPlayerNames[1]);
+        p2Name.setText(allPlayerNames[2]);
+        p3Name.setText(allPlayerNames[3]);
+        youRank.setText("" + state.getPlayers().get(0).getStringRank());
+        player1Rank.setText("" + state.getPlayers().get(1).getStringRank());
+        player2Rank.setText("" + state.getPlayers().get(2).getStringRank());
+        player3Rank.setText("" + state.getPlayers().get(3).getStringRank());
+        youScore.setText("" + state.getPlayers().get(0).getScore());
+        player1Score.setText("" + state.getPlayers().get(1).getScore());
+        player2Score.setText("" + state.getPlayers().get(2).getScore());
+        player3Score.setText("" + state.getPlayers().get(3).getScore());
         switch (this.state.getTurn()) {
             case 0:
                 switchHighlight(0);
@@ -231,11 +257,28 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
             playersCards[i].setOnClickListener(new CardClickListener());
         }
         // player's name
-        player1Text = activity.findViewById(R.id.player1Text);
-        player2Text = activity.findViewById(R.id.player2Text);
-        player3Text = activity.findViewById(R.id.Player3Text);
-        player4Text = activity.findViewById(R.id.userPlayer);
+        youText = activity.findViewById(R.id.player1Text);
+        player1Text = activity.findViewById(R.id.player2Text);
+        player2Text = activity.findViewById(R.id.Player3Text);
+        player3Text = activity.findViewById(R.id.userPlayer);
+        youName = activity.findViewById(R.id.youText);
+        p1Name = activity.findViewById(R.id.player1NameText);
+        p2Name = activity.findViewById(R.id.player2NameText);
+        p3Name = activity.findViewById(R.id.player3NameText);
         selectedCard = new ImageButton[4];
+
+        // player's score
+        youScore = activity.findViewById(R.id.youScore);
+        player1Score = activity.findViewById(R.id.player1Score);
+        player2Score = activity.findViewById(R.id.player2Score);
+        player3Score = activity.findViewById(R.id.player3Score);
+
+        // player's rank
+        youRank = activity.findViewById(R.id.youRank);
+        player1Rank = activity.findViewById(R.id.player1Rank);
+        player2Rank = activity.findViewById(R.id.player2Rank);
+        player3Rank = activity.findViewById(R.id.player3Rank);
+
         // player's remaining cards except for human player
         cards_1 = activity.findViewById(R.id.p1);
         cards_2 = activity.findViewById(R.id.p2);
@@ -523,50 +566,50 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
     private void switchHighlight(int idx) {
         switch (idx) {
             case 0:
-                player4Text.setBackgroundResource(R.color.yellow);
-                player4Text.setTextColor(myActivity.getResources().getColor(R.color.black));
-                player1Text.setBackgroundResource(R.color.black);
-                player2Text.setBackgroundResource(R.color.black);
-                player3Text.setBackgroundResource(R.color.black);
-                player1Text.setTextColor(myActivity.getResources().getColor(R.color.white));
-                player2Text.setTextColor(myActivity.getResources().getColor(R.color.white));
-                player3Text.setTextColor(myActivity.getResources().getColor(R.color.white));
-                break;
-            case 1:
-                player1Text.setBackgroundResource(R.color.yellow);
-                player1Text.setTextColor(myActivity.getResources().getColor(R.color.black));
-                player4Text.setBackgroundResource(R.color.black);
-                player2Text.setBackgroundResource(R.color.black);
-                player3Text.setBackgroundResource(R.color.black);
-                player4Text.setTextColor(myActivity.getResources().getColor(R.color.white));
-                player2Text.setTextColor(myActivity.getResources().getColor(R.color.white));
-                player3Text.setTextColor(myActivity.getResources().getColor(R.color.white));
-                break;
-            case 2:
-                player2Text.setBackgroundResource(R.color.yellow);
-                player2Text.setTextColor(myActivity.getResources().getColor(R.color.black));
-                player1Text.setBackgroundResource(R.color.black);
-                player4Text.setBackgroundResource(R.color.black);
-                player3Text.setBackgroundResource(R.color.black);
-                player1Text.setTextColor(myActivity.getResources().getColor(R.color.white));
-                player4Text.setTextColor(myActivity.getResources().getColor(R.color.white));
-                player3Text.setTextColor(myActivity.getResources().getColor(R.color.white));
-                break;
-            case 3:
                 player3Text.setBackgroundResource(R.color.yellow);
                 player3Text.setTextColor(myActivity.getResources().getColor(R.color.black));
+                youText.setBackgroundResource(R.color.black);
                 player1Text.setBackgroundResource(R.color.black);
                 player2Text.setBackgroundResource(R.color.black);
-                player4Text.setBackgroundResource(R.color.black);
+                youText.setTextColor(myActivity.getResources().getColor(R.color.white));
                 player1Text.setTextColor(myActivity.getResources().getColor(R.color.white));
                 player2Text.setTextColor(myActivity.getResources().getColor(R.color.white));
-                player4Text.setTextColor(myActivity.getResources().getColor(R.color.white));
+                break;
+            case 1:
+                youText.setBackgroundResource(R.color.yellow);
+                youText.setTextColor(myActivity.getResources().getColor(R.color.black));
+                player3Text.setBackgroundResource(R.color.black);
+                player1Text.setBackgroundResource(R.color.black);
+                player2Text.setBackgroundResource(R.color.black);
+                player3Text.setTextColor(myActivity.getResources().getColor(R.color.white));
+                player1Text.setTextColor(myActivity.getResources().getColor(R.color.white));
+                player2Text.setTextColor(myActivity.getResources().getColor(R.color.white));
+                break;
+            case 2:
+                player1Text.setBackgroundResource(R.color.yellow);
+                player1Text.setTextColor(myActivity.getResources().getColor(R.color.black));
+                youText.setBackgroundResource(R.color.black);
+                player3Text.setBackgroundResource(R.color.black);
+                player2Text.setBackgroundResource(R.color.black);
+                youText.setTextColor(myActivity.getResources().getColor(R.color.white));
+                player3Text.setTextColor(myActivity.getResources().getColor(R.color.white));
+                player2Text.setTextColor(myActivity.getResources().getColor(R.color.white));
+                break;
+            case 3:
+                player2Text.setBackgroundResource(R.color.yellow);
+                player2Text.setTextColor(myActivity.getResources().getColor(R.color.black));
+                youText.setBackgroundResource(R.color.black);
+                player1Text.setBackgroundResource(R.color.black);
+                player3Text.setBackgroundResource(R.color.black);
+                youText.setTextColor(myActivity.getResources().getColor(R.color.white));
+                player1Text.setTextColor(myActivity.getResources().getColor(R.color.white));
+                player3Text.setTextColor(myActivity.getResources().getColor(R.color.white));
                 break;
         }
-        player4Text.invalidate();
+        player3Text.invalidate();
+        youText.invalidate();
         player1Text.invalidate();
         player2Text.invalidate();
-        player3Text.invalidate();
     }
     /**
      * getGUICard
