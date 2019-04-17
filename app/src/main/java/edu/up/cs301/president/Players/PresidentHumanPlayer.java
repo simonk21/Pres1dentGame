@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import edu.up.cs301.game.GameHumanPlayer;
@@ -35,8 +36,9 @@ import edu.up.cs301.president.PresidentState;
  * @author Hera Malik
  * @version April 2019
  */
-public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClickListener {
+public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClickListener, Serializable {
 
+    private static final long serialVersionUID = 5537393762469851826L;
     /* instance variables */
 
     // the most recent game state, as given to us by the PresidentLocalGame

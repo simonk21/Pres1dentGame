@@ -7,6 +7,8 @@ import edu.up.cs301.president.CardInfo.Card;
 
 public class PlayerTracker implements Serializable {
 
+    private static final long serialVersionUID = 4437393762469851826L;
+
     private int score; // player's score
     private int pass; // 0 if didn't pass, 1 if passed
     private int setFinish; // 0 if didn't get rid of cards, 1 if did

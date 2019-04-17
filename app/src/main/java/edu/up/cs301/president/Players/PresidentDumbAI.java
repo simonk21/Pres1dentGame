@@ -2,6 +2,7 @@ package edu.up.cs301.president.Players;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import edu.up.cs301.game.GameComputerPlayer;
@@ -15,7 +16,9 @@ import edu.up.cs301.president.PresidentState;
 
 // TODO sometimes DUMB AI doesn't play, pauses for too long
 // TODO it probably has something to do with the cases.
-public class PresidentDumbAI extends GameComputerPlayer {
+public class PresidentDumbAI extends GameComputerPlayer implements Serializable {
+
+    private static final long serialVersionUID = 8837393762469851826L;
 
     private PresidentState savedState;
     /**

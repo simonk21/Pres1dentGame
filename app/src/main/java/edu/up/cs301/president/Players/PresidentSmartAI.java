@@ -2,6 +2,7 @@ package edu.up.cs301.president.Players;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import edu.up.cs301.game.GameComputerPlayer;
@@ -13,7 +14,10 @@ import edu.up.cs301.president.PresidentPassAction;
 import edu.up.cs301.president.PresidentPlayAction;
 import edu.up.cs301.president.PresidentState;
 
-public class PresidentSmartAI extends GameComputerPlayer {
+public class PresidentSmartAI extends GameComputerPlayer implements Serializable {
+
+
+    private static final long serialVersionUID = 6637393762469851826L;
 
     PresidentState savedState;
     /**

@@ -2,6 +2,7 @@ package edu.up.cs301.president;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import edu.up.cs301.game.GamePlayer;
@@ -9,8 +10,9 @@ import edu.up.cs301.game.LocalGame;
 import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.president.CardInfo.Card;
 
-public class PresidentLocalGame extends LocalGame {
+public class PresidentLocalGame extends LocalGame implements Serializable {
 
+    private static final long serialVersionUID = 2537393762469851826L;
     private PresidentState state;
 
     public PresidentLocalGame() {
