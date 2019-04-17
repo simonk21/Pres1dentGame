@@ -13,6 +13,8 @@ import edu.up.cs301.president.PresidentPassAction;
 import edu.up.cs301.president.PresidentPlayAction;
 import edu.up.cs301.president.PresidentState;
 
+// TODO sometimes DUMB AI doesn't play, pauses for too long
+// TODO it probably has something to do with the cases.
 public class PresidentDumbAI extends GameComputerPlayer {
 
     private PresidentState savedState;
@@ -26,7 +28,7 @@ public class PresidentDumbAI extends GameComputerPlayer {
     }
 
     @Override
-    protected void receiveInfo(GameInfo info) { // TODO I think I fucked up this part
+    protected void receiveInfo(GameInfo info) {
         sleep(500);
         if(info == null) {
             Log.i("PresidentDumbAI", "info is null");

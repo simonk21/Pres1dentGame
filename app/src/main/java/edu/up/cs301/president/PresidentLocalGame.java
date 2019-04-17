@@ -121,6 +121,9 @@ public class PresidentLocalGame extends LocalGame {
             if(!checkNoCards()){ // checks if player contains no cards
                 state.nextPlayer(); // if not, then we want to go to next player
             }
+            while(state.getPlayers().get(state.getTurn()).getHand().size() < 1){
+                state.nextPlayer();
+            }
             return true;
         }
         else{ // current set is not empty
@@ -153,8 +156,11 @@ public class PresidentLocalGame extends LocalGame {
                 }
 //                state.getPlayers().get(idx).resetPass(); // TODO might be able to remove this method
                 state.setPrev(); // sets the player who last played
-                if(!checkNoCards()){ // checks if player contains no cards
-                    state.nextPlayer(); // if not, then we want to go to next player
+                if(!checkNoCards()){
+                    state.nextPlayer();
+                }
+                while(state.getPlayers().get(state.getTurn()).getHand().size() < 1){
+                    state.nextPlayer();
                 }
                 return true;
             }
