@@ -1,7 +1,5 @@
 package edu.up.cs301.president;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
 import edu.up.cs301.game.infoMsg.GameState;
@@ -35,7 +33,7 @@ public class PresidentState extends GameState {
         }
         deck.deal(players); // deals cards (unsorted)
 
-        turn = 0; //(int) (Math.random() * 4 + 1); // selects random player to start
+        turn = (int) (Math.random() * 4 + 1); // selects random player to start
 
         prev = -1;
         roundStart = false;
@@ -51,14 +49,9 @@ public class PresidentState extends GameState {
         roundStart = orig.roundStart;
         players = new ArrayList<>();
         for(int i = 0; i < orig.players.size(); i++){
-            if(i == idx){
                 players.add(new PlayerTracker(orig.players.get(i)));
             }
-            else{
-                players.add(new PlayerTracker());
-            }
         }
-    }
 
     /** getters and setters */
     public void setTurn(int idx) {

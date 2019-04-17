@@ -27,7 +27,7 @@ public class PresidentDumbAI extends GameComputerPlayer {
 
     @Override
     protected void receiveInfo(GameInfo info) { // TODO I think I fucked up this part
-        sleep(1000);
+        sleep(500);
         if(info == null) {
             Log.i("PresidentDumbAI", "info is null");
         }
@@ -36,9 +36,13 @@ public class PresidentDumbAI extends GameComputerPlayer {
         }
         if(info instanceof PresidentState) { //TODO updated DumbAi for 0-2 card current set
             savedState = (PresidentState) info;
+            if(savedState.getPlayers().get(this.playerNum).getHand().size() < 1){
+                savedState.nextPlayer();
+                return;
+            }
             ArrayList<Card> temp = savedState.getPlayers().get(this.playerNum).getHand();
             Card t = getMax(temp);
-            sleep(1000);
+            sleep(500);
             if(savedState.getCurrentSet().size() != 0 && Math.random() < 0.2){
                 game.sendAction(new PresidentPassAction(this));
                 return;

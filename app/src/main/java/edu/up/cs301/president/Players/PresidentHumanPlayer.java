@@ -101,9 +101,10 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         cards_2.setText("" + state.getPlayers().get(2).getHand().size());
         cards_3.setText("" + state.getPlayers().get(3).getHand().size());
         player3Text.setText(allPlayerNames[0]);
-        player1Text.setText(allPlayerNames[1]);
-        player2Text.setText(allPlayerNames[2]);
-        youText.setText(allPlayerNames[3]);
+        player1Text.setText(allPlayerNames[2]);
+        player2Text.setText(allPlayerNames[3]);
+        youText.setText(allPlayerNames[1]);
+
         youName.setText(allPlayerNames[0]);
         p1Name.setText(allPlayerNames[1]);
         p2Name.setText(allPlayerNames[2]);
@@ -354,7 +355,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         Card theCard = state.getPlayers().get(this.playerNum).getHand().get(i);
         int imageId = getImageId(theCard);
         playersCards[i].setTag(imageId);
-        playersCards[i].setBackgroundResource(imageId);
+        playersCards[i].setBackgroundResource(imageId); // TODO once received an error here:
     }
 
     /**

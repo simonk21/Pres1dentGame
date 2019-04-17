@@ -83,10 +83,11 @@ public class PresidentLocalGame extends LocalGame {
      * @return true (if able to place) or false (if not able to)
      */
     public boolean play(int idx, ArrayList<Card> temp) {
-        if(temp == null){
+        if(temp == null){ // base case: check if temp is null
             return false;
         }
         int checkHandContainsCard = 0;
+        // checks to see how much of the cards in temp matches the cards in player's hand
         for(int i = 0; i < state.getPlayers().get(idx).getHand().size(); i++){
             for(int j = 0; j < temp.size(); j++){
                 if(temp.get(j).getValue() == state.getPlayers().get(idx).getHand().get(i).getValue() &&
@@ -95,32 +96,37 @@ public class PresidentLocalGame extends LocalGame {
                 }
             }
         }
+        // base case: checks if cards wanting to play is not correct
         if(checkHandContainsCard != temp.size()){
-            return false;
-        }
+            return false; // if there's at least one card that doesn't match player's hand then return
+        } // this helps when human player clicks on brown parts of GUI and tries to play it
+
+
         int setValid = checkSetValid(temp);
-        if (setValid == -1){
+        if (setValid == -1){ // base case: temp doesn't contain all same card values
             return false; // set is not all the same cards or has two
         }
+
         if(temp.size() != state.getCurrentSet().size() && state.getCurrentSet().size() != 0){
-            return false;
+            return false; // base case: temp size doesn't equal current set size
         } // temp must be same size as current set or current set must be 0
-        if(state.getCurrentSet().size() == 0){
-            state.getCurrentSet().clear();
+
+        if(state.getCurrentSet().size() == 0){ // if current set = 0, then we can restart set
+            state.getCurrentSet().clear(); // clears set
             for(int i = 0; i < temp.size(); i++) {
                 state.getPlayers().get(idx).removeCard(temp.get(i).getSuit(), temp.get(i).getValue());
-            }
+            } // remove cards from player's hand
             state.setCurrentSet(temp); // then set current set to temp
-            state.setPrev(); // sets player who last played
-            if(!checkNoCards()){
-                state.nextPlayer();
+            state.setPrev(); // sets this player's idx to prev (to keep track of who last played)
+            if(!checkNoCards()){ // checks if player contains no cards
+                state.nextPlayer(); // if not, then we want to go to next player
             }
             return true;
         }
-        else{
+        else{ // current set is not empty
             int currentVal = -1; // set currentVal to something
             int playerVal = -1; // set playerVal to something
-            int count = 0;
+            int count = 0; // counter
             for(int i = 0; i < state.getCurrentSet().size(); i++){
                 if(state.getCurrentSet().get(i).getValue() != 2){
                     currentVal = state.getCurrentSet().get(i).getValue();
@@ -136,7 +142,7 @@ public class PresidentLocalGame extends LocalGame {
                 if(temp.get(i).getValue() != 2){
                     playerVal = temp.get(i).getValue();
                     break;
-                }
+                } // found a card in temp that isn't a two
                 count++;
             }
             if(count == temp.size() || playerVal > currentVal){
@@ -145,15 +151,15 @@ public class PresidentLocalGame extends LocalGame {
                 for(int i = 0; i < temp.size(); i++){ // removes all cards from player's hand
                     state.getPlayers().get(idx).removeCard(temp.get(i).getSuit(), temp.get(i).getValue());
                 }
-                state.getPlayers().get(idx).resetPass(); // TODO might be able to remove this method
+//                state.getPlayers().get(idx).resetPass(); // TODO might be able to remove this method
                 state.setPrev(); // sets the player who last played
-                if(!checkNoCards()){
-                    state.nextPlayer();
+                if(!checkNoCards()){ // checks if player contains no cards
+                    state.nextPlayer(); // if not, then we want to go to next player
                 }
                 return true;
             }
             else{
-                return false;
+                return false; // player val is less than currentVal
             }
         }
     }
@@ -167,15 +173,17 @@ public class PresidentLocalGame extends LocalGame {
         if(state.getTurn() != turn){
             return false; // not player's turn
         }
-        state.getPlayers().get(turn).setPass();
+//        state.getPlayers().get(turn).setPass();
         state.nextPlayer();
-        if(state.getPrev() == state.getTurn()) {
-            state.getCurrentSet().clear();
-            for(int i =  0; i < state.getPlayers().size();i++){
-                state.getPlayers().get(i).resetPass();
-            }
+        while(state.getPlayers().get(state.getTurn()).getHand().size() < 1){
+            checkNoCards();
         }
-        checkNoCards();
+        if(state.getPrev() == state.getTurn()) {
+            state.getCurrentSet().clear(); // next turn can restart
+//            for(int i =  0; i < state.getPlayers().size();i++){
+//                state.getPlayers().get(i).resetPass();
+//            }
+        }
         return true;
     }
 
@@ -212,27 +220,23 @@ public class PresidentLocalGame extends LocalGame {
      * checkNoCards
      * after a pass or play it checks if anyone got rid of their cards and if they can be ranked
      * also checks if a new round can start
-     * @return
+     * @return true is player can
      */
     private boolean checkNoCards(){
-        int count = 0;
-        if(state.getPlayers().get(state.getTurn()).getSetFinish() == 1){
+        if(state.getPlayers().get(state.getTurn()).getHand().size() < 1){
+            state.checkPresident(state.getTurn());
+            if(state.getPrev() == state.getTurn()){
+                state.getCurrentSet().clear();
+            }
+            if(state.getPlayers().get(state.getTurn()).getRank() == 0){
+                state.setRoundStart(true);
+                return true;
+            }
             state.nextPlayer();
             return true;
         }
-        else{
-            while (state.getPlayers().get(state.getTurn()).getHand().size() < 1) {
-                count++;
-                state.checkPresident(state.getTurn());
-                if (count == 4) {
-                    state.setRoundStart(true);
-                    return true;
-                }
-                state.nextPlayer();
-            }
-            return false;
-        }
-    } // TODO need to change this !!!!! started it but logic doesn't make sense yet
+        return false;
+    } // TODO going to check if this works
 
     /**
      *
