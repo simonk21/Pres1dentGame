@@ -183,7 +183,16 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
             action = new PresidentOrderAction(this);
 
         } else if (button.getId() == R.id.leaveGame){
-            // TODO: need to add leaveGame functionality
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(1);
+
+            /**
+             * External Citation
+             * Date: April 17 2019
+             * Problem: Did not know how to exit out of game
+             * Resource: https://stackoverflow.com/questions/17719634/how-to-exit-an-android-app-programmatically
+             * Solution: Example code from post
+             */
         }
         else {
             // something else was pressed: ignore
