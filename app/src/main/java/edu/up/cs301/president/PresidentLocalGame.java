@@ -216,7 +216,11 @@ public class PresidentLocalGame extends LocalGame {
      */
     private boolean checkNoCards(){
         int count = 0;
-        if(state.getPlayers().get(state.getTurn()).getHand().size() < 1) {
+        if(state.getPlayers().get(state.getTurn()).getSetFinish() == 1){
+            state.nextPlayer();
+            return true;
+        }
+        else{
             while (state.getPlayers().get(state.getTurn()).getHand().size() < 1) {
                 count++;
                 state.checkPresident(state.getTurn());
@@ -226,10 +230,9 @@ public class PresidentLocalGame extends LocalGame {
                 }
                 state.nextPlayer();
             }
-            return true;
+            return false;
         }
-        return false;
-    } // TODO sometimes it will skip my turn but sometimes it doesn't :(, when i run out of cards
+    } // TODO need to change this !!!!! started it but logic doesn't make sense yet
 
     /**
      *
