@@ -97,7 +97,9 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
      * changes selected card to scoreboard
      */
     private void updateDisplay() { // TODO: we should put all gui updates in here or have this method call other methods
-
+        cards_1.setText("" + state.getPlayers().get(1).getHand().size());
+        cards_2.setText("" + state.getPlayers().get(2).getHand().size());
+        cards_3.setText("" + state.getPlayers().get(3).getHand().size());
         player3Text.setText(allPlayerNames[0]);
         player1Text.setText(allPlayerNames[1]);
         player2Text.setText(allPlayerNames[2]);
