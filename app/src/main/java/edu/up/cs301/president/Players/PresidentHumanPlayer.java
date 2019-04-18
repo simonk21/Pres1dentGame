@@ -105,7 +105,6 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         player1Text.setText(allPlayerNames[2]);
         player2Text.setText(allPlayerNames[3]);
         youText.setText(allPlayerNames[1]);
-
         youName.setText(allPlayerNames[0]);
         p1Name.setText(allPlayerNames[1]);
         p2Name.setText(allPlayerNames[2]);
@@ -184,8 +183,10 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
             action = new PresidentOrderAction(this);
 
         } else if (button.getId() == R.id.leaveGame){
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(1);
+            state.getPlayers().get(turn).setLeaveGame(1);
+            myActivity.finish();
+ //           android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(0);
 
             /**
              * External Citation
@@ -240,6 +241,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         // remember the activity
         myActivity = activity;
 
+        turn = this.playerNum;
         // Load the layout resource for our GUI
         activity.setContentView(R.layout.in_game_layout);
 
@@ -304,6 +306,8 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         passButton.setOnClickListener(this);
         orderButton = activity.findViewById(R.id.orderButton);
         orderButton.setOnClickListener(this);
+        leaveGameButton = activity.findViewById(R.id.leaveGame);
+        leaveGameButton.setOnClickListener(this);
 
         // if we have a game state, "simulate" that we have just received
         // the state from the game so that the GUI values are updated

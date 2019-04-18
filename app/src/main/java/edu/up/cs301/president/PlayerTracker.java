@@ -10,6 +10,7 @@ public class PlayerTracker implements Serializable {
     private int score; // player's score
     private int pass; // 0 if didn't pass, 1 if passed
     private int setFinish; // 0 if didn't get rid of cards, 1 if did
+    private int leave;
 
     private ArrayList<Card> playerHand;
     private static int MAX_CARDS = 13;
@@ -29,12 +30,14 @@ public class PlayerTracker implements Serializable {
         pass = 0;
         rank = -1;
         setFinish = 0;
+        leave = 0;
     }
 
     public PlayerTracker(PlayerTracker orig){
         score = orig.score;
         pass = orig.pass;
         rank = orig.rank;
+        leave = orig.leave;
         setFinish = orig.setFinish;
         playerHand = new ArrayList<>();
         for(int i = 0; i < orig.getHand().size(); i++){
@@ -81,6 +84,8 @@ public class PlayerTracker implements Serializable {
     public int getRank() { return rank; }
     public void setRank(int rank) { this.rank = rank; }
 
+    public void setLeaveGame(int leave) { this.leave = leave; }
+    public int getLeaveGame() { return leave; }
     public ArrayList<Card> getHand() { return playerHand; }
     public void addCard(Card in) { playerHand.add(in); }
 

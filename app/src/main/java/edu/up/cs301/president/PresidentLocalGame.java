@@ -123,7 +123,7 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
             if(!checkNoCards()){ // checks if player contains no cards
                 state.nextPlayer(); // if not, then we want to go to next player
             }
-            while(state.getPlayers().get(state.getTurn()).getHand().size() < 1){
+            while(state.getPlayers().get(state.getTurn()).getHand().size() < 1 || state.getPlayers().get(state.getTurn()).getLeaveGame() == 1){
                 state.nextPlayer();
             }
             return true;
@@ -161,7 +161,7 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
                 if(!checkNoCards()){
                     state.nextPlayer();
                 }
-                while(state.getPlayers().get(state.getTurn()).getHand().size() < 1){
+                while(state.getPlayers().get(state.getTurn()).getHand().size() < 1 || state.getPlayers().get(state.getTurn()).getLeaveGame() == 1){
                     state.nextPlayer();
                 }
                 return true;
@@ -182,7 +182,13 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
             return false; // not player's turn
         }
 //        state.getPlayers().get(turn).setPass();
+
         state.nextPlayer();
+
+
+        if(state.getPlayers().get(state.getTurn()).getLeaveGame() == 1){
+            state.nextPlayer();
+        }
         while(state.getPlayers().get(state.getTurn()).getHand().size() < 1){
             checkNoCards();
         }
