@@ -18,8 +18,6 @@ import edu.up.cs301.president.PresidentState;
 // TODO it probably has something to do with the cases.
 public class PresidentDumbAI extends GameComputerPlayer implements Serializable {
 
-    private static final long serialVersionUID = 8837393762469851826L;
-
     private PresidentState savedState;
     /**
      * constructor

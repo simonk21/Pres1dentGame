@@ -12,7 +12,8 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -26,3 +27,16 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+/**
+ * External Citation
+ * Problem: Memory Issue, Exemplified lag in game. Not good for user experience
+ * Solution: Used example code from article.
+ * 
+ * https://stackoverflow.com/questions/52310841/removing-unused-resources-requires-
+ * unused-code-shrinking-to-be-turned-on
+ *
+ * https://developer.android.com/topic/performance/reduce-apk-size
+ *
+ * https://stackoverflow.com/questions/14678593/the-application-may-be-doing-too-
+ * much-work-on-its-main-thread
+ */

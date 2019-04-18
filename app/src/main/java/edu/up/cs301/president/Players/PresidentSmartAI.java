@@ -17,8 +17,6 @@ import edu.up.cs301.president.PresidentState;
 public class PresidentSmartAI extends GameComputerPlayer implements Serializable {
 
 
-    private static final long serialVersionUID = 6637393762469851826L;
-
     PresidentState savedState;
     /**
      * constructor

@@ -1,12 +1,13 @@
 package edu.up.cs301.president;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.president.CardInfo.Card;
 
-public class PresidentPlayAction extends GameAction {
+public class PresidentPlayAction extends GameAction implements Serializable {
 
     private ArrayList<Card> cards;
     /**

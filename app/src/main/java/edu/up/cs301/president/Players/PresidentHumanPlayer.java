@@ -38,7 +38,6 @@ import edu.up.cs301.president.PresidentState;
  */
 public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClickListener, Serializable {
 
-    private static final long serialVersionUID = 5537393762469851826L;
     /* instance variables */
 
     // the most recent game state, as given to us by the PresidentLocalGame
