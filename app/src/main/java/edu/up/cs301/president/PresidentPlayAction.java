@@ -7,6 +7,14 @@ import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.president.CardInfo.Card;
 
+/**
+ * PresidentPlayAction
+ * @author Hera Malik
+ * @author Ben Pirkl
+ * @author Kama Simon
+ * @author Geryl Vinoya
+ * @version April 2019
+ */
 public class PresidentPlayAction extends GameAction implements Serializable {
 
     private ArrayList<Card> cards;

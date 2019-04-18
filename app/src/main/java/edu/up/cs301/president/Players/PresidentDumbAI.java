@@ -14,8 +14,15 @@ import edu.up.cs301.president.PresidentPassAction;
 import edu.up.cs301.president.PresidentPlayAction;
 import edu.up.cs301.president.PresidentState;
 
-// TODO sometimes DUMB AI doesn't play, pauses for too long
-// TODO it probably has something to do with the cases.
+/**
+ * PresidentDumbAI class
+ * @author Hera Malik
+ * @author Ben Pirkl
+ * @author Kama Simon
+ * @author Geryl Vinoya
+ * @version April 2019
+ * class that decides what the Dumb AI should do
+ */
 public class PresidentDumbAI extends GameComputerPlayer implements Serializable {
 
     private PresidentState savedState;
@@ -31,32 +38,43 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
     @Override
     protected void receiveInfo(GameInfo info) {
         sleep(500);
-        if(info == null) {
+
+        if(info == null) {  // if info is null return
             Log.i("PresidentDumbAI", "info is null");
-        }
-        if(info instanceof NotYourTurnInfo || info instanceof IllegalMoveInfo){
             return;
         }
-        if(info instanceof PresidentState) { //TODO updated DumbAi for 0-2 card current set
+
+        if(info instanceof NotYourTurnInfo || info instanceof IllegalMoveInfo){
+            return; // if it isn't player's turn or it's an illegal move then return
+        }
+
+        if(info instanceof PresidentState) {
             savedState = (PresidentState) info;
             if(savedState.getPlayers().get(this.playerNum).getHand().size() < 1){
-                savedState.nextPlayer();
+                game.sendAction(new PresidentPassAction(this)); // if this dumbAI has no cards, pass
                 return;
             }
+            // takes the player's hand and saves it to an arraylist
+            // finds the max card
             ArrayList<Card> temp = savedState.getPlayers().get(this.playerNum).getHand();
             Card t = getMax(temp);
+
             sleep(500);
+
+            // if the current set isn't 0, then possibly pass
             if(savedState.getCurrentSet().size() != 0 && Math.random() < 0.2){
                 game.sendAction(new PresidentPassAction(this));
                 return;
             }
+
+            // checks current set size and plays as follows
             switch (savedState.getCurrentSet().size()) {
-                case 0:
+                case 0: // if current set is empty, then MUST play
                     temp.clear();
                     temp.add(t);
                     game.sendAction(new PresidentPlayAction(this, temp));
                     return;
-                case 1:
+                case 1: // if current set is 1, then play if can beat value of current set
                     temp.clear();
                     temp.add(t);
                     if(temp.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()){
@@ -67,7 +85,7 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
                     }
                     return;
             }
-            game.sendAction(new PresidentPassAction(this));
+            game.sendAction(new PresidentPassAction(this)); // if all else fails, pass
         }
     }
 

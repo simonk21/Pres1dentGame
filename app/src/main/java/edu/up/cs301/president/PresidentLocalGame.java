@@ -10,8 +10,18 @@ import edu.up.cs301.game.LocalGame;
 import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.president.CardInfo.Card;
 
+/**
+ * PresidentLocalGame class
+ * @author Hera Malik
+ * @author Ben Pirkl
+ * @author Kama Simon
+ * @author Geryl Vinoya
+ * @version April 2019
+ * decides if the player's move is valid or invalid
+ */
 public class PresidentLocalGame extends LocalGame implements Serializable {
 
+    /* instance variables */
     private static final long serialVersionUID = 2537393762469851826L;
     private PresidentState state;
 
@@ -31,11 +41,11 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
             Log.i("PLocalGame.java", "Gamestate is null");
         }
 
-        PresidentState playerState;
+        PresidentState playerState; // Game state
         for (int i = 0; i < this.players.length; i++) {
             if (this.players[i].equals(p)) {
-                playerState = new PresidentState(state,i);
-                p.sendInfo(playerState);
+                playerState = new PresidentState(state,i); // TODO can change to without i
+                p.sendInfo(playerState); // gets update from PresidentState
                 break;
             }
         }
@@ -64,14 +74,14 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
         }
         int playerIdx = getPlayerIdx(action.getPlayer());
         if( action instanceof PresidentPassAction ) {
-            return pass(playerIdx);
+            return pass(playerIdx); // if pass action, then go to pass method
         }
         if ( action instanceof PresidentPlayAction ) {
             ArrayList<Card> temp = ((PresidentPlayAction) action).getCards(); // grabs cards from PresidentPlayAction class
-            return play(playerIdx, temp);
+            return play(playerIdx, temp); // if play action, then go to play method
         }
         if ( action instanceof PresidentOrderAction ){
-            return order(playerIdx);
+            return order(playerIdx); // if order method, then go to order method
         }
         return false;
     }
@@ -84,7 +94,7 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
      * @param temp cards that player wants to play
      * @return true (if able to place) or false (if not able to)
      */
-    public boolean play(int idx, ArrayList<Card> temp) {
+    public boolean play(int idx, ArrayList<Card> temp) { // TODO need to check this method and comment better
         if(temp == null){ // base case: check if temp is null
             return false;
         }
@@ -174,10 +184,10 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
 
     /**
      * pass
-     *
+     * pass action will pass player's turn
      * @return true (player can pass turn) or false (player cannot pass turn)
      */
-    private boolean pass(int turn){
+    private boolean pass(int turn){ // TODO need to check this method and add better comments
         if(state.getTurn() != turn){
             return false; // not player's turn
         }
@@ -227,7 +237,13 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
         return true;
     }
     /**
-     * https://www.sanfoundry.com/java-program-sort-array-ascending-order/ //TODO need to add citation
+     External Citation
+     Date: 12 April 2019
+     Problem: Adding ordering of cards
+
+     Resource:
+     https://www.sanfoundry.com/java-program-sort-array-ascending-order/
+     Solution: Used code from article
      */
 
     /**
@@ -236,7 +252,7 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
      * also checks if a new round can start
      * @return true is player can
      */
-    private boolean checkNoCards(){
+    private boolean checkNoCards(){ // TODO need to check this method and add comments
         if(state.getPlayers().get(state.getTurn()).getHand().size() < 1){
             state.checkPresident(state.getTurn());
             if(state.getPrev() == state.getTurn()){
@@ -250,18 +266,19 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
             return true;
         }
         return false;
-    } // TODO going to check if this works
+    }
 
     /**
-     *
-     * @param temp
-     * @return
+     * checkSetValid
+     * check if set is valid
+     * @param temp card set of player
+     * @return 0 if
      */
-    private int checkSetValid(ArrayList<Card> temp){
+    private int checkSetValid(ArrayList<Card> temp){ // TODO check this method and comment better
         Card c = new Card(-1, "Default");
         int count = 0;
         for(int i = 0; i < temp.size(); i++){
-            if(temp.get(i).getValue() != 2){ // since two is a wild
+            if(temp.get(i).getValue() != 13){ // since two is a wild
                 c.setCardSuit(temp.get(i).getSuit());
                 c.setCardVal(temp.get(i).getValue());
                 break;

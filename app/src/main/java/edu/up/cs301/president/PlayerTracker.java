@@ -5,15 +5,23 @@ import java.util.ArrayList;
 
 import edu.up.cs301.president.CardInfo.Card;
 
+/**
+ * PlayerTracker class
+ * @author Hera Malik
+ * @author Ben Pirkl
+ * @author Kama Simon
+ * @author Geryl Vinoya
+ * @version April 2019
+ * keeps track of the player's information needed
+ */
 public class PlayerTracker implements Serializable {
 
+    /* instance variables */
     private int score; // player's score
-    private int pass; // 0 if didn't pass, 1 if passed
-    private int setFinish; // 0 if didn't get rid of cards, 1 if did
-    private int leave;
+    private int leave; // 0 if didn't leave game, 1 if did
 
-    private ArrayList<Card> playerHand;
-    private static int MAX_CARDS = 13;
+    private ArrayList<Card> playerHand; // player's hand array list
+    private static int MAX_CARDS = 13; // max cards in hand
     /*
        rank:
        -1 : no rank
@@ -24,29 +32,34 @@ public class PlayerTracker implements Serializable {
      */
     private int rank;
 
+    /**
+     * PlayerTracker constructor
+     * sets defaults for player
+     */
     public PlayerTracker(){
         playerHand = new ArrayList<>(MAX_CARDS);
         score = 0;
-        pass = 0;
         rank = -1;
-        setFinish = 0;
         leave = 0;
     }
 
+    /**
+     * PlayerTracker copy constructor
+     * @param orig original PlayerTracker
+     */
     public PlayerTracker(PlayerTracker orig){
         score = orig.score;
-        pass = orig.pass;
         rank = orig.rank;
         leave = orig.leave;
-        setFinish = orig.setFinish;
         playerHand = new ArrayList<>();
         for(int i = 0; i < orig.getHand().size(); i++){
             playerHand.add(new Card(orig.getHand().get(i)));
         }
     }
 
-    /* player's score */
+    /** setters and getters */
     public int getScore() { return score; }
+
     public void setScore(int rank) {
         switch (rank){
             case 0:
@@ -80,25 +93,30 @@ public class PlayerTracker implements Serializable {
         return stringRank;
     }
 
-    /* player's rank */
     public int getRank() { return rank; }
+
     public void setRank(int rank) { this.rank = rank; }
 
     public void setLeaveGame(int leave) { this.leave = leave; }
+
     public int getLeaveGame() { return leave; }
+
     public ArrayList<Card> getHand() { return playerHand; }
+
+    /**
+     * addCard
+     * adds card to player's hand
+     * @param in card to insert into hand
+     */
     public void addCard(Card in) { playerHand.add(in); }
 
+    /**
+     * setHand
+     * sets the hand of player's hand
+     * @param hand array list of cards to set as player's hand
+     */
     public void setHand(ArrayList<Card> hand) { playerHand = hand; }
 
-    /* player's pass */
-    public int getPass() { return pass; }
-    public void setPass() { pass = 1; }
-    public void resetPass() { pass = 0; }
-
-    public void setSetFinish() { setFinish = 1; }
-    public void resetSetFinish() { setFinish = 0; }
-    public int getSetFinish() { return setFinish; }
     /**
      * removeCard
      * Removes card after set is played

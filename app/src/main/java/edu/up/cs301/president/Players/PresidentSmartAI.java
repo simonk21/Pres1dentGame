@@ -13,11 +13,21 @@ import edu.up.cs301.president.CardInfo.Card;
 import edu.up.cs301.president.PresidentPassAction;
 import edu.up.cs301.president.PresidentPlayAction;
 import edu.up.cs301.president.PresidentState;
-
+// TODO still need to check this
+/**
+ * PresidentSmartAI
+ * @author Hera Malik
+ * @author Ben Pirkl
+ * @author Kama Simon
+ * @author Geryl Vinoya
+ * @version April 2019
+ * class that decides what the SmartAI should do
+ */
 public class PresidentSmartAI extends GameComputerPlayer implements Serializable {
 
-
+    /* instance variable */
     PresidentState savedState;
+
     /**
      * constructor
      *

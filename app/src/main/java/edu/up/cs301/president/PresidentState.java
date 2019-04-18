@@ -5,7 +5,15 @@ import java.util.ArrayList;
 import edu.up.cs301.game.infoMsg.GameState;
 import edu.up.cs301.president.CardInfo.Card;
 import edu.up.cs301.president.CardInfo.Deck;
-
+// TODO check this entire class
+/**
+ * PresidentState
+ * @author Hera Malik
+ * @author Ben Pirkl
+ * @author Kama Simon
+ * @author Geryl Vinoya
+ * @version April 2019
+ */
 public class PresidentState extends GameState {
 
     // to satisfy Serializable interface
@@ -129,24 +137,6 @@ public class PresidentState extends GameState {
             }
 
         }
-    }
-
-    /**
-     * checkPass
-     *
-     * @return boolean if a player can pass
-     */
-    public boolean checkPass(){
-        int count = 0;
-        for(int i = 0; i < players.size(); i++){
-            if(players.get(i).getPass() == 1){
-                count++;
-            }
-        }
-        if(count == 3){
-            return true;
-        }
-        return false;
     }
 
     /**

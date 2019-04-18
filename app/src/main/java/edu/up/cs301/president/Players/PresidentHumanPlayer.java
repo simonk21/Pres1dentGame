@@ -23,6 +23,7 @@ import edu.up.cs301.president.PresidentOrderAction;
 import edu.up.cs301.president.PresidentPassAction;
 import edu.up.cs301.president.PresidentPlayAction;
 import edu.up.cs301.president.PresidentState;
+// TODO still need to check
 
 /**
  * A GUI of a Human Player. The GUI displays the player's hand, score and rank
@@ -321,6 +322,28 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         }
 
     }
+    /**
+     External Citation:
+     Date:    1 April 2019
+     Problem: Forgot how to add an OnClickListener for Multiple Buttons
+
+     Resource:
+     https://www.youtube.com/watch?v=GtxVILjLcw8
+     Solution: I used the example code from the video and previous recollection
+     from past assignments
+
+     */
+
+    /**
+     External Citation:
+     Date:    1 April 2019
+     Problem: Difficulty changing background of Textview (wanted to show whose
+     turn it was)
+     Resource: https://stackoverflow.com/questions/1466788/android-textview-
+     setting-the-background-color-dynamically-doesnt-work
+     Solution: I used the example code from this post
+     https://stackoverflow.com/questions/5327553/android-highlight-an-imagebutton-when-clicked
+     */
 
     public class CardClickListener implements View.OnClickListener {
 
@@ -356,11 +379,31 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
 
         }
     }
-    // https://stackoverflow.com/questions/36953702/java-lang-nullpointerexception-attempt-to-read-from-null-array
+    /**
+     External Citation:
+     Date:    1 April 2019
+     Problem: Needed to set Color Filter for cards when player selects
+
+     Resource:
+     https://stackoverflow.com/questions/5327553/android-highlight-an
+     -imagebutton-when-clicked
+     Solution: Used part of the code from this post
+     */
+
+    /**
+     External Citation:
+     Date:  17 April 2019
+     Problem: Null pointer bug
+
+     Resource:
+     https://stackoverflow.com/questions/36953702/java-lang-nullpoin
+     terexception-attempt-to-read-from-null-array
+     Solution: accessing selectedCard array without it being not null
+     Checked if selectedCard array is null before accessing array
+     */
 
     /**
      * updateCardGui
-     * <p>
      * update the GUI of a card given which card to update
      *
      * @return void
@@ -369,12 +412,11 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         Card theCard = state.getPlayers().get(this.playerNum).getHand().get(i);
         int imageId = getImageId(theCard);
         playersCards[i].setTag(imageId);
-        playersCards[i].setBackgroundResource(imageId); // TODO once received an error here:
+        playersCards[i].setBackgroundResource(imageId);
     }
 
     /**
      * updatePlayerGui
-     * <p>
      * Update's the user's GUI
      *
      * @return void
@@ -382,7 +424,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
     private void updatePlayerGui() { // updates the player's hand
         int i = 0;
         for (int j = 0; j < 13; j++) {
-            playersCards[j].setBackgroundResource(R.drawable.scoreboard); // TODO player can select cards that they don't have
+            playersCards[j].setBackgroundResource(R.drawable.scoreboard);
         }
         for (Card c : state.getPlayers().get(0).getHand()) {
             updateCardGui(i);
@@ -394,7 +436,6 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
 
     /**
      * getImageId
-     * <p>
      * Cases to find which image ID to use for a player's set of cards
      *
      * @return the ID of the card image
