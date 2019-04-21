@@ -162,14 +162,17 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
             }
             if(count == temp.size() || playerVal > currentVal){
                 state.getCurrentSet().clear();
-                state.setCurrentSet(temp); // player's set is all two's or players set is higher
+                state.setCurrentSet(temp); // player's set is higher or all cards are two's
                 for(int i = 0; i < temp.size(); i++){ // removes all cards from player's hand
                     state.getPlayers().get(idx).removeCard(temp.get(i).getSuit(), temp.get(i).getValue());
                 }
-//                state.getPlayers().get(idx).resetPass(); // TODO might be able to remove this method
                 state.setPrev(); // sets the player who last played
                 if(!checkNoCards()){
                     state.nextPlayer();
+                }
+                if(count == temp.size()){
+                    state.getCurrentSet().clear();
+                    state.setTurn(state.getPrev()); // if player plays all two's then it is automatically this persons turn
                 }
                 while(state.getPlayers().get(state.getTurn()).getHand().size() < 1 || state.getPlayers().get(state.getTurn()).getLeaveGame() == 1){
                     state.nextPlayer();
@@ -191,7 +194,6 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
         if(state.getTurn() != turn){
             return false; // not player's turn
         }
-//        state.getPlayers().get(turn).setPass();
 
         state.nextPlayer();
 
@@ -204,9 +206,6 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
         }
         if(state.getPrev() == state.getTurn()) {
             state.getCurrentSet().clear(); // next turn can restart
-//            for(int i =  0; i < state.getPlayers().size();i++){
-//                state.getPlayers().get(i).resetPass();
-//            }
         }
         return true;
     }

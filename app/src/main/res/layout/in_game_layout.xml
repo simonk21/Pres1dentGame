@@ -30,7 +30,7 @@
                     />
 
                 <Button
-                    android:id="@+id/pauseButton"
+                    android:id="@+id/rulesButton"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:textColor="#FFFFFF"
@@ -38,7 +38,7 @@
                     android:layout_weight="1"
                     android:textSize="25dp"
                     android:gravity="center"
-                    android:text="PAUSE" />
+                    android:text="RULES/HELP" />
 
 
                 <Space
@@ -493,7 +493,7 @@
                     android:layout_weight="1"
                     android:textSize="25dp"
                     android:gravity="center"
-                    android:text="order cards" />
+                    android:text="ORDER CARDS" />
 
 
                 <Space

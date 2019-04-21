@@ -19,4 +19,5 @@
     <string name="dialog_quit_question">Do you really want to quit?</string>
     <string name="local_tab">Local Game</string>
     <string name="remote_tab">Remote Game</string>
+    <string name="rules">1. Each player will have a hand size of 13 dealt from a standard 52 card deck</string>
 </resources>
