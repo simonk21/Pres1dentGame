@@ -50,15 +50,19 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
             savedState = (PresidentState) info;
             ArrayList<Card> temp = savedState.getPlayers().get(this.playerNum).getHand();
 
+            if(savedState.getPrev() == savedState.getTurn()){
+                ArrayList<Card> c = bestEmptySet(temp);
+                temp.clear();
+                game.sendAction(new PresidentPlayAction(this, c));
+                return;
+            }
             switch (savedState.getCurrentSet().size()) {
                 case 0:
-                    sleep(500);
                     ArrayList<Card> c = bestEmptySet(temp);
                     temp.clear();
                     game.sendAction(new PresidentPlayAction(this, c));
                     break;
                 case 1:
-                    sleep(500);
                     Card t = getMax(temp);
                     temp.clear();
                     temp.add(t);
@@ -70,7 +74,6 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                     }
                     break;
                 case 2:
-                    sleep(500);
                     ArrayList<Card> twoCard = getDoubleMax(temp);
                     if (twoCard == null || twoCard.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()) {
                         game.sendAction(new PresidentPassAction(this));
@@ -79,7 +82,6 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                     game.sendAction(new PresidentPlayAction(this, twoCard));
                     break;
                 case 3:
-                    sleep(500);
                     ArrayList<Card> threeCard = getTripleMax(temp);
                     if(threeCard == null || threeCard.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()){
                         game.sendAction(new PresidentPassAction(this));
@@ -88,7 +90,6 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                     game.sendAction(new PresidentPlayAction(this, threeCard));
                     break;
                 case 4:
-                    sleep(500);
                     ArrayList<Card> fourCard = getFourMax(temp);
                     if(fourCard == null || fourCard.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()){
                         game.sendAction(new PresidentPassAction(this));
@@ -96,12 +97,9 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                     }
                     game.sendAction(new PresidentPlayAction(this, fourCard));
                     break;
-                default:
-                    sleep(500);
-                    game.sendAction(new PresidentPassAction(this));
-                    break;
             }
         }
+        game.sendAction(new PresidentPassAction(this));
     }
 
     private ArrayList<Card> bestEmptySet(ArrayList<Card> temp){

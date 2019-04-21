@@ -6,8 +6,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!--android:hardwareAccelerated="false" -->
     <application
+        android:hardwareAccelerated="true"
         android:icon="@drawable/trump_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"

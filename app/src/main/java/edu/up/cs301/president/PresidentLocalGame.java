@@ -143,7 +143,7 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
             int playerVal = -1; // set playerVal to something
             int count = 0; // counter
             for(int i = 0; i < state.getCurrentSet().size(); i++){
-                if(state.getCurrentSet().get(i).getValue() != 2){
+                if(state.getCurrentSet().get(i).getValue() != 13){
                     currentVal = state.getCurrentSet().get(i).getValue();
                     break; // found a card that isn't a two
                 }
@@ -154,7 +154,7 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
             }
             count = 0;
             for(int i = 0; i < temp.size(); i++){
-                if(temp.get(i).getValue() != 2){
+                if(temp.get(i).getValue() != 13){
                     playerVal = temp.get(i).getValue();
                     break;
                 } // found a card in temp that isn't a two
@@ -258,7 +258,13 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
             if(state.getPrev() == state.getTurn()){
                 state.getCurrentSet().clear();
             }
-            if(state.getPlayers().get(state.getTurn()).getRank() == 0){
+            if(state.getPlayers().get(state.getTurn()).getRank() == 1){
+                for(int i = 0; i < state.getPlayers().size(); i++){
+                    if(state.getPlayers().get(i).getHand().size() > 0){
+                        state.getPlayers().get(i).getHand().clear();
+                        state.checkPresident(i);
+                    }
+                }
                 state.setRoundStart(true);
                 return true;
             }

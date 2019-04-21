@@ -349,7 +349,6 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
 
         @Override
         public void onClick(View v) {
-
             // selected card will have color filter
             int count = 0;
             if(selectedCard != null) {
