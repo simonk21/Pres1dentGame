@@ -50,8 +50,12 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
             savedState = (PresidentState) info;
             ArrayList<Card> temp = savedState.getPlayers().get(this.playerNum).getHand();
 
-            if(savedState.getPrev() == savedState.getTurn()){
+            if(savedState.getCurrentSet().size() == 0 || savedState.getTurn() == savedState.getPrev()){
                 ArrayList<Card> c = bestEmptySet(temp);
+                if(c == null){
+                    game.sendAction(new PresidentPassAction(this));
+                    return;
+                }
                 temp.clear();
                 game.sendAction(new PresidentPlayAction(this, c));
                 return;
@@ -59,11 +63,19 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
             switch (savedState.getCurrentSet().size()) {
                 case 0:
                     ArrayList<Card> c = bestEmptySet(temp);
+                    if(c == null){
+                        game.sendAction(new PresidentPassAction(this));
+                        return;
+                    }
                     temp.clear();
                     game.sendAction(new PresidentPlayAction(this, c));
                     break;
                 case 1:
-                    Card t = getMax(temp);
+                    Card t = getMin(temp);
+                    if(t == null){
+                        game.sendAction(new PresidentPassAction(this));
+                        return;
+                    }
                     temp.clear();
                     temp.add(t);
                     if(temp.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()){
@@ -99,13 +111,12 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                     break;
             }
         }
-        game.sendAction(new PresidentPassAction(this));
     }
 
     private ArrayList<Card> bestEmptySet(ArrayList<Card> temp){
         Card maxTwo = new Card(-1, "Default");
         Card nextCard = new Card(-1, "Default");
-        Card maxCard = new Card(-1, "Default");
+        Card minCard;
         ArrayList<Card> noTwo = new ArrayList<>();
         for(int i = 0; i < temp.size(); i++){
             if(temp.get(i).getValue() != 13){
@@ -113,9 +124,12 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
             }
         }
         if(noTwo.size() == temp.size()) {
-                maxCard = getMax(noTwo);
+                minCard = getMin(noTwo);
+                if(minCard == null){
+                    return null;
+                }
                 noTwo.clear();
-                noTwo.add(maxCard);
+                noTwo.add(minCard);
                 return noTwo;
         }
         else{
@@ -138,19 +152,45 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
 
     /**
      * getMax
-     * searches for the max card in hand
+     * searches for the min card in hand
      * @param temp Arraylist of Cards that holds the DumbAI's hand
-     * @return the max card
+     * @return the min card
      */
-    private Card getMax(ArrayList<Card> temp){
-        Card c = new Card(-1, "Default");
-        for(int i = 0; i < temp.size(); i++){
-            if(c.getValue() < temp.get(i).getValue()){
-                c.setCardSuit(temp.get(i).getSuit());
-                c.setCardVal(temp.get(i).getValue());
+    private Card getMin(ArrayList<Card> temp){
+        Card c = new Card(15, "Default");
+        Card curr = new Card(15, "Default");
+        if(savedState.getCurrentSet().size() == 0){
+            for(int i = 0; i < temp.size(); i++){
+                if(c.getValue() > temp.get(i).getValue()){
+                    c.setCardSuit(temp.get(i).getSuit());
+                    c.setCardVal(temp.get(i).getValue());
+                }
+            }
+            return c;
+        }
+        else{
+            for(int i = 0; i < savedState.getCurrentSet().size(); i++){
+
+                if(savedState.getCurrentSet().get(i).getValue() != 13){
+                    curr.setCardVal(savedState.getCurrentSet().get(i).getValue());
+                    curr.setCardSuit(savedState.getCurrentSet().get(i).getSuit());
+                    break;
+                }
+            }
+            for(int i = 0; i < temp.size(); i++){
+                if(temp.get(i).getValue() > curr.getValue() &&
+                        temp.get(i).getValue() < c.getValue() && temp.get(i).getValue() != 13){
+                    c.setCardSuit(temp.get(i).getSuit());
+                    c.setCardVal(temp.get(i).getValue());
+                }
+            }
+            if(c.getValue() == 15){
+                return null;
+            }
+            else {
+                return c;
             }
         }
-        return c;
     }
 
     /**
@@ -161,28 +201,43 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
      * @return null if no doubles found, returns c if found
      */
     private ArrayList<Card> getDoubleMax(ArrayList<Card> temp){
-        Card max1 = new Card(-1, "Default");
-        Card max2 = new Card(-1, "Default");
-        for(int i = 0; i < temp.size(); i++){
-            if(max1.getValue() < temp.get(i).getValue()){
-                max1.setCardSuit(temp.get(i).getSuit());
-                max1.setCardVal(temp.get(i).getValue());
-                for(int j = 0; j < temp.size(); j++){
-                    if(max1.getValue() == temp.get(j).getValue() && i != j){
-                        max2.setCardVal(temp.get(j).getValue());
-                        max2.setCardSuit(temp.get(j).getSuit());
-                        ArrayList<Card> c = new ArrayList<>();
-                        c.add(max1);
-                        c.add(max2);
-                        return c;
-                    }
-                }
-            }
+        Card firstMin = getMin(temp);
+        if(firstMin == null){
+            return null;
         }
-        return null;
+        Card secondMin = new Card(15, "Default");
+        Card curr = new Card(15, "Default");
+        ArrayList<Card> c = new ArrayList<>();
+        for(int i = 0; i < savedState.getCurrentSet().size(); i++){
+            if(savedState.getCurrentSet().get(i).getValue() != 13){
+                curr.setCardSuit(savedState.getCurrentSet().get(i).getSuit());
+                curr.setCardVal(savedState.getCurrentSet().get(i).getValue());
+                break;
+            }
+        } // get current val of current set
+        for(int i = 0; i < temp.size(); i++){
+            if(temp.get(i).getValue() == firstMin.getValue() &&
+                !temp.get(i).getSuit().equals(firstMin.getSuit())){
+                secondMin.setCardSuit(temp.get(i).getSuit());
+                secondMin.setCardVal(temp.get(i).getValue());
+                c.add(firstMin);
+                c.add(secondMin);
+                return c;
+            }
+        } // gets two min cards that are greater than set
+        for(int i = 0; i < temp.size(); i++){
+            if(temp.get(i).getValue() == 13){
+                secondMin.setCardVal(temp.get(i).getValue());
+                secondMin.setCardSuit(temp.get(i).getSuit());
+                c.add(firstMin);
+                c.add(secondMin);
+                return c;
+            }
+        } // if player has a two, then use that and min card
+        return null; // if unable then return null
     }
 
-    private ArrayList<Card> getTripleMax(ArrayList<Card> temp){
+    private ArrayList<Card> getTripleMax(ArrayList<Card> temp){ // TODO I want to fix this method
         Card max1 = new Card(-1, "Default");
         Card max2 = new Card(-1, "Default");
         Card max3 = new Card(-1, "Default");
@@ -212,7 +267,7 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
         return null;
     }
 
-    private ArrayList<Card> getFourMax(ArrayList<Card> temp){
+    private ArrayList<Card> getFourMax(ArrayList<Card> temp){ // TODO I want to fix this method
         Card max1 = new Card(-1, "Default");
         Card max2 = new Card(-1, "Default");
         Card max3 = new Card(-1, "Default");
