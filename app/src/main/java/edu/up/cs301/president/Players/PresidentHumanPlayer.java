@@ -23,8 +23,7 @@ import edu.up.cs301.president.PresidentOrderAction;
 import edu.up.cs301.president.PresidentPassAction;
 import edu.up.cs301.president.PresidentPlayAction;
 import edu.up.cs301.president.PresidentState;
-// TODO still need to check
-
+// TODO switch highlight needs to be changed!
 /**
  * A GUI of a Human Player. The GUI displays the player's hand, score and rank
  * of all players, the current set and allows the human player to press on their
