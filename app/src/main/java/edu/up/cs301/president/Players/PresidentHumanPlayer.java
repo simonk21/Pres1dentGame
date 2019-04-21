@@ -99,25 +99,92 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
      * changes selected card to scoreboard
      */
     private void updateDisplay() { // TODO: we should put all gui updates in here or have this method call other methods
-        cards_1.setText("" + state.getPlayers().get(1).getHand().size());
-        cards_2.setText("" + state.getPlayers().get(2).getHand().size());
-        cards_3.setText("" + state.getPlayers().get(3).getHand().size());
-        player3Text.setText(allPlayerNames[0]);
-        player1Text.setText(allPlayerNames[2]);
-        player2Text.setText(allPlayerNames[3]);
-        youText.setText(allPlayerNames[1]);
-        youName.setText(allPlayerNames[0]);
-        p1Name.setText(allPlayerNames[1]);
-        p2Name.setText(allPlayerNames[2]);
-        p3Name.setText(allPlayerNames[3]);
-        youRank.setText("" + state.getPlayers().get(0).getStringRank());
-        player1Rank.setText("" + state.getPlayers().get(1).getStringRank());
-        player2Rank.setText("" + state.getPlayers().get(2).getStringRank());
-        player3Rank.setText("" + state.getPlayers().get(3).getStringRank());
-        youScore.setText("" + state.getPlayers().get(0).getScore());
-        player1Score.setText("" + state.getPlayers().get(1).getScore());
-        player2Score.setText("" + state.getPlayers().get(2).getScore());
-        player3Score.setText("" + state.getPlayers().get(3).getScore());
+        switch(this.playerNum){
+            case 0:
+                youText.setText(allPlayerNames[1]);
+                player1Text.setText(allPlayerNames[2]);
+                player2Text.setText(allPlayerNames[3]);
+                player3Text.setText(allPlayerNames[0]);
+                youName.setText(allPlayerNames[0]);
+                p1Name.setText(allPlayerNames[1]);
+                p2Name.setText(allPlayerNames[2]);
+                p3Name.setText(allPlayerNames[3]);
+                cards_1.setText("" + state.getPlayers().get(1).getHand().size());
+                cards_2.setText("" + state.getPlayers().get(2).getHand().size());
+                cards_3.setText("" + state.getPlayers().get(3).getHand().size());
+                youRank.setText("" + state.getPlayers().get(0).getStringRank());
+                player1Rank.setText("" + state.getPlayers().get(1).getStringRank());
+                player2Rank.setText("" + state.getPlayers().get(2).getStringRank());
+                player3Rank.setText("" + state.getPlayers().get(3).getStringRank());
+                youScore.setText("" + state.getPlayers().get(0).getScore());
+                player1Score.setText("" + state.getPlayers().get(1).getScore());
+                player2Score.setText("" + state.getPlayers().get(2).getScore());
+                player3Score.setText("" + state.getPlayers().get(3).getScore());
+                break;
+            case 1:
+                youText.setText(allPlayerNames[2]);
+                player1Text.setText(allPlayerNames[3]);
+                player2Text.setText(allPlayerNames[0]);
+                player3Text.setText(allPlayerNames[1]);
+                youName.setText(allPlayerNames[1]);
+                p1Name.setText(allPlayerNames[2]);
+                p2Name.setText(allPlayerNames[3]);
+                p3Name.setText(allPlayerNames[0]);
+                cards_1.setText("" + state.getPlayers().get(2).getHand().size());
+                cards_2.setText("" + state.getPlayers().get(3).getHand().size());
+                cards_3.setText("" + state.getPlayers().get(0).getHand().size());
+                youRank.setText("" + state.getPlayers().get(1).getStringRank());
+                player1Rank.setText("" + state.getPlayers().get(2).getStringRank());
+                player2Rank.setText("" + state.getPlayers().get(3).getStringRank());
+                player3Rank.setText("" + state.getPlayers().get(0).getStringRank());
+                youScore.setText("" + state.getPlayers().get(1).getScore());
+                player1Score.setText("" + state.getPlayers().get(2).getScore());
+                player2Score.setText("" + state.getPlayers().get(3).getScore());
+                player3Score.setText("" + state.getPlayers().get(0).getScore());
+                break;
+            case 2:
+                youText.setText(allPlayerNames[3]);
+                player1Text.setText(allPlayerNames[0]);
+                player2Text.setText(allPlayerNames[1]);
+                player3Text.setText(allPlayerNames[2]);
+                youName.setText(allPlayerNames[2]);
+                p1Name.setText(allPlayerNames[3]);
+                p2Name.setText(allPlayerNames[0]);
+                p3Name.setText(allPlayerNames[1]);
+                cards_1.setText("" + state.getPlayers().get(3).getHand().size());
+                cards_2.setText("" + state.getPlayers().get(0).getHand().size());
+                cards_3.setText("" + state.getPlayers().get(1).getHand().size());
+                youRank.setText("" + state.getPlayers().get(2).getStringRank());
+                player1Rank.setText("" + state.getPlayers().get(3).getStringRank());
+                player2Rank.setText("" + state.getPlayers().get(0).getStringRank());
+                player3Rank.setText("" + state.getPlayers().get(1).getStringRank());
+                youScore.setText("" + state.getPlayers().get(2).getScore());
+                player1Score.setText("" + state.getPlayers().get(3).getScore());
+                player2Score.setText("" + state.getPlayers().get(0).getScore());
+                player3Score.setText("" + state.getPlayers().get(1).getScore());
+                break;
+            case 3:
+                youText.setText(allPlayerNames[0]);
+                player1Text.setText(allPlayerNames[1]);
+                player2Text.setText(allPlayerNames[2]);
+                player3Text.setText(allPlayerNames[3]);
+                youName.setText(allPlayerNames[3]);
+                p1Name.setText(allPlayerNames[0]);
+                p2Name.setText(allPlayerNames[1]);
+                p3Name.setText(allPlayerNames[2]);
+                cards_1.setText("" + state.getPlayers().get(0).getHand().size());
+                cards_2.setText("" + state.getPlayers().get(1).getHand().size());
+                cards_3.setText("" + state.getPlayers().get(2).getHand().size());
+                youRank.setText("" + state.getPlayers().get(3).getStringRank());
+                player1Rank.setText("" + state.getPlayers().get(0).getStringRank());
+                player2Rank.setText("" + state.getPlayers().get(1).getStringRank());
+                player3Rank.setText("" + state.getPlayers().get(2).getStringRank());
+                youScore.setText("" + state.getPlayers().get(3).getScore());
+                player1Score.setText("" + state.getPlayers().get(0).getScore());
+                player2Score.setText("" + state.getPlayers().get(1).getScore());
+                player3Score.setText("" + state.getPlayers().get(2).getScore());
+                break;
+        }
         switch (this.state.getTurn()) {
             case 0:
                 switchHighlight(0);
