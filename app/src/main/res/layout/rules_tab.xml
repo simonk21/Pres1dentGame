@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@drawable/background"
     android:layout_height="match_parent"
@@ -13,10 +14,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/returnRulesButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -25,7 +27,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_gravity="center"
+                android:orientation="vertical">
 
 
                 <Space
@@ -36,30 +39,20 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="2">
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/textView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="10"
-                        android:gravity="center"
-                        android:textSize="50dp"
                         android:background="@color/white"
-                        android:textColor="@color/black"
-                        android:text="President Game" />
-
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:layout_weight="10"
                         android:gravity="center"
+                        android:text="President Game"
                         android:textColor="@color/black"
-                        android:text="@string/rules"
-                        />
+                        android:textSize="50dp" />
 
                     <EditText
                         android:id="@+id/editText"
@@ -70,7 +63,7 @@
                         android:ems="10"
                         android:gravity="center"
                         android:inputType="textMultiLine"
-                        android:text="Hi \n" />
+                        android:text="Rules:" />
                 </LinearLayout>
 
                 <Space
@@ -78,7 +71,71 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" />
+
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:text="
+
+    Playing The Game:
+    1. Play cards in sequential order from lowest to highest, where Ace is high
+       and two is wild.
+    2. First person to go out (have no cards in hand) gets the title 'President' and gets two points
+    3. Next person to go out gets the title 'Vice-President' and gets one point
+    4. First person to get to 11 points wins
+    5. Playing doubles, triples, or four of a kind is legal
+    6. Two's act as the highest card if played alone, but if played in anything more act like the other
+       cards played with them
+
+
+    Ranking
+    1.	 First player to get rid of their cards will receive the ranking of President
+    2.	 Second player to get rid of their cards will receive the ranking of Vice President
+    3.	 Third player to get rid of their cards will receive the ranking of Vice Scum
+    4.	 Player with cards left
+
+
+    To Select A Card or Set of Cards to Play:
+    1.	Select on the cards that you want to play
+        a.	 When card is selected, it will become shaded
+        b.	 To deselect card, click on it again and it will become unshaded
+    2.	Press the Play Button
+        a.	 If card set is not higher than the current set or the cards are not of the same value, then an “Invalid Move” message will display on your screen
+        b.	 If it isn’t your turn yet, then a “Not Your Turn” message will display on your screen
+        c.	 If able to play, your card set will display in the current set pile in the center
+
+    To Order Your Hand from Lowest to Highest Value:
+    1.	When it’s your turn, select the “Order Cards” button
+
+    To Pass Your Turn:
+    1.	When it’s your turn, select the “Pass” button
+        a.	 It will pass your turn and move on or display a “Not Your Turn” message
+
+    To Leave Game
+    1.	Select the “Leave Game” button
+    NOTE:	You can leave the game without disrupting the play, but if you’re the host
+    the game will end.
+
+
+" />
+            </LinearLayout>
+
 
         </LinearLayout>
 
