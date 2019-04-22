@@ -75,6 +75,7 @@ public class PresidentState extends GameState {
         this.currentSet = in;
     }
     public ArrayList<PlayerTracker> getPlayers() { return players; }
+    public boolean getRoundStart() { return roundStart; }
     /** end of getters and setters */
 
     public int checkGame() {
@@ -86,24 +87,6 @@ public class PresidentState extends GameState {
         return -1;
     }
 
-    /**
-     * gameWon
-     *
-     * Checks if player won game
-     * Must have reached 11 points
-     *
-     * @return true (player won game) or false (game continues)
-     */
-    public boolean gameWon(PlayerTracker player) {
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i) == player) {
-                if (player.getScore() >= 11) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    } // TODO this doesn't make sense
 
     /**
      * playersWithCards
@@ -166,12 +149,10 @@ public class PresidentState extends GameState {
             if(count == 0){
                 players.get(turn).setRank(3); // set to president
                 players.get(turn).setScore(3);
-                gameWon(players.get(turn));
             }
             else if(count == 1){
                 players.get(turn).setRank(2); // set to vp
                 players.get(turn).setScore(2);
-                gameWon(players.get(turn));
             }
             else if(count == 2){
                 players.get(turn).setRank(1); // set to vs

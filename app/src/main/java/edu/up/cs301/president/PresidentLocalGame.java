@@ -85,6 +85,10 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
         if ( action instanceof PresidentOrderAction ){
             return order(playerIdx); // if order method, then go to order method
         }
+        if ( action instanceof PresidentTradeAction){
+            ArrayList<Card> temp = ((PresidentTradeAction) action).getCardsToTrade();
+            return trade(playerIdx, temp);
+        }
         return false;
     }
 
@@ -247,6 +251,30 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
      Solution: Used code from article
      */
 
+    private boolean trade(int idx, ArrayList<Card> toTrade){
+        if(!state.getRoundStart()){
+            return false;
+        }
+        else{
+            switch (state.getPlayers().get(idx).getRank()){
+                case 0:
+                    return false;
+                case 1:
+                    return false;
+                case 2:
+                    if(toTrade.size() != 1){
+                        return false;
+                    }
+                    break;
+                case 3:
+                    if(toTrade.size() != 2){
+                        return false;
+                    }
+                    break;
+            }
+        }
+        return false;
+    }
     /**
      * checkNoCards
      * after a pass or play it checks if anyone got rid of their cards and if they can be ranked
@@ -307,4 +335,6 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
         }
         return 0;
     }
+
+
 }

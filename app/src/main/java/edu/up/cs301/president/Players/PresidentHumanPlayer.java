@@ -23,6 +23,7 @@ import edu.up.cs301.president.PresidentOrderAction;
 import edu.up.cs301.president.PresidentPassAction;
 import edu.up.cs301.president.PresidentPlayAction;
 import edu.up.cs301.president.PresidentState;
+import edu.up.cs301.president.PresidentTradeAction;
 // TODO switch highlight needs to be changed!
 /**
  * A GUI of a Human Player. The GUI displays the player's hand, score and rank
@@ -224,7 +225,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         if (game == null) return;
 
         GameAction action = null;
-        if (button.getId() == R.id.playButton) {
+        if (button.getId() == R.id.playButton || button.getId() == R.id.tradeButton) {
             // play button: player will put down cards
             if(selectedCard == null){
                 Toast.makeText(this.myActivity, "No Card Selected", Toast.LENGTH_SHORT).show();
@@ -238,9 +239,12 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                     selectedCard[i] = null;
                 }
             }
-            // Line of code that disables the button of the card last pressed.
-          //  selectedCard.setEnabled(false);
-            action = new PresidentPlayAction(this, temp);
+            if(button.getId() == R.id.tradeButton){
+                action = new PresidentTradeAction(this, temp);
+            }
+            else if(button.getId() == R.id.playButton) {
+                action = new PresidentPlayAction(this, temp);
+            }
         } else if (button.getId() == R.id.passButton) {
             selectedCard = null;
             action = new PresidentPassAction(this);
@@ -266,7 +270,9 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
             // something else was pressed: ignore
             return;
         }
-        game.sendAction(action); // send action to the game
+        if(action != null){
+            game.sendAction(action); // send action to the game
+        }
     }// onClick
 
     /**
