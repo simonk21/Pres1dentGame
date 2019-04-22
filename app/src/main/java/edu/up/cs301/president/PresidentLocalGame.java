@@ -63,8 +63,10 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
         if(score == -1) {
             return null;
         }
-        return null; // TODO: need to print message for winner
-    } // TODO need to change the checkIfGameOver
+        else{
+            return this.playerNames[score] + "is a winner!";
+        }
+    }
 
     @Override
     protected boolean makeMove(GameAction action) {
