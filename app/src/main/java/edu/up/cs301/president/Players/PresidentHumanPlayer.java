@@ -23,6 +23,7 @@ import edu.up.cs301.president.PresidentOrderAction;
 import edu.up.cs301.president.PresidentPassAction;
 import edu.up.cs301.president.PresidentPlayAction;
 import edu.up.cs301.president.PresidentState;
+import edu.up.cs301.president.PresidentTradeAction;
 // TODO switch highlight needs to be changed!
 /**
  * A GUI of a Human Player. The GUI displays the player's hand, score and rank
@@ -64,7 +65,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
     // buttons in GUI (except for pause button)
     private Button playButton, passButton, orderButton, leaveGameButton,
             rulesButton, returnRulesButton; // TODO: add in functionality of order and leaveGameButton
-
+    private TextView tradeResponse;
     // ImageButton array of all the human player's cards
     private ImageButton[] playersCards = new ImageButton[13];
 
@@ -211,6 +212,15 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 currentSet[i].setBackgroundResource(id);
             }
         }
+        if(!state.getRoundStart()){
+            tradeResponse.setText("");
+            tradeResponse.setBackgroundResource(0);
+        }
+        else{
+            tradeResponse.setText("Trading In Progress");
+            tradeResponse.setTextColor(myActivity.getResources().getColor(R.color.black));
+            tradeResponse.setBackgroundResource(R.color.white);
+        }
     }
 
     /**
@@ -239,9 +249,23 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                     selectedCard[i] = null;
                 }
             }
-            // Line of code that disables the button of the card last pressed.
-          //  selectedCard.setEnabled(false);
-            action = new PresidentPlayAction(this, temp);
+                action = new PresidentPlayAction(this, temp);
+        } else if(button.getId() == R.id.tradeButton) {
+            // play button: player will put down cards
+            if(selectedCard == null){
+                Toast.makeText(this.myActivity, "No Card Selected", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            ArrayList<Card> temp = new ArrayList<Card>();
+            for(int i = 0; i < selectedCard.length; i++) {
+                if(selectedCard[i] != null) {
+                    temp.add(getGUICard(i));
+                    selectedCard[i].getBackground().clearColorFilter();
+                    selectedCard[i] = null;
+                }
+            }
+            action = new PresidentTradeAction(this, temp);
+
         } else if (button.getId() == R.id.passButton) {
             selectedCard = null;
             action = new PresidentPassAction(this);
@@ -273,7 +297,9 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
             // something else was pressed: ignore
             return;
         }
-        game.sendAction(action); // send action to the game
+        if(action != null){
+            game.sendAction(action); // send action to the game
+        }
     }// onClick
 
     /**
@@ -375,12 +401,15 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         // button listener
         playButton = activity.findViewById(R.id.playButton);
         playButton.setOnClickListener(this);
+        tradeButton = activity.findViewById(R.id.tradeButton);
+        tradeButton.setOnClickListener(this);
         passButton = activity.findViewById(R.id.passButton);
         passButton.setOnClickListener(this);
         orderButton = activity.findViewById(R.id.orderButton);
         orderButton.setOnClickListener(this);
         leaveGameButton = activity.findViewById(R.id.leaveGame);
         leaveGameButton.setOnClickListener(this);
+        tradeResponse = activity.findViewById(R.id.tradeResponse);
         rulesButton = activity.findViewById(R.id.rulesButton);
         rulesButton.setOnClickListener(this);
         returnRulesButton = activity.findViewById(R.id.returnRulesButton);
@@ -501,7 +530,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         for (int j = 0; j < 13; j++) {
             playersCards[j].setBackgroundResource(R.drawable.scoreboard);
         }
-        for (Card c : state.getPlayers().get(0).getHand()) {
+        for (Card c : state.getPlayers().get(this.playerNum).getHand()) {
             updateCardGui(i);
             playersCards[i].getBackground().setAlpha(255);
             playersCards[i].invalidate();

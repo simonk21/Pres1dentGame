@@ -13,6 +13,7 @@ import edu.up.cs301.president.CardInfo.Card;
 import edu.up.cs301.president.PresidentPassAction;
 import edu.up.cs301.president.PresidentPlayAction;
 import edu.up.cs301.president.PresidentState;
+import edu.up.cs301.president.PresidentTradeAction;
 
 /**
  * PresidentDumbAI class
@@ -57,6 +58,12 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
             // takes the player's hand and saves it to an arraylist
             // finds the max card
             ArrayList<Card> temp = savedState.getPlayers().get(this.playerNum).getHand();
+
+            if(savedState.getRoundStart()){
+                ArrayList<Card> trade = toTrade(temp);
+                game.sendAction(new PresidentTradeAction(this, trade));
+                return;
+            }
             Card t = getMax(temp);
 
             sleep(500);
@@ -86,6 +93,81 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
                     return;
             }
             game.sendAction(new PresidentPassAction(this)); // if all else fails, pass
+        }
+    }
+
+    private ArrayList<Card> toTrade(ArrayList<Card> temp){
+        switch (savedState.getPlayers().get(this.playerNum).getRank()){
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                Card min = getMin(temp);
+                temp.clear();
+                temp.add(min);
+                break;
+            case 3:
+                Card min1 = getMin(temp);
+                for(int i = 0; i < temp.size(); i++){
+                    if(temp.get(i).getValue() == min1.getValue()
+                            && temp.get(i).getSuit().equals(min1.getSuit())){
+                        temp.remove(i);
+                        break;
+                    }
+                }
+                Card min2 = getMin(temp);
+                temp.clear();
+                temp.add(min1);
+                temp.add(min2);
+                break;
+        }
+        return temp;
+    }
+
+    /**
+     * getMin
+     * searches for the min card in hand
+     * @param temp Arraylist of Cards that holds the DumbAI's hand
+     * @return the min card
+     */
+    private Card getMin(ArrayList<Card> temp){
+        Card c = new Card(15, "Default");
+        Card curr = new Card(15, "Default");
+        if(savedState.getCurrentSet().size() == 0){
+            for(int i = 0; i < temp.size(); i++){
+                if(c.getValue() > temp.get(i).getValue()){
+                    c.setCardSuit(temp.get(i).getSuit());
+                    c.setCardVal(temp.get(i).getValue());
+                }
+            }
+            return c;
+        }
+        else{
+            for(int i = 0; i < savedState.getCurrentSet().size(); i++){
+
+                if(savedState.getCurrentSet().get(i).getValue() != 13){
+                    curr.setCardVal(savedState.getCurrentSet().get(i).getValue());
+                    curr.setCardSuit(savedState.getCurrentSet().get(i).getSuit());
+                    break;
+                }
+            }
+            if(curr.getValue() == 15){
+                return null;
+            }
+            for(int i = 0; i < temp.size(); i++){
+                if(temp.get(i).getValue() > curr.getValue() &&
+                        temp.get(i).getValue() < c.getValue() && temp.get(i).getValue() != 13){
+                    c.setCardSuit(temp.get(i).getSuit());
+                    c.setCardVal(temp.get(i).getValue());
+                }
+            }
+            if(c.getValue() == 15){
+                return null;
+            }
+            else {
+                return c;
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@drawable/background"
     android:layout_height="match_parent"
@@ -7,14 +8,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false"
+        tools:ignore="UselessParent">
 
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="15"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
 
             <Space
                 android:layout_width="match_parent"
@@ -36,9 +40,9 @@
                     android:textColor="#FFFFFF"
                     android:background="@drawable/scoreboard"
                     android:layout_weight="1"
-                    android:textSize="25dp"
+                    android:textSize="25sp"
                     android:gravity="center"
-                    android:text="RULES/HELP" />
+                    android:text="@string/rules_help" />
 
 
                 <Space
@@ -52,15 +56,13 @@
                     android:textColor="#FFFFFF"
                     android:background="@drawable/scoreboard"
                     android:layout_weight="1"
-                    android:text="Leave Game"
+                    android:text="@string/leave_game"
                     android:gravity="center"
-                    android:textSize="25dp"/>
+                    android:textSize="25sp"/>
 
                 <Space
                     android:layout_width="10dp"
                     android:layout_height="match_parent"/>
-
-
 
             </LinearLayout>
             <LinearLayout
@@ -72,25 +74,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="10"
-                    android:text="13"
+                    android:text="@string/score"
                     android:gravity="center"
-                    android:textSize="30dp"/>
+                    android:textSize="30sp"/>
                 <TextView
                     android:id="@+id/p2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="13"
+                    android:text="@string/score"
                     android:gravity="center"
                     android:layout_weight="10"
-                    android:textSize="30dp"/>
+                    android:textSize="30sp"/>
                 <TextView
                     android:id="@+id/p3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="13"
+                    android:text="@string/score"
                     android:gravity="center"
                     android:layout_weight="10"
-                    android:textSize="30dp"/>
+                    android:textSize="30sp"/>
             </LinearLayout>
             <Space
                 android:layout_width="10dp"
@@ -107,9 +109,9 @@
                     android:layout_gravity="center"
                     android:background="#000000"
                     android:gravity="center"
-                    android:text="PLAYER 1"
+                    android:text="@string/player_1_name"
                     android:textColor="#FFFFFF"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:layout_weight="1"/>
 
                 <TextView
@@ -119,14 +121,14 @@
                     android:layout_gravity="center"
                     android:background="#000000"
                     android:gravity="center"
-                    android:text="PLAYER 2"
+                    android:text="@string/player_2_name"
                     android:textColor="#FFFFFF"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/Player3Text"
-                    android:text="Player 3"
+                    android:text="@string/player_3_name"
                     android:layout_width="200dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center"
@@ -134,12 +136,9 @@
                     android:gravity="center"
                     android:textColor="#FFFFFF"
                     android:layout_weight="1"
-                    android:textSize="14dp"/>
+                    android:textSize="14sp"/>
 
             </LinearLayout>
-
-
-
 
             <Space
                 android:layout_width="match_parent"
@@ -157,22 +156,26 @@
                     android:id="@+id/current0"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
-                    android:background="@drawable/card_back" />
+                    android:background="@drawable/card_back"
+                    tools:ignore="ContentDescription" />
                 <ImageButton
                     android:id="@+id/current1"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
-                    android:background="@drawable/card_back" />
+                    android:background="@drawable/card_back"
+                    tools:ignore="ContentDescription" />
                 <ImageButton
                     android:id="@+id/current2"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
-                    android:background="@drawable/card_back" />
+                    android:background="@drawable/card_back"
+                    tools:ignore="ContentDescription" />
                 <ImageButton
                     android:id="@+id/current3"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
-                    android:background="@drawable/card_back" />
+                    android:background="@drawable/card_back"
+                    tools:ignore="ContentDescription" />
                 <Space
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
@@ -184,7 +187,7 @@
                     <TextView
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:text="Name"
+                        android:text="@string/name_title"
                         android:background="@color/white"
                         android:textStyle="bold"
                         android:gravity="center"/>
@@ -192,27 +195,27 @@
                         android:id="@+id/youText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="You"
+                        android:text="@string/you_name"
                         android:background="@color/white"/>
                     <TextView
                         android:id="@+id/player1NameText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Player 1"
+                        android:text="@string/player_1_name"
                         android:background="@color/white"/>
 
                     <TextView
                         android:id="@+id/player2NameText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Player 2"
+                        android:text="@string/player_2_name"
                         android:background="@color/white"/>
 
                     <TextView
                         android:id="@+id/player3NameText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Player 3"
+                        android:text="@string/player_3_name"
                         android:background="@color/white"/>
 
                 </LinearLayout>
@@ -224,7 +227,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Score"
+                        android:text="@string/scoreTitle"
                         android:background="@color/white"
                         android:gravity="center"
                         android:textStyle="bold"/>
@@ -232,14 +235,14 @@
                         android:id="@+id/youScore"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="0"
+                        android:text="@string/score"
                         android:background="@color/white"
                         android:gravity="center"/>
                     <TextView
                         android:id="@+id/player1Score"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="0"
+                        android:text="@string/score"
                         android:background="@color/white"
                         android:gravity="center"
                         />
@@ -248,7 +251,7 @@
                         android:id="@+id/player2Score"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="0"
+                        android:text="@string/score"
                         android:background="@color/white"
                         android:gravity="center"/>
 
@@ -256,7 +259,7 @@
                         android:id="@+id/player3Score"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="0"
+                        android:text="@string/score"
                         android:background="@color/white"
                         android:gravity="center"/>
 
@@ -269,7 +272,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Rank"
+                        android:text="@string/rankTitle"
                         android:background="@color/white"
                         android:gravity="center"
                         android:textStyle="bold"/>
@@ -277,14 +280,14 @@
                         android:id="@+id/youRank"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="none"
+                        android:text="@string/rank"
                         android:background="@color/white"
                         android:gravity="center"/>
                     <TextView
                         android:id="@+id/player1Rank"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="none"
+                        android:text="@string/rank"
                         android:background="@color/white"
                         android:gravity="center"/>
 
@@ -292,7 +295,7 @@
                         android:id="@+id/player2Rank"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="none"
+                        android:text="@string/rank"
                         android:background="@color/white"
                         android:gravity="center"/>
 
@@ -300,7 +303,7 @@
                         android:id="@+id/player3Rank"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="none"
+                        android:text="@string/rank"
                         android:background="@color/white"
                         android:gravity="center"/>
 
@@ -308,6 +311,21 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+                <TextView
+                    android:id="@+id/tradeResponse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="30sp"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -320,91 +338,104 @@
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/seven_spades"/>
+                    android:background="@drawable/seven_spades"
+                    tools:ignore="ContentDescription" />
 
                 <ImageButton
                     android:id="@+id/card1"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/seven_spades"/>
+                    android:background="@drawable/seven_spades"
+                    tools:ignore="ContentDescription" />
 
                 <ImageButton
                     android:id="@+id/card2"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/seven_spades"/>
+                    android:background="@drawable/seven_spades"
+                    tools:ignore="ContentDescription" />
 
                 <ImageButton
                     android:id="@+id/card3"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/seven_spades" />
+                    android:background="@drawable/seven_spades"
+                    tools:ignore="ContentDescription" />
 
                 <ImageButton
                     android:id="@+id/card4"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/seven_spades" />
+                    android:background="@drawable/seven_spades"
+                    tools:ignore="ContentDescription" />
 
                 <ImageButton
                     android:id="@+id/card5"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/seven_spades" />
+                    android:background="@drawable/seven_spades"
+                    tools:ignore="ContentDescription" />
 
                 <ImageButton
                     android:id="@+id/card6"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/seven_spades" />
+                    android:background="@drawable/seven_spades"
+                    tools:ignore="ContentDescription" />
 
                 <ImageButton
                     android:id="@+id/card7"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/seven_spades" />
+                    android:background="@drawable/seven_spades"
+                    android:contentDescription="@string/eigth_card_in_hand" />
 
                 <ImageButton
                     android:id="@+id/card8"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/seven_spades" />
+                    android:background="@drawable/seven_spades"
+                    android:contentDescription="@string/ninth_card_in_hand" />
 
                 <ImageButton
                     android:id="@+id/card9"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/seven_spades" />
+                    android:background="@drawable/seven_spades"
+                    android:contentDescription="@string/tenth_card_in_hand" />
 
                 <ImageButton
                     android:id="@+id/card10"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/seven_spades" />
+                    android:background="@drawable/seven_spades"
+                    android:contentDescription="@string/eleventh_card_in_hand" />
 
                 <ImageButton
                     android:id="@+id/card11"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/seven_spades" />
+                    android:background="@drawable/seven_spades"
+                    android:contentDescription="@string/twelfth_card_in_hand" />
 
                 <ImageButton
                     android:id="@+id/card12"
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:background="@drawable/seven_spades" />
+                    android:background="@drawable/seven_spades"
+                    android:contentDescription="@string/card12Description" />
 
             </LinearLayout>
             <Space
@@ -417,10 +448,11 @@
                 android:layout_gravity="center"
                 android:background="@color/black"
                 android:gravity="center"
-                android:text="YOU"
+                android:text="@string/youText"
                 android:textColor="@color/white"
-                android:textSize="14dp"
-                android:textStyle="bold"/>
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
 
             <Space
                 android:layout_width="match_parent"
@@ -443,9 +475,9 @@
                     android:textColor="#FFFFFF"
                     android:background="@drawable/scoreboard"
                     android:layout_weight="1"
-                    android:textSize="25dp"
+                    android:textSize="25sp"
                     android:gravity="center"
-                    android:text="PLAY" />
+                    android:text="@string/play" />
 
 
                 <Space
@@ -459,9 +491,9 @@
                     android:textColor="#FFFFFF"
                     android:background="@drawable/scoreboard"
                     android:layout_weight="1"
-                    android:text="PASS"
+                    android:text="@string/pass"
                     android:gravity="center"
-                    android:textSize="25dp"/>
+                    android:textSize="25sp"/>
 
                 <Space
                     android:layout_width="10dp"
@@ -483,17 +515,31 @@
                     android:layout_width="10dp"
                     android:layout_height="match_parent"
                     />
+                <Button
+                    android:id="@+id/tradeButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:textColor="@color/white"
+                    android:layout_weight="1"
+                    android:background="@drawable/scoreboard"
+                    android:text="@string/trade"
+                    android:gravity="center"
+                    android:textSize="25sp"/>
 
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
+                    />
                 <Button
                     android:id="@+id/orderButton"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/white"
                     android:background="@drawable/scoreboard"
                     android:layout_weight="1"
-                    android:textSize="25dp"
+                    android:textSize="25sp"
                     android:gravity="center"
-                    android:text="ORDER CARDS" />
+                    android:text="@string/order_cards" />
 
 
                 <Space
