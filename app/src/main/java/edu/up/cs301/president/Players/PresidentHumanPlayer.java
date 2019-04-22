@@ -63,7 +63,8 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
     private TextView cards_1, cards_2, cards_3; // shows rem. cards // TODO: might take this out?
 
     // buttons in GUI (except for pause button)
-    private Button playButton, passButton, orderButton, leaveGameButton; // TODO: add in functionality of order and leaveGameButton
+    private Button playButton, passButton, orderButton, leaveGameButton, tradeButton; // TODO: add in functionality of order and leaveGameButton
+    private TextView tradeResponse;
 
     // ImageButton array of all the human player's cards
     private ImageButton[] playersCards = new ImageButton[13];
@@ -211,6 +212,15 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 currentSet[i].setBackgroundResource(id);
             }
         }
+        if(!state.getRoundStart()){
+            tradeResponse.setText("");
+            tradeResponse.setBackgroundResource(0);
+        }
+        else{
+            tradeResponse.setText("Trading In Progress");
+            tradeResponse.setTextColor(myActivity.getResources().getColor(R.color.black));
+            tradeResponse.setBackgroundResource(R.color.white);
+        }
     }
 
     /**
@@ -225,7 +235,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         if (game == null) return;
 
         GameAction action = null;
-        if (button.getId() == R.id.playButton || button.getId() == R.id.tradeButton) {
+        if (button.getId() == R.id.playButton) {
             // play button: player will put down cards
             if(selectedCard == null){
                 Toast.makeText(this.myActivity, "No Card Selected", Toast.LENGTH_SHORT).show();
@@ -239,12 +249,23 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                     selectedCard[i] = null;
                 }
             }
-            if(button.getId() == R.id.tradeButton){
-                action = new PresidentTradeAction(this, temp);
-            }
-            else if(button.getId() == R.id.playButton) {
                 action = new PresidentPlayAction(this, temp);
+        } else if(button.getId() == R.id.tradeButton) {
+            // play button: player will put down cards
+            if(selectedCard == null){
+                Toast.makeText(this.myActivity, "No Card Selected", Toast.LENGTH_SHORT).show();
+                return;
             }
+            ArrayList<Card> temp = new ArrayList<Card>();
+            for(int i = 0; i < selectedCard.length; i++) {
+                if(selectedCard[i] != null) {
+                    temp.add(getGUICard(i));
+                    selectedCard[i].getBackground().clearColorFilter();
+                    selectedCard[i] = null;
+                }
+            }
+            action = new PresidentTradeAction(this, temp);
+
         } else if (button.getId() == R.id.passButton) {
             selectedCard = null;
             action = new PresidentPassAction(this);
@@ -374,12 +395,15 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         // button listener
         playButton = activity.findViewById(R.id.playButton);
         playButton.setOnClickListener(this);
+        tradeButton = activity.findViewById(R.id.tradeButton);
+        tradeButton.setOnClickListener(this);
         passButton = activity.findViewById(R.id.passButton);
         passButton.setOnClickListener(this);
         orderButton = activity.findViewById(R.id.orderButton);
         orderButton.setOnClickListener(this);
         leaveGameButton = activity.findViewById(R.id.leaveGame);
         leaveGameButton.setOnClickListener(this);
+        tradeResponse = activity.findViewById(R.id.tradeResponse);
 
         // if we have a game state, "simulate" that we have just received
         // the state from the game so that the GUI values are updated
@@ -496,7 +520,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         for (int j = 0; j < 13; j++) {
             playersCards[j].setBackgroundResource(R.drawable.scoreboard);
         }
-        for (Card c : state.getPlayers().get(0).getHand()) {
+        for (Card c : state.getPlayers().get(this.playerNum).getHand()) {
             updateCardGui(i);
             playersCards[i].getBackground().setAlpha(255);
             playersCards[i].invalidate();

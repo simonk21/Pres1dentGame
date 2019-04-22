@@ -13,6 +13,7 @@ import edu.up.cs301.president.CardInfo.Card;
 import edu.up.cs301.president.PresidentPassAction;
 import edu.up.cs301.president.PresidentPlayAction;
 import edu.up.cs301.president.PresidentState;
+import edu.up.cs301.president.PresidentTradeAction;
 // TODO still need to check this
 /**
  * PresidentSmartAI
@@ -49,7 +50,11 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
         if(info instanceof PresidentState) { //TODO updated DumbAi for 0-2 card current set
             savedState = (PresidentState) info;
             ArrayList<Card> temp = savedState.getPlayers().get(this.playerNum).getHand();
-
+            if(savedState.getRoundStart()){
+                ArrayList<Card> trade = toTrade(temp);
+                game.sendAction(new PresidentTradeAction(this, trade));
+                return;
+            }
             if(savedState.getCurrentSet().size() == 0 || savedState.getTurn() == savedState.getPrev()){
                 ArrayList<Card> c = bestEmptySet(temp);
                 if(c == null){
@@ -111,6 +116,35 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                     break;
             }
         }
+    }
+
+    private ArrayList<Card> toTrade(ArrayList<Card> temp){
+        switch (savedState.getPlayers().get(this.playerNum).getRank()){
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                Card min = getMin(temp);
+                temp.clear();
+                temp.add(min);
+                break;
+            case 3:
+                Card min1 = getMin(temp);
+                for(int i = 0; i < temp.size(); i++){
+                    if(temp.get(i).getValue() == min1.getValue()
+                    && temp.get(i).getSuit().equals(min1.getSuit())){
+                        temp.remove(i);
+                        break;
+                    }
+                }
+                Card min2 = getMin(temp);
+                temp.clear();
+                temp.add(min1);
+                temp.add(min2);
+                break;
+        }
+        return temp;
     }
 
     private ArrayList<Card> bestEmptySet(ArrayList<Card> temp){

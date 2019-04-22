@@ -24,11 +24,15 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
     /* instance variables */
     private static final long serialVersionUID = 2537393762469851826L;
     private PresidentState state;
-
+    private ArrayList<Card> pTrade, vpTrade, vsTrade, sTrade;
     public PresidentLocalGame() {
         Log.i("SJLocalGame", "creating game");
         // create the state for the beginning of the game
         state = new PresidentState();
+        pTrade = new ArrayList<>(); // TODO isn't working properly ?
+        vpTrade = new ArrayList<>(); // TODO need to add method for PTRADE AND VPTRADE IN SMART AI TO ENABLE FUNCTIONING
+        vsTrade = new ArrayList<>();
+        sTrade = new ArrayList<>();
     }
 
     @Override
@@ -75,17 +79,17 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
             return false;
         }
         int playerIdx = getPlayerIdx(action.getPlayer());
-        if( action instanceof PresidentPassAction ) {
+        if( action instanceof PresidentPassAction && !state.getRoundStart()) {
             return pass(playerIdx); // if pass action, then go to pass method
         }
-        if ( action instanceof PresidentPlayAction ) {
+        if ( action instanceof PresidentPlayAction && !state.getRoundStart()) {
             ArrayList<Card> temp = ((PresidentPlayAction) action).getCards(); // grabs cards from PresidentPlayAction class
             return play(playerIdx, temp); // if play action, then go to play method
         }
-        if ( action instanceof PresidentOrderAction ){
+        if ( action instanceof PresidentOrderAction){
             return order(playerIdx); // if order method, then go to order method
         }
-        if ( action instanceof PresidentTradeAction){
+        if ( action instanceof PresidentTradeAction && state.getRoundStart()){
             ArrayList<Card> temp = ((PresidentTradeAction) action).getCardsToTrade();
             return trade(playerIdx, temp);
         }
@@ -251,29 +255,126 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
      Solution: Used code from article
      */
 
+    /**
+     * trade
+     * @param idx player's index
+     * @param toTrade the cards the player wants to trade
+     * @return true (able to trade), false (unable to trade)
+     */
     private boolean trade(int idx, ArrayList<Card> toTrade){
         if(!state.getRoundStart()){
             return false;
         }
         else{
-            switch (state.getPlayers().get(idx).getRank()){
+            switch (state.getPlayers().get(state.getTurn()).getRank()){
+                case -1:
+                    return false;
                 case 0:
-                    return false;
+                    state.nextPlayer();
+                    break;
                 case 1:
-                    return false;
+                    state.nextPlayer();
+                    break;
                 case 2:
                     if(toTrade.size() != 1){
                         return false;
+                    }
+                    else{
+                        removeTrade(toTrade.get(0), idx);
+                        vpTrade = toTrade;
+                        state.nextPlayer();
                     }
                     break;
                 case 3:
                     if(toTrade.size() != 2){
                         return false;
                     }
+                    else{
+                        removeTrade(toTrade.get(0), idx);
+                        removeTrade(toTrade.get(1), idx);
+                        pTrade = toTrade;
+                        state.nextPlayer();
+                    }
                     break;
             }
+            int count = 0;
+            if(vpTrade.size() == 1 && pTrade.size() == 2){
+                count++;
+            }
+            if(count == 1){
+                trade();
+                state.setRoundStart(false);
+                return true;
+            }
         }
-        return false;
+        return true;
+    }
+
+    public boolean trade(){
+        for(int i = 0; i < state.getPlayers().size(); i++){
+            if(state.getPlayers().get(i).getRank() == 0){
+                Card max1 = getMax(i);
+                removeTrade(max1, i);
+                Card max2 = getMax(i);
+                removeTrade(max2, i);
+                sTrade.add(max1);
+                sTrade.add(max2);
+            }
+            else if(state.getPlayers().get(i).getRank() == 1){
+                Card max1 = getMax(i);
+                removeTrade(max1, i);
+                vsTrade.add(max1);
+            }
+        }
+        int count = 0;
+        while(count != 4){
+            switch(state.getPlayers().get(state.getTurn()).getRank()){
+                case 0:
+                    state.getPlayers().get(state.getTurn()).getHand().add(pTrade.get(0));
+                    state.getPlayers().get(state.getTurn()).getHand().add(pTrade.get(1));
+                    pTrade.clear();
+                    break;
+                case 1:
+                    state.getPlayers().get(state.getTurn()).getHand().add(vpTrade.get(0));
+                    vpTrade.clear();
+                    break;
+                case 2:
+                    state.getPlayers().get(state.getTurn()).getHand().add(vsTrade.get(0));
+                    vsTrade.clear();
+                    break;
+                case 3:
+                    state.getPlayers().get(state.getTurn()).getHand().add(sTrade.get(0));
+                    state.getPlayers().get(state.getTurn()).getHand().add(sTrade.get(1));
+                    sTrade.clear();
+                    break;
+            }
+            state.nextPlayer();
+            count++;
+        }
+        return true;
+    }
+
+    public Card getMax(int idx){
+        Card max = new Card(-1, "Default");
+        ArrayList<Card> hand = state.getPlayers().get(idx).getHand();
+        for(int i = 0; i < hand.size(); i++){
+            if(max.getValue() < hand.get(i).getValue()){
+                max.setCardVal(hand.get(i).getValue());
+                max.setCardSuit(hand.get(i).getSuit());
+            }
+        }
+        return max;
+    }
+
+    public void removeTrade(Card removeCard_1, int idx){
+        if(removeCard_1 != null){
+            for(int i = 0; i < state.getPlayers().get(idx).getHand().size(); i++){
+                if(state.getPlayers().get(idx).getHand().get(i).getValue() == removeCard_1.getValue()
+                && state.getPlayers().get(idx).getHand().get(i).getSuit().equals(removeCard_1.getSuit())){
+                    state.getPlayers().get(idx).removeCard(removeCard_1.getSuit(), removeCard_1.getValue());
+                }
+            }
+        }
     }
     /**
      * checkNoCards

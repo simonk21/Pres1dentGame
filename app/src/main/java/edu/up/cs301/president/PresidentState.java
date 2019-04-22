@@ -113,12 +113,19 @@ public class PresidentState extends GameState {
         if(roundStart){
             deck = new Deck();
             deck.deal(players);
-            if(trade()){
-                for(int i = 0; i < players.size(); i++){
-                    players.get(i).setRank(-1);
+            for(int i = 0; i < players.size(); i++){
+                if(players.get(i).getRank() == 0){
+                    turn = i;
                 }
             }
-
+        }
+        else{
+            for(int i = 0; i < players.size(); i++){
+                if(players.get(i).getRank() == 0){
+                    turn = i;
+                }
+                players.get(i).setRank(-1);
+            }
         }
     }
 
