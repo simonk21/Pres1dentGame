@@ -100,10 +100,10 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
     private void updateDisplay() { // TODO: we should put all gui updates in here or have this method call other methods
         switch(this.playerNum){
             case 0:
-                youText.setText(allPlayerNames[1]);
-                player1Text.setText(allPlayerNames[2]);
-                player2Text.setText(allPlayerNames[3]);
-                player3Text.setText(allPlayerNames[0]);
+                youText.setText(allPlayerNames[0]);
+                player1Text.setText(allPlayerNames[1]);
+                player2Text.setText(allPlayerNames[2]);
+                player3Text.setText(allPlayerNames[3]);
                 youName.setText(allPlayerNames[0]);
                 p1Name.setText(allPlayerNames[1]);
                 p2Name.setText(allPlayerNames[2]);
@@ -121,10 +121,10 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 player3Score.setText("" + state.getPlayers().get(3).getScore());
                 break;
             case 1:
-                youText.setText(allPlayerNames[2]);
-                player1Text.setText(allPlayerNames[3]);
-                player2Text.setText(allPlayerNames[0]);
-                player3Text.setText(allPlayerNames[1]);
+                youText.setText(allPlayerNames[1]);
+                player1Text.setText(allPlayerNames[2]);
+                player2Text.setText(allPlayerNames[3]);
+                player3Text.setText(allPlayerNames[0]);
                 youName.setText(allPlayerNames[1]);
                 p1Name.setText(allPlayerNames[2]);
                 p2Name.setText(allPlayerNames[3]);
@@ -142,10 +142,10 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 player3Score.setText("" + state.getPlayers().get(0).getScore());
                 break;
             case 2:
-                youText.setText(allPlayerNames[3]);
-                player1Text.setText(allPlayerNames[0]);
-                player2Text.setText(allPlayerNames[1]);
-                player3Text.setText(allPlayerNames[2]);
+                youText.setText(allPlayerNames[2]);
+                player1Text.setText(allPlayerNames[3]);
+                player2Text.setText(allPlayerNames[0]);
+                player3Text.setText(allPlayerNames[1]);
                 youName.setText(allPlayerNames[2]);
                 p1Name.setText(allPlayerNames[3]);
                 p2Name.setText(allPlayerNames[0]);
@@ -163,10 +163,10 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 player3Score.setText("" + state.getPlayers().get(1).getScore());
                 break;
             case 3:
-                youText.setText(allPlayerNames[0]);
-                player1Text.setText(allPlayerNames[1]);
-                player2Text.setText(allPlayerNames[2]);
-                player3Text.setText(allPlayerNames[3]);
+                youText.setText(allPlayerNames[3]);
+                player1Text.setText(allPlayerNames[0]);
+                player2Text.setText(allPlayerNames[1]);
+                player3Text.setText(allPlayerNames[2]);
                 youName.setText(allPlayerNames[3]);
                 p1Name.setText(allPlayerNames[0]);
                 p2Name.setText(allPlayerNames[1]);
@@ -252,7 +252,6 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         } else if (button.getId() == R.id.leaveGame){
             state.getPlayers().get(turn).setLeaveGame(1);
             myActivity.finish();
- //           android.os.Process.killProcess(android.os.Process.myPid());
             System.exit(0);
 
             /**
@@ -339,10 +338,10 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
             playersCards[i].setOnClickListener(new CardClickListener());
         }
         // player's name
-        youText = activity.findViewById(R.id.player1Text);
-        player1Text = activity.findViewById(R.id.player2Text);
-        player2Text = activity.findViewById(R.id.Player3Text);
-        player3Text = activity.findViewById(R.id.userPlayer);
+        youText = activity.findViewById(R.id.userPlayer);
+        player1Text = activity.findViewById(R.id.player1Text);
+        player2Text = activity.findViewById(R.id.player2Text);
+        player3Text = activity.findViewById(R.id.Player3Text);
         youName = activity.findViewById(R.id.youText);
         p1Name = activity.findViewById(R.id.player1NameText);
         p2Name = activity.findViewById(R.id.player2NameText);
@@ -687,46 +686,98 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
      * @return void
      */
     private void switchHighlight(int idx) {
-        switch (idx) {
+        player3Text.setTextColor(myActivity.getResources().getColor(R.color.white));
+        player3Text.setBackgroundResource(R.color.black);
+        youText.setBackgroundResource(R.color.black);
+        youText.setTextColor(myActivity.getResources().getColor(R.color.white));
+        player1Text.setBackgroundResource(R.color.black);
+        player1Text.setTextColor(myActivity.getResources().getColor(R.color.white));
+        player2Text.setBackgroundResource(R.color.black);
+        player2Text.setTextColor(myActivity.getResources().getColor(R.color.white));
+        switch (this.playerNum) {
             case 0:
-                player3Text.setBackgroundResource(R.color.yellow);
-                player3Text.setTextColor(myActivity.getResources().getColor(R.color.black));
-                youText.setBackgroundResource(R.color.black);
-                player1Text.setBackgroundResource(R.color.black);
-                player2Text.setBackgroundResource(R.color.black);
-                youText.setTextColor(myActivity.getResources().getColor(R.color.white));
-                player1Text.setTextColor(myActivity.getResources().getColor(R.color.white));
-                player2Text.setTextColor(myActivity.getResources().getColor(R.color.white));
+                switch (idx){
+                    case 0: // switch from 3 to 0
+                        youText.setBackgroundResource(R.color.yellow);
+                        youText.setTextColor(myActivity.getResources().getColor(R.color.black));
+                        break;
+                    case 1: // switch from idx 0 to 1
+                        player1Text.setBackgroundResource(R.color.yellow);
+                        player1Text.setTextColor(myActivity.getResources().getColor(R.color.black));
+                        break;
+                    case 2: // switch from idx 1 to 2 turn
+                        player2Text.setBackgroundResource(R.color.yellow);
+                        player2Text.setTextColor(myActivity.getResources().getColor(R.color.black));
+                        break;
+                    case 3: // switch from idx 2 to 3 turn
+                        player3Text.setBackgroundResource(R.color.yellow);
+                        player3Text.setTextColor(myActivity.getResources().getColor(R.color.black));
+                        break;
+
+                }
                 break;
             case 1:
-                youText.setBackgroundResource(R.color.yellow);
-                youText.setTextColor(myActivity.getResources().getColor(R.color.black));
-                player3Text.setBackgroundResource(R.color.black);
-                player1Text.setBackgroundResource(R.color.black);
-                player2Text.setBackgroundResource(R.color.black);
-                player3Text.setTextColor(myActivity.getResources().getColor(R.color.white));
-                player1Text.setTextColor(myActivity.getResources().getColor(R.color.white));
-                player2Text.setTextColor(myActivity.getResources().getColor(R.color.white));
+                switch (idx){
+                    case 0: // switch from idx 3 to 0
+                        player3Text.setBackgroundResource(R.color.yellow);
+                        player3Text.setTextColor(myActivity.getResources().getColor(R.color.black));
+                        break;
+                    case 1: // switch from idx 0 to 1
+                        youText.setBackgroundResource(R.color.yellow);
+                        youText.setTextColor(myActivity.getResources().getColor(R.color.black));
+                        break;
+                    case 2: // switch from idx 1 to 2 turn
+                        player1Text.setBackgroundResource(R.color.yellow);
+                        player1Text.setTextColor(myActivity.getResources().getColor(R.color.black));
+                        break;
+                    case 3: // switch from idx 2 to 3 turn
+                        player2Text.setBackgroundResource(R.color.yellow);
+                        player2Text.setTextColor(myActivity.getResources().getColor(R.color.black));
+                        break;
+
+                }
                 break;
             case 2:
-                player1Text.setBackgroundResource(R.color.yellow);
-                player1Text.setTextColor(myActivity.getResources().getColor(R.color.black));
-                youText.setBackgroundResource(R.color.black);
-                player3Text.setBackgroundResource(R.color.black);
-                player2Text.setBackgroundResource(R.color.black);
-                youText.setTextColor(myActivity.getResources().getColor(R.color.white));
-                player3Text.setTextColor(myActivity.getResources().getColor(R.color.white));
-                player2Text.setTextColor(myActivity.getResources().getColor(R.color.white));
+                switch (idx){
+                    case 0: // switch from 3 to 0
+                        player2Text.setBackgroundResource(R.color.yellow);
+                        player2Text.setTextColor(myActivity.getResources().getColor(R.color.black));
+                        break;
+                    case 1: // switch from idx 0 to 1
+                        player3Text.setBackgroundResource(R.color.yellow);
+                        player3Text.setTextColor(myActivity.getResources().getColor(R.color.black));
+                        break;
+                    case 2: // switch from idx 1 to 2 turn
+                        youText.setBackgroundResource(R.color.yellow);
+                        youText.setTextColor(myActivity.getResources().getColor(R.color.black));
+                        break;
+                    case 3: // switch from idx 2 to 3 turn
+                        player1Text.setBackgroundResource(R.color.yellow);
+                        player1Text.setTextColor(myActivity.getResources().getColor(R.color.black));
+                        break;
+
+                }
                 break;
             case 3:
-                player2Text.setBackgroundResource(R.color.yellow);
-                player2Text.setTextColor(myActivity.getResources().getColor(R.color.black));
-                youText.setBackgroundResource(R.color.black);
-                player1Text.setBackgroundResource(R.color.black);
-                player3Text.setBackgroundResource(R.color.black);
-                youText.setTextColor(myActivity.getResources().getColor(R.color.white));
-                player1Text.setTextColor(myActivity.getResources().getColor(R.color.white));
-                player3Text.setTextColor(myActivity.getResources().getColor(R.color.white));
+                switch (idx){
+                    case 0: // switch from 3 to 0
+                        player1Text.setBackgroundResource(R.color.yellow);
+                        player1Text.setTextColor(myActivity.getResources().getColor(R.color.black));
+                        break;
+                    case 1: // switch from idx 0 to 1
+                        player2Text.setBackgroundResource(R.color.yellow);
+                        player2Text.setTextColor(myActivity.getResources().getColor(R.color.black));
+                        break;
+                    case 2: // switch from idx 1 to 2 turn
+                        player3Text.setBackgroundResource(R.color.yellow);
+                        player3Text.setTextColor(myActivity.getResources().getColor(R.color.black));
+                        break;
+                    case 3: // switch from idx 2 to 3 turn
+                        youText.setBackgroundResource(R.color.yellow);
+                        youText.setTextColor(myActivity.getResources().getColor(R.color.black));
+                        break;
+
+                }
                 break;
         }
         player3Text.invalidate();

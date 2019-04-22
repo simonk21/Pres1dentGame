@@ -41,7 +41,7 @@ public class PresidentState extends GameState {
         }
         deck.deal(players); // deals cards (unsorted)
 
-        turn = (int) (Math.random() * 4 + 1); // selects random player to start
+        turn = (int) (Math.random() * 4); // selects random player to start
 
         prev = -1;
         roundStart = false;

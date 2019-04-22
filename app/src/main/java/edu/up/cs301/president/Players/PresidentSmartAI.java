@@ -177,6 +177,9 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                     break;
                 }
             }
+            if(curr.getValue() == 15){
+                return null;
+            }
             for(int i = 0; i < temp.size(); i++){
                 if(temp.get(i).getValue() > curr.getValue() &&
                         temp.get(i).getValue() < c.getValue() && temp.get(i).getValue() != 13){
