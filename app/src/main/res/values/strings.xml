@@ -20,4 +20,26 @@
     <string name="local_tab">Local Game</string>
     <string name="remote_tab">Remote Game</string>
     <string name="rules">1. Each player will have a hand size of 13 dealt from a standard 52 card deck</string>
+    <string name="trade">TRADE</string>
+    <string name="order_cards">ORDER CARDS</string>
+    <string name="play">PLAY</string>
+    <string name="youText">YOU</string>
+    <string name="card12Description">Thirteenth card in hand</string>
+    <string name="twelfth_card_in_hand">Twelfth card in Hand</string>
+    <string name="eleventh_card_in_hand">Eleventh card in hand</string>
+    <string name="tenth_card_in_hand">tenth card in hand</string>
+    <string name="ninth_card_in_hand">ninth card in hand</string>
+    <string name="eigth_card_in_hand">eigth card in hand</string>
+    <string name="rank">none</string>
+    <string name="rankTitle">Rank</string>
+    <string name="score">0</string>
+    <string name="scoreTitle">Score</string>
+    <string name="player_3_name">Player 3</string>
+    <string name="player_2_name">Player 2</string>
+    <string name="player_1_name">Player 1</string>
+    <string name="you_name">You</string>
+    <string name="name_title">Name</string>
+    <string name="leave_game">Leave Game</string>
+    <string name="rules_help">RULES/HELP</string>
+    <string name="pass">PASS</string>
 </resources>
