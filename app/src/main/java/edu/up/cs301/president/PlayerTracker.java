@@ -19,7 +19,6 @@ public class PlayerTracker implements Serializable {
     /* instance variables */
     private int score; // player's score
     private int leave; // 0 if didn't leave game, 1 if did
-
     private ArrayList<Card> playerHand; // player's hand array list
     private static int MAX_CARDS = 13; // max cards in hand
     /*

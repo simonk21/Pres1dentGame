@@ -271,11 +271,10 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
             action = new PresidentPassAction(this);
 
         } else if (button.getId() == R.id.orderButton) {
-
             action = new PresidentOrderAction(this);
 
         } else if (button.getId() == R.id.leaveGame){
-            state.getPlayers().get(turn).setLeaveGame(1);
+            state.getPlayers().get(this.playerNum).setLeaveGame(1);
             myActivity.finish();
             System.exit(0);
 
