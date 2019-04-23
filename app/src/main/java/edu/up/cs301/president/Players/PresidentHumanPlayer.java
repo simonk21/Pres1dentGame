@@ -63,9 +63,9 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
     private TextView cards_1, cards_2, cards_3; // shows rem. cards // TODO: might take this out?
 
     // buttons in GUI (except for pause button)
-    private Button playButton, passButton, orderButton, leaveGameButton, tradeButton; // TODO: add in functionality of order and leaveGameButton
+    private Button playButton, passButton, orderButton, leaveGameButton,
+            rulesButton, returnRulesButton, tradeButton; // TODO: add in functionality of order and leaveGameButton
     private TextView tradeResponse;
-
     // ImageButton array of all the human player's cards
     private ImageButton[] playersCards = new ImageButton[13];
 
@@ -286,6 +286,16 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
              * Resource: https://stackoverflow.com/questions/17719634/how-to-exit-an-android-app-programmatically
              * Solution: Example code from post
              */
+        } else if(button.getId() == R.id.returnRulesButton){
+            this.myActivity.setContentView(R.layout.in_game_layout);
+            this.setAsGui(myActivity);
+
+        } else if(button.getId() == R.id.rulesButton){
+
+            this.myActivity.setContentView(R.layout.rules_tab);
+            this.returnRulesButton = myActivity.findViewById(R.id.returnRulesButton);
+            returnRulesButton.setOnClickListener(this);
+
         }
         else {
             // something else was pressed: ignore
@@ -404,6 +414,8 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         leaveGameButton = activity.findViewById(R.id.leaveGame);
         leaveGameButton.setOnClickListener(this);
         tradeResponse = activity.findViewById(R.id.tradeResponse);
+        rulesButton = activity.findViewById(R.id.rulesButton);
+        rulesButton.setOnClickListener(this);
 
         // if we have a game state, "simulate" that we have just received
         // the state from the game so that the GUI values are updated
