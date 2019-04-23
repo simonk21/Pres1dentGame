@@ -44,7 +44,7 @@
     <string name="pass">PASS</string>
     <string name="rulesInfo">
 
-    Playing The Game:
+    Playing The Game: \n
     1. Play cards in sequential order from lowest to highest, where Ace is high
        and two is wild.
     2. First person to go out (have no cards in hand) gets the title President and gets two points

@@ -91,8 +91,45 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@color/white"
-                    android:lineSpacingExtra="24sp"
-                    android:text="@string/rulesInfo" />
+                    android:text="Playing The Game: \n
+    1. Play cards in sequential order from lowest to highest, where Ace is high
+     and two is wild. \n
+    2. First person to go out (have no cards in hand) gets the title President and gets two points \n
+    3. Next person to go out gets the title Vice President and gets one point \n
+    4. First person to get to 11 points wins \n
+    5. Playing doubles, triples, or four of a kind is legal \n
+    6. Twos act as the highest card if played alone, but if played in anything more act like the other
+     cards played with them \n
+
+Ranking \n
+    1.	 First player to get rid of their cards will receive the ranking of President \n
+    2.	 Second player to get rid of their cards will receive the ranking of Vice President \n
+    3.	 Third player to get rid of their cards will receive the ranking of Vice Scum \n
+    4.	 Player with cards left \n
+
+
+To Select A Card or Set of Cards to Play: \n
+    1.	Select on the cards that you want to play \n
+        a.	 When card is selected, it will become shaded \n
+        b.	 To deselect card, click on it again and it will become unshaded \n
+    2.	Press the Play Button \n
+        a.	 If card set is not higher than the current set or the cards are not of the same value, then an “Invalid Move” message will display on your screen \n
+        b.	 If it isn’t your turn yet, then a “Not Your Turn” message will display on your screen \n
+        c.	 If able to play, your card set will display in the current set pile in the center \n
+
+To Order Your Hand from Lowest to Highest Value: \n
+    1.	When it’s your turn, select the “Order Cards” button \n
+
+To Pass Your Turn: \n
+    1.	When it’s your turn, select the “Pass” button \n
+        a.	 It will pass your turn and move on or display a “Not Your Turn” message \n
+
+To Leave Game \n
+    1.	Select the “Leave Game” button \n
+    NOTE:	You can leave the game without disrupting the play, but if you’re the host
+    the game will end.\n"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                    android:textSize="12sp" />
             </LinearLayout>
 
 
