@@ -287,8 +287,9 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
              * Solution: Example code from post
              */
         } else if(button.getId() == R.id.returnRulesButton){
-            this.myActivity.setContentView(R.layout.in_game_layout);
-            this.setAsGui(myActivity);
+            myActivity.setContentView(R.layout.in_game_layout);
+            setAsGui(myActivity);
+            updateDisplay();
 
         } else if(button.getId() == R.id.rulesButton){
 
