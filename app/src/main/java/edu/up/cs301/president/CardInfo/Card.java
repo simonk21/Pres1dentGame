@@ -18,12 +18,17 @@ public class Card implements Serializable {
      * @param cardVal descriptive integer value of card
      * @param cardSuit card's suit
      */
-    public Card(int cardVal, String cardSuit){
+    public Card(int cardVal, String cardSuit) {
         this.cardVal = cardVal;
         this.cardSuit = cardSuit;
     }
 
-    public Card(Card orig){
+    /**
+     * Card copy constructor
+     * initializes values of card depending on parameters
+     * @param orig the original card to copy
+     */
+    public Card(Card orig) {
         cardSuit = orig.cardSuit;
         cardVal = orig.cardVal;
     }
@@ -53,45 +58,47 @@ public class Card implements Serializable {
      * returns the string of card value
      * @return String of Card Value
      */
-    public String getFace(){
+    public String getFace() {
+
         int nameOfCard = this.cardVal;
+
         if(nameOfCard == 1){
             return "Three";
         }
-        else if(nameOfCard == 2){
+        else if(nameOfCard == 2) {
             return "Four";
         }
-        else if(nameOfCard == 3){
+        else if(nameOfCard == 3) {
             return "Five";
         }
-        else if(nameOfCard == 4){
+        else if(nameOfCard == 4) {
             return "Six";
         }
-        else if(nameOfCard == 5){
+        else if(nameOfCard == 5) {
             return "Seven";
         }
-        else if(nameOfCard == 6){
+        else if(nameOfCard == 6) {
             return "Eight";
         }
-        else if(nameOfCard == 7){
+        else if(nameOfCard == 7) {
             return "Nine";
         }
-        else if(nameOfCard == 8){
+        else if(nameOfCard == 8) {
             return "Ten";
         }
-        else if(nameOfCard == 9){
+        else if(nameOfCard == 9) {
             return "Jack";
         }
         else if(nameOfCard == 10) {
             return "Queen";
         }
-        else if(nameOfCard == 11){
+        else if(nameOfCard == 11) {
             return "King";
         }
-        else if(nameOfCard == 12){
+        else if(nameOfCard == 12) {
             return "Ace";
         }
-        else if(nameOfCard == 13){
+        else if(nameOfCard == 13) {
             return "Two";
         }
         return null;
