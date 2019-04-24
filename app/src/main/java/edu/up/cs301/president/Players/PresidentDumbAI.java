@@ -58,10 +58,6 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
 
         if(info instanceof PresidentState) {
             savedState = (PresidentState) info;
-            if(savedState.getPlayers().get(this.playerNum).getHand().size() < 1){
-                game.sendAction(new PresidentPassAction(this)); // if this dumbAI has no cards, pass
-                return;
-            }
             // takes the player's hand and saves it to an arraylist
             // finds the max card
             ArrayList<Card> temp = savedState.getPlayers().get(this.playerNum).getHand();
@@ -75,7 +71,16 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
                 return;
             }
             Card t = getMax(temp);
-
+            if(t == null){
+                game.sendAction(new PresidentPassAction(this));
+                return;
+            }
+            if(savedState.getCurrentSet().size() == 0 || savedState.getTurn() == savedState.getPrev()){
+                temp.clear();
+                temp.add(t);
+                game.sendAction(new PresidentPlayAction(this, temp));
+                return;
+            }
             // if the current set isn't 0, then possibly pass:
             // 20% chance for the Dumb AI to randomly Pass the turn.
             if(savedState.getCurrentSet().size() != 0 && Math.random() < 0.2){
@@ -85,22 +90,10 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
 
             // checks current set size and plays as follows
             switch (savedState.getCurrentSet().size()) {
-                case 0: // if current set is empty, then MUST play
-                    temp.clear();
-                    temp.add(t);
-                    game.sendAction(new PresidentPlayAction(this, temp));
-                    return;
                 case 1: // if current set is 1, then play if can beat value of current set
                     temp.clear();
                     temp.add(t);
-                     // Check if the card to be played is a legal play. If it isnt,
-                     // pass the turn. If it is, play it.
-                    if(temp.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()){
-                        game.sendAction(new PresidentPassAction(this));
-                    }
-                    else {
-                        game.sendAction(new PresidentPlayAction(this, temp));
-                    }
+                    game.sendAction(new PresidentPlayAction(this, temp));
                     return;
             }
             // A 'Catch-All' case to ensure that the DumbAI doesn't freeze up.
@@ -202,12 +195,25 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
      */
     private Card getMax(ArrayList<Card> temp){
         Card c = new Card(-1, "Default");
-        for(int i = 0; i < temp.size(); i++){
-            if(c.getValue() < temp.get(i).getValue()){
-                c.setCardSuit(temp.get(i).getSuit());
-                c.setCardVal(temp.get(i).getValue());
+        if(savedState.getCurrentSet().size() != 0){
+            for(int i = 0; i < temp.size(); i++) {
+                if (c.getValue() < temp.get(i).getValue() &&
+                    c.getValue() > savedState.getCurrentSet().get(0).getValue()) {
+                    c.setCardSuit(temp.get(i).getSuit());
+                    c.setCardVal(temp.get(i).getValue());
+                    return c;
+                 }
+             }
+        }
+        else{
+            for(int i = 0; i < temp.size(); i++) {
+                if (c.getValue() < temp.get(i).getValue()) {
+                    c.setCardSuit(temp.get(i).getSuit());
+                    c.setCardVal(temp.get(i).getValue());
+                    return c;
+                }
             }
         }
-        return c;
+        return null;
     }
 } // PresidentDumbAI class
