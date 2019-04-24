@@ -117,7 +117,7 @@ public class PlayerTrackerTest {
         testState.getPlayers().get(0).removeCard("Diamons", 1); // mispelled removal
         assert(testState.getPlayers().get(0).getHand().size() == 14);
         testState.getPlayers().get(0).removeCard("Diamonds", 1);
-        assert(testState.getPlayers().get(0).getHand().size() == 13);
+        assertEquals(testState.getPlayers().get(0).getHand().size(), 13);
 
     }
 }
