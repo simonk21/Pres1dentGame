@@ -10,8 +10,6 @@ import edu.up.cs301.game.config.GamePlayerType;
 import edu.up.cs301.president.Players.PresidentDumbAI;
 import edu.up.cs301.president.Players.PresidentHumanPlayer;
 import edu.up.cs301.president.Players.PresidentSmartAI;
-import edu.up.cs301.president.PresidentLocalGame;
-// TODO: need to change this info (I think it is updated correctly)
 /**
  * this is the primary activity for Counter game
  * 

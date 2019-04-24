@@ -29,8 +29,8 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
         Log.i("SJLocalGame", "creating game");
         // create the state for the beginning of the game
         state = new PresidentState();
-        pTrade = new ArrayList<>(); // TODO isn't working properly ?
-        vpTrade = new ArrayList<>(); // TODO need to add method for PTRADE AND VPTRADE IN SMART AI TO ENABLE FUNCTIONING
+        pTrade = new ArrayList<>();
+        vpTrade = new ArrayList<>();
         vsTrade = new ArrayList<>();
         sTrade = new ArrayList<>();
     }
@@ -48,7 +48,7 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
         PresidentState playerState; // Game state
         for (int i = 0; i < this.players.length; i++) {
             if (this.players[i].equals(p)) {
-                playerState = new PresidentState(state,i); // TODO can change to without i
+                playerState = new PresidentState(state,i);
                 p.sendInfo(playerState); // gets update from PresidentState
                 break;
             }

@@ -24,7 +24,6 @@ import edu.up.cs301.president.PresidentPassAction;
 import edu.up.cs301.president.PresidentPlayAction;
 import edu.up.cs301.president.PresidentState;
 import edu.up.cs301.president.PresidentTradeAction;
-// TODO switch highlight needs to be changed!
 /**
  * A GUI of a Human Player. The GUI displays the player's hand, score and rank
  * of all players, the current set and allows the human player to press on their
@@ -48,7 +47,9 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
     private GameMainActivity myActivity;
 
     // textview of player's name
-    private TextView youText, player1Text, player2Text, player3Text; // TODO: attach name from the config menu
+    private TextView youText, player1Text, player2Text, player3Text;
+
+    /* scoreboard instance variables */
 
     // textview of player's names on scoreboard
     private TextView youName, p1Name, p2Name, p3Name;
@@ -60,23 +61,21 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
     private TextView youRank, player1Rank, player2Rank, player3Rank;
 
     // textview of the number of cards in each of the other player's hands
-    private TextView cards_1, cards_2, cards_3; // shows rem. cards // TODO: might take this out?
+    private TextView cards_1, cards_2, cards_3, cards_4; // shows rem. cards
 
     // buttons in GUI (except for pause button)
     private Button playButton, passButton, orderButton, leaveGameButton,
-            rulesButton, returnRulesButton, tradeButton; // TODO: add in functionality of order and leaveGameButton
+            rulesButton, returnRulesButton, tradeButton;
     private TextView tradeResponse;
     // ImageButton array of all the human player's cards
     private ImageButton[] playersCards = new ImageButton[13];
 
     // ImageButton of the current set (will display one card)
-    private ImageButton[] currentSet = new ImageButton[4]; // TODO: need to add functionality of multiple cards
+    private ImageButton[] currentSet = new ImageButton[4];
 
     // ImageButton of card(s) that player selects
-    private ImageButton[] selectedCard; // TODO: need to add functionality of multiple cards
+    private ImageButton[] selectedCard;
 
-    // human players number (turn)
-    private int turn; //TODO when I reach 5 cards left unable to select cards anymore ?? Apr 16 3:22
     /**
      * constructor
      *
@@ -84,7 +83,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
      */
     public PresidentHumanPlayer(String name) {
         super(name);
-    } // TODO we can use this to update name
+    }
 
     /**
      * Returns the GUI's top view object
@@ -99,7 +98,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
      * sets whose turn it is
      * changes selected card to scoreboard
      */
-    private void updateDisplay() { // TODO: we should put all gui updates in here or have this method call other methods
+    private void updateDisplay() {
         switch(this.playerNum){
             case 0:
                 youText.setText(allPlayerNames[0]);
@@ -110,6 +109,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 p1Name.setText(allPlayerNames[1]);
                 p2Name.setText(allPlayerNames[2]);
                 p3Name.setText(allPlayerNames[3]);
+                cards_4.setText("" + state.getPlayers().get(0).getHand().size());
                 cards_1.setText("" + state.getPlayers().get(1).getHand().size());
                 cards_2.setText("" + state.getPlayers().get(2).getHand().size());
                 cards_3.setText("" + state.getPlayers().get(3).getHand().size());
@@ -131,6 +131,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 p1Name.setText(allPlayerNames[2]);
                 p2Name.setText(allPlayerNames[3]);
                 p3Name.setText(allPlayerNames[0]);
+                cards_4.setText("" + state.getPlayers().get(1).getHand().size());
                 cards_1.setText("" + state.getPlayers().get(2).getHand().size());
                 cards_2.setText("" + state.getPlayers().get(3).getHand().size());
                 cards_3.setText("" + state.getPlayers().get(0).getHand().size());
@@ -152,6 +153,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 p1Name.setText(allPlayerNames[3]);
                 p2Name.setText(allPlayerNames[0]);
                 p3Name.setText(allPlayerNames[1]);
+                cards_4.setText("" + state.getPlayers().get(2).getHand().size());
                 cards_1.setText("" + state.getPlayers().get(3).getHand().size());
                 cards_2.setText("" + state.getPlayers().get(0).getHand().size());
                 cards_3.setText("" + state.getPlayers().get(1).getHand().size());
@@ -173,6 +175,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 p1Name.setText(allPlayerNames[0]);
                 p2Name.setText(allPlayerNames[1]);
                 p3Name.setText(allPlayerNames[2]);
+                cards_4.setText("" + state.getPlayers().get(3).getHand().size());
                 cards_1.setText("" + state.getPlayers().get(0).getHand().size());
                 cards_2.setText("" + state.getPlayers().get(1).getHand().size());
                 cards_3.setText("" + state.getPlayers().get(2).getHand().size());
@@ -208,7 +211,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         if(state.getCurrentSet().size() != 0 ){
             for(int i = 0; i < state.getCurrentSet().size(); i++) {
                 int id = getImageId(state.getCurrentSet().get(i));
-                currentSet[i].setTag(id); // TODO: It was recommended I change this, so I did. Don't know about functionality
+                currentSet[i].setTag(id);
                 currentSet[i].setBackgroundResource(id);
             }
         }
@@ -322,7 +325,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
             }
             state = (PresidentState) info;
             updateDisplay();
-            updatePlayerGui(); // TODO possibly add this to updateDisplay() instead of receiveInfo
+            updatePlayerGui();
         } else if (info instanceof NotYourTurnInfo) {
             // if we had an out-of-turn or illegal move, flash the screen
             Toast.makeText(this.myActivity, "Not your turn!", Toast.LENGTH_SHORT).show();
@@ -344,7 +347,6 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         // remember the activity
         myActivity = activity;
 
-        turn = this.playerNum;
         // Load the layout resource for our GUI
         activity.setContentView(R.layout.in_game_layout);
 
@@ -398,9 +400,10 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         player3Rank = activity.findViewById(R.id.player3Rank);
 
         // player's remaining cards except for human player
-        cards_1 = activity.findViewById(R.id.p1);
-        cards_2 = activity.findViewById(R.id.p2);
-        cards_3 = activity.findViewById(R.id.p3);
+        cards_1 = activity.findViewById(R.id.player1Cards);
+        cards_2 = activity.findViewById(R.id.player2Cards);
+        cards_3 = activity.findViewById(R.id.player3Cards);
+        cards_4 = activity.findViewById(R.id.youCards);
 
         // button listener
         playButton = activity.findViewById(R.id.playButton);
@@ -460,7 +463,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
             int count = 0;
             if(selectedCard != null) {
                 for (int i = 0; i < 4; i++) {
-                    if (selectedCard[i] == null) { // TODO null pointer array error ?
+                    if (selectedCard[i] == null) {
                         count = i;
                         break;
                     } else if (selectedCard[i].getId() == v.getId()) {
@@ -842,7 +845,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         Card toAdd = new Card(-1, "Default");
         int tagValue = (Integer) selectedCard[idx].getTag();
         switch (tagValue) {
-            case 0: //TODO need to fix this case (this was here, don't know if we need to fix it or we could remove)
+            case 0:
                 Toast.makeText(myActivity.getApplication().getApplicationContext(), "No card selected!",
                         Toast.LENGTH_SHORT).show();
                 break;

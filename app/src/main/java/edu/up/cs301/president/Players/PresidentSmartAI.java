@@ -38,44 +38,50 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
         super(name);
     }
 
+
+    /**
+     * receiveInfo
+     * smartAI chooses to play or pass depending on the current set
+     * @param info the type of GameInfo whether it be NotYourTurn, IllegalMove or PresidentState
+     */
     @Override
     protected void receiveInfo(GameInfo info) {
-        sleep(1000);
-        if(info == null) {
+        sleep(1000); // delay CPU
+        if(info == null) { // if info is null
             Log.i("PresidentDumbAI", "info is null");
         }
         if(info instanceof NotYourTurnInfo || info instanceof IllegalMoveInfo){
-            return;
+            return; // an instance of not your turn or illegal move should return
         }
-        if(info instanceof PresidentState) { //TODO updated DumbAi for 0-2 card current set
-            savedState = (PresidentState) info;
+        if(info instanceof PresidentState) {
+
+            savedState = (PresidentState) info; // current state of game
+
+            // CPU's hand
             ArrayList<Card> temp = savedState.getPlayers().get(this.playerNum).getHand();
+
+            // if round is over and in trading, then that should be only move that CPU does
             if(savedState.getRoundStart()){
                 ArrayList<Card> trade = toTrade(temp);
                 game.sendAction(new PresidentTradeAction(this, trade));
                 return;
             }
+
+            // if current set is 0 or the current turn and previous played turn is equal,
+            // then CPU should play
             if(savedState.getCurrentSet().size() == 0 || savedState.getTurn() == savedState.getPrev()){
-                ArrayList<Card> c = bestEmptySet(temp);
-                if(c == null){
+                ArrayList<Card> c = bestEmptySet(temp); // card to play
+                if(c == null){ // this should never happen
                     game.sendAction(new PresidentPassAction(this));
                     return;
                 }
-                temp.clear();
-                game.sendAction(new PresidentPlayAction(this, c));
+                temp.clear(); // clear temp hand
+                game.sendAction(new PresidentPlayAction(this, c)); // play card
                 return;
             }
+
             switch (savedState.getCurrentSet().size()) {
-                case 0:
-                    ArrayList<Card> c = bestEmptySet(temp);
-                    if(c == null){
-                        game.sendAction(new PresidentPassAction(this));
-                        return;
-                    }
-                    temp.clear();
-                    game.sendAction(new PresidentPlayAction(this, c));
-                    break;
-                case 1:
+                case 1: // if current set is 1
                     Card t = getMin(temp);
                     if(t == null){
                         game.sendAction(new PresidentPassAction(this));
@@ -90,7 +96,7 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                         game.sendAction(new PresidentPlayAction(this, temp));
                     }
                     break;
-                case 2:
+                case 2: // if current set is 2
                     ArrayList<Card> twoCard = getDoubleMax(temp);
                     if (twoCard == null || twoCard.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()) {
                         game.sendAction(new PresidentPassAction(this));
@@ -98,7 +104,7 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                     }
                     game.sendAction(new PresidentPlayAction(this, twoCard));
                     break;
-                case 3:
+                case 3: // if current set is 3
                     ArrayList<Card> threeCard = getTripleMax(temp);
                     if(threeCard == null || threeCard.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()){
                         game.sendAction(new PresidentPassAction(this));
@@ -106,7 +112,7 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                     }
                     game.sendAction(new PresidentPlayAction(this, threeCard));
                     break;
-                case 4:
+                case 4: // if current set is 4
                     ArrayList<Card> fourCard = getFourMax(temp);
                     if(fourCard == null || fourCard.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()){
                         game.sendAction(new PresidentPassAction(this));
@@ -185,7 +191,7 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
     }
 
     /**
-     * getMax
+     * getMin
      * searches for the min card in hand
      * @param temp Arraylist of Cards that holds the DumbAI's hand
      * @return the min card
@@ -273,6 +279,7 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
         } // if player has a two, then use that and min card
         return null; // if unable then return null
     }
+
 
     private ArrayList<Card> getTripleMax(ArrayList<Card> temp){ // TODO I want to fix this method
         Card max1 = new Card(-1, "Default");
