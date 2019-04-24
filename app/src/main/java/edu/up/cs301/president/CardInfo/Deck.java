@@ -51,6 +51,7 @@ public class Deck implements Serializable {
     }
 
     /**
+     * deal
      * deals the deck to all players
      * @param players Arraylist of players in game
      */
@@ -63,4 +64,4 @@ public class Deck implements Serializable {
         }
     }
 
-}
+} // Deck class

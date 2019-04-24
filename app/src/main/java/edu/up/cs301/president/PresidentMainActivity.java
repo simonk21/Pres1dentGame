@@ -89,4 +89,4 @@ public class PresidentMainActivity extends GameMainActivity {
 		return new PresidentLocalGame();
 	}
 
-}
+} // PresidentMainActivity class

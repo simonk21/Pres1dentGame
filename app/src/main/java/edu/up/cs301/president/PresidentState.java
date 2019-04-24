@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import edu.up.cs301.game.infoMsg.GameState;
 import edu.up.cs301.president.CardInfo.Card;
 import edu.up.cs301.president.CardInfo.Deck;
-// TODO check this entire class
 /**
  * PresidentState
  * @author Hera Malik
@@ -90,22 +89,6 @@ public class PresidentState extends GameState {
         return -1;
     }
 
-
-    /**
-     * playersWithCards
-     *
-     * @return number of players with cards
-     */
-    public int playersWithCards() {
-        int count = 0;
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getHand().size() > 0) {
-                count++;
-            }
-        }
-        return count;
-    }
-
     /**
      * setRoundStart
      *
@@ -175,4 +158,4 @@ public class PresidentState extends GameState {
         }
     }
 
-}
+} // PresidentState Class

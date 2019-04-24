@@ -12,6 +12,7 @@ import edu.up.cs301.game.actionMsg.GameAction;
  * @author Kama Simon
  * @author Geryl Vinoya
  * @version April 2019
+ * sends an instance of order action
  */
 public class PresidentOrderAction extends GameAction implements Serializable {
     /**
@@ -22,4 +23,4 @@ public class PresidentOrderAction extends GameAction implements Serializable {
     public PresidentOrderAction(GamePlayer player) {
         super(player);
     }
-}
+} // PresidentOrderAction class

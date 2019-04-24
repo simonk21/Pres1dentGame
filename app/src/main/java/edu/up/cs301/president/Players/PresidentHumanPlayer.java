@@ -95,8 +95,13 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
     }
 
     /**
-     * sets whose turn it is
-     * changes selected card to scoreboard
+     * updateDisplay
+     * updates the GUI depending on information from PresidentState
+     * Things the function updates:
+     * Displaying of Player's name, score, rank, number of cards in hand
+     * highlighting of whose turn it is
+     * current set (whether it is empty or has cards)
+     * trading in progress notification
      */
     private void updateDisplay() {
         switch(this.playerNum){
@@ -332,8 +337,8 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 }
             }
             state = (PresidentState) info;
-            updateDisplay();
-            updatePlayerGui();
+            updateDisplay(); // updates GUI
+            updatePlayerGui(); // updates Player's cards
         } else if (info instanceof NotYourTurnInfo) {
             // if we had an out-of-turn or illegal move, flash the screen
             Toast.makeText(this.myActivity, "Not your turn!", Toast.LENGTH_SHORT).show();
@@ -407,7 +412,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         player2Rank = activity.findViewById(R.id.player2Rank);
         player3Rank = activity.findViewById(R.id.player3Rank);
 
-        // player's remaining cards except for human player
+        // player's remaining cards
         cards_1 = activity.findViewById(R.id.player1Cards);
         cards_2 = activity.findViewById(R.id.player2Cards);
         cards_3 = activity.findViewById(R.id.player3Cards);
@@ -522,8 +527,6 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
     /**
      * updateCardGui
      * update the GUI of a card given which card to update
-     *
-     * @return void
      */
     private void updateCardGui(int i) {
         Card theCard = state.getPlayers().get(this.playerNum).getHand().get(i);
@@ -535,8 +538,6 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
     /**
      * updatePlayerGui
      * Update's the user's GUI
-     *
-     * @return void
      */
     private void updatePlayerGui() { // updates the player's hand
         int i = 0;
@@ -733,10 +734,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
 
     /**
      * switchHighlight
-     * <p>
      * highlights a player on the GUI if it is their turn
-     *
-     * @return void
      */
     private void switchHighlight(int idx) {
         player3Text.setTextColor(myActivity.getResources().getColor(R.color.white));
@@ -840,7 +838,6 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
     }
     /**
      * getGUICard
-     * <p>
      * Cases to find which ImageButton was selected and what it represents
      *
      * @return the Card that represents the ImageID

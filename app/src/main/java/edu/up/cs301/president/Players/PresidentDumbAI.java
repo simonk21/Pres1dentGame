@@ -111,12 +111,13 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
     }
 
     /**
+     * toTrade
      * Method that initializes trade for the Dumb AI based on ranking
      * If the DumbAI is Vice-President (Case 2) then return the lowest
      * card to be traded. If the DumbAI is President (Case 3) return
      * the two lowest cards in its hand to be traded off.
-     * @param temp
-     * @return
+     * @param temp the CPU's hand
+     * @return the cards CPU should trade
      */
     private ArrayList<Card> toTrade(ArrayList<Card> temp){
         switch (savedState.getPlayers().get(this.playerNum).getRank()){
@@ -150,6 +151,7 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
     /**
      * getMin
      * searches for the min card in hand
+     * used for "if" CPU is President or Vice President
      * @param temp Arraylist of Cards that holds the DumbAI's hand
      * @return the min card
      */
@@ -196,6 +198,7 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
     /**
      * getMax
      * searches for the max card in hand
+     * Used during Play
      * @param temp Arraylist of Cards that holds the DumbAI's hand
      * @return the max card
      */
@@ -209,33 +212,4 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
         }
         return c;
     }
-
-    /**
-     * getDoubleMax
-     * finds two cards that are of same value
-     * then returns it
-     * @param temp the player's hand
-     * @return null if no doubles found, returns c if found
-     */
-    private ArrayList<Card> getDoubleMax(ArrayList<Card> temp){
-        Card max1 = new Card(-1, "Default");
-        Card max2 = new Card(-1, "Default");
-        for(int i = 0; i < temp.size(); i++){
-            if(max1.getValue() < temp.get(i).getValue()){
-                max1.setCardSuit(temp.get(i).getSuit());
-                max1.setCardVal(temp.get(i).getValue());
-                for(int j = 0; j < temp.size(); j++){
-                    if(max1.getValue() == temp.get(j).getValue() && i != j){
-                        max2.setCardVal(temp.get(j).getValue());
-                        max2.setCardSuit(temp.get(j).getSuit());
-                        ArrayList<Card> c = new ArrayList<>();
-                        c.add(max1);
-                        c.add(max2);
-                        return c;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-}
+} // PresidentDumbAI class

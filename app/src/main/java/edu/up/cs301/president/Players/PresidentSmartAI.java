@@ -135,8 +135,8 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
      * If the SmartAI is Vice-President (Case 2) then return the lowest
      * card to be traded. If the SmartAI is President (Case 3) return
      * the two lowest cards in its hand to be traded off.
-     * @param temp
-     * @return
+     * @param temp the player's hand
+     * @return the cards player should trade
      */
     private ArrayList<Card> toTrade(ArrayList<Card> temp){
         switch (savedState.getPlayers().get(this.playerNum).getRank()){
@@ -171,8 +171,8 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
      * bestEmptySet
      * Method that finds the best card to play on an empty
      * currentSet based on what is in its hand
-     * @param temp
-     * @return
+     * @param temp player's hand
+     * @return the card(s) that player plays
      */
     private ArrayList<Card> bestEmptySet(ArrayList<Card> temp){
         Card maxTwo = new Card(-1, "Default");
@@ -383,4 +383,4 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
         }
         return null;
     }
-}
+} // PresidentSmartAI class

@@ -14,6 +14,7 @@ import edu.up.cs301.president.CardInfo.Card;
  * @author Kama Simon
  * @author Geryl Vinoya
  * @version April 2019
+ * sends an instance of play action
  */
 public class PresidentPlayAction extends GameAction implements Serializable {
 
@@ -30,5 +31,6 @@ public class PresidentPlayAction extends GameAction implements Serializable {
 
     }
 
+    /** getter method */
     public ArrayList<Card> getCards() { return cards; }
-}
+} // PresidentPlayAction class
