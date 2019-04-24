@@ -46,7 +46,7 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
      */
     @Override
     protected void receiveInfo(GameInfo info) {
-        sleep(1000); // delay CPU
+       // sleep(500); // delay CPU
         if(info == null) { // if info is null
             Log.i("PresidentDumbAI", "info is null");
         }
@@ -109,21 +109,23 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                     break;
                 case 3: // if current set is 3
                     // Find the highest 3-of-a-kind set of cards in hand
-                    ArrayList<Card> threeCard = getTripleMax(temp);
-                    if(threeCard == null || threeCard.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()){
-                        game.sendAction(new PresidentPassAction(this));
-                        return;
-                    }
-                    game.sendAction(new PresidentPlayAction(this, threeCard));
+                    game.sendAction(new PresidentPassAction(this));
+//                    ArrayList<Card> threeCard = getTripleMax(temp);
+//                    if(threeCard == null || threeCard.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()){
+//                        game.sendAction(new PresidentPassAction(this));
+//                        return;
+//                    }
+//                    game.sendAction(new PresidentPlayAction(this, threeCard));
                     break;
                 case 4: // if current set is 4
                     // Find the highest 4-of-a-kind set of cards in hand
-                    ArrayList<Card> fourCard = getFourMax(temp);
-                    if(fourCard == null || fourCard.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()){
-                        game.sendAction(new PresidentPassAction(this));
-                        return;
-                    }
-                    game.sendAction(new PresidentPlayAction(this, fourCard));
+//                    ArrayList<Card> fourCard = getFourMax(temp);
+//                    if(fourCard == null || fourCard.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()){
+//                        game.sendAction(new PresidentPassAction(this));
+//                        return;
+//                    }
+//                    game.sendAction(new PresidentPlayAction(this, fourCard));
+                    game.sendAction(new PresidentPassAction(this));
                     break;
             }
         }

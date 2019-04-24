@@ -76,8 +76,6 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
             }
             Card t = getMax(temp);
 
-            sleep(500);
-
             // if the current set isn't 0, then possibly pass:
             // 20% chance for the Dumb AI to randomly Pass the turn.
             if(savedState.getCurrentSet().size() != 0 && Math.random() < 0.2){
