@@ -52,7 +52,7 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
             return;
         }
 
-        if(info instanceof NotYourTurnInfo || info instanceof IllegalMoveInfo){
+        if(info instanceof NotYourTurnInfo || info instanceof IllegalMoveInfo) {
             return; // if it isn't player's turn or it's an illegal move then return
         }
 
@@ -65,25 +65,30 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
             // If the round just started,
             // Initialize the trade function based
             // on the DumbAI's rank.
-            if(savedState.getRoundStart()){
+            if(savedState.getRoundStart()) {
                 ArrayList<Card> trade = toTrade(temp);
                 game.sendAction(new PresidentTradeAction(this, trade));
                 return;
             }
+
             Card t = getMax(temp);
-            if(t == null){
+
+            if(t == null) {
                 game.sendAction(new PresidentPassAction(this));
                 return;
             }
-            if(savedState.getCurrentSet().size() == 0 || savedState.getTurn() == savedState.getPrev()){
+
+            if(savedState.getCurrentSet().size() == 0
+                    || savedState.getTurn() == savedState.getPrev()) {
                 temp.clear();
                 temp.add(t);
                 game.sendAction(new PresidentPlayAction(this, temp));
                 return;
             }
+
             // if the current set isn't 0, then possibly pass:
             // 20% chance for the Dumb AI to randomly Pass the turn.
-            if(savedState.getCurrentSet().size() != 0 && Math.random() < 0.2){
+            if(savedState.getCurrentSet().size() != 0 && Math.random() < 0.2) {
                 game.sendAction(new PresidentPassAction(this));
                 return;
             }
@@ -96,6 +101,7 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
                     game.sendAction(new PresidentPlayAction(this, temp));
                     return;
             }
+
             // A 'Catch-All' case to ensure that the DumbAI doesn't freeze up.
             game.sendAction(new PresidentPassAction(this)); // If all else fails, pass
         }
@@ -110,8 +116,8 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
      * @param temp the CPU's hand
      * @return the cards CPU should trade
      */
-    private ArrayList<Card> toTrade(ArrayList<Card> temp){
-        switch (savedState.getPlayers().get(this.playerNum).getRank()){
+    private ArrayList<Card> toTrade(ArrayList<Card> temp) {
+        switch (savedState.getPlayers().get(this.playerNum).getRank()) {
             case 0:
                 break;
             case 1:
@@ -123,9 +129,9 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
                 break;
             case 3:
                 Card min1 = getMin(temp);
-                for(int i = 0; i < temp.size(); i++){
+                for(int i = 0; i < temp.size(); i++) {
                     if(temp.get(i).getValue() == min1.getValue()
-                            && temp.get(i).getSuit().equals(min1.getSuit())){
+                            && temp.get(i).getSuit().equals(min1.getSuit())) {
                         temp.remove(i);
                         break;
                     }
@@ -146,12 +152,12 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
      * @param temp Arraylist of Cards that holds the DumbAI's hand
      * @return the min card
      */
-    private Card getMin(ArrayList<Card> temp){
+    private Card getMin(ArrayList<Card> temp) {
         Card c = new Card(15, "Default");
         Card curr = new Card(15, "Default");
-        if(savedState.getCurrentSet().size() == 0){
-            for(int i = 0; i < temp.size(); i++){
-                if(c.getValue() > temp.get(i).getValue()){
+        if(savedState.getCurrentSet().size() == 0) {
+            for(int i = 0; i < temp.size(); i++) {
+                if(c.getValue() > temp.get(i).getValue()) {
                     c.setCardSuit(temp.get(i).getSuit());
                     c.setCardVal(temp.get(i).getValue());
                 }
@@ -159,25 +165,25 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
             return c;
         }
         else{
-            for(int i = 0; i < savedState.getCurrentSet().size(); i++){
+            for(int i = 0; i < savedState.getCurrentSet().size(); i++) {
 
-                if(savedState.getCurrentSet().get(i).getValue() != 13){
+                if(savedState.getCurrentSet().get(i).getValue() != 13) {
                     curr.setCardVal(savedState.getCurrentSet().get(i).getValue());
                     curr.setCardSuit(savedState.getCurrentSet().get(i).getSuit());
                     break;
                 }
             }
-            if(curr.getValue() == 15){
+            if(curr.getValue() == 15) {
                 return null;
             }
-            for(int i = 0; i < temp.size(); i++){
+            for(int i = 0; i < temp.size(); i++) {
                 if(temp.get(i).getValue() > curr.getValue() &&
-                        temp.get(i).getValue() < c.getValue() && temp.get(i).getValue() != 13){
+                        temp.get(i).getValue() < c.getValue() && temp.get(i).getValue() != 13) {
                     c.setCardSuit(temp.get(i).getSuit());
                     c.setCardVal(temp.get(i).getValue());
                 }
             }
-            if(c.getValue() == 15){
+            if(c.getValue() == 15) {
                 return null;
             }
             else {
@@ -193,9 +199,9 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
      * @param temp Arraylist of Cards that holds the DumbAI's hand
      * @return the max card
      */
-    private Card getMax(ArrayList<Card> temp){
+    private Card getMax(ArrayList<Card> temp) {
         Card c = new Card(-1, "Default");
-        if(savedState.getCurrentSet().size() != 0){
+        if(savedState.getCurrentSet().size() != 0) {
             for(int i = 0; i < temp.size(); i++) {
                 if (c.getValue() < temp.get(i).getValue() &&
                     c.getValue() > savedState.getCurrentSet().get(0).getValue()) {

@@ -105,7 +105,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
      * trading in progress notification
      */
     private void updateDisplay() {
-        switch(this.playerNum){
+        switch(this.playerNum) {
             case 0:
                 youText.setText(allPlayerNames[0]);
                 player1Text.setText(allPlayerNames[1]);
@@ -209,19 +209,19 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 switchHighlight(3);
                 break;
         }
-        if(state.getCurrentSet().size() == 0){
+        if(state.getCurrentSet().size() == 0) {
             for(int i = 0; i < 4; i++) {
                 currentSet[i].setBackgroundResource(0);
             }
         }
-        if(state.getCurrentSet().size() != 0 ){
+        if(state.getCurrentSet().size() != 0 ) {
             for(int i = 0; i < state.getCurrentSet().size(); i++) {
                 int id = getImageId(state.getCurrentSet().get(i));
                 currentSet[i].setTag(id);
                 currentSet[i].setBackgroundResource(id);
             }
         }
-        if(!state.getRoundStart()){
+        if(!state.getRoundStart()) {
             tradeResponse.setText("");
             tradeResponse.setBackgroundResource(0);
         }
@@ -246,7 +246,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         GameAction action = null;
         if (button.getId() == R.id.playButton) {
             // play button: player will put down cards
-            if(selectedCard == null){
+            if(selectedCard == null) {
                 Toast.makeText(this.myActivity, "No Card Selected", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -287,7 +287,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
             // turn
             action = new PresidentOrderAction(this);
 
-        } else if (button.getId() == R.id.leaveGame){
+        } else if (button.getId() == R.id.leaveGame) {
             // Closes the game by forcibly ending the process
             state.getPlayers().get(this.playerNum).setLeaveGame(1);
             myActivity.finish();
@@ -300,14 +300,14 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
              * Resource: https://stackoverflow.com/questions/17719634/how-to-exit-an-android-app-programmatically
              * Solution: Example code from post
              */
-        } else if(button.getId() == R.id.returnRulesButton){
+        } else if(button.getId() == R.id.returnRulesButton) {
             // Returns the player to the Game
             myActivity.setContentView(R.layout.in_game_layout);
             setAsGui(myActivity);
             updateDisplay();
             updatePlayerGui();
 
-        } else if(button.getId() == R.id.rulesButton){
+        } else if(button.getId() == R.id.rulesButton) {
             // Loads up the GUI that describes the rules to the
             // player
             this.myActivity.setContentView(R.layout.rules_tab);
@@ -332,7 +332,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
             // something else was pressed: ignore
             return;
         }
-        if(action != null){
+        if(action != null) {
             game.sendAction(action); // send action to the game
         }
     }// onClick
@@ -358,7 +358,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
             // if we had an out-of-turn or illegal move, flash the screen
             Toast.makeText(this.myActivity, "Not your turn!", Toast.LENGTH_SHORT).show();
         }
-        else if (info instanceof IllegalMoveInfo){
+        else if (info instanceof IllegalMoveInfo) {
             Toast.makeText(this.myActivity, "Illegal Move!", Toast.LENGTH_SHORT).show();
 
         }
@@ -762,7 +762,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
         player2Text.setTextColor(myActivity.getResources().getColor(R.color.white));
         switch (this.playerNum) {
             case 0:
-                switch (idx){
+                switch (idx) {
                     case 0: // switch from 3 to 0
                         youText.setBackgroundResource(R.color.yellow);
                         youText.setTextColor(myActivity.getResources().getColor(R.color.black));
@@ -783,7 +783,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 }
                 break;
             case 1:
-                switch (idx){
+                switch (idx) {
                     case 0: // switch from idx 3 to 0
                         player3Text.setBackgroundResource(R.color.yellow);
                         player3Text.setTextColor(myActivity.getResources().getColor(R.color.black));
@@ -804,7 +804,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 }
                 break;
             case 2:
-                switch (idx){
+                switch (idx) {
                     case 0: // switch from 3 to 0
                         player2Text.setBackgroundResource(R.color.yellow);
                         player2Text.setTextColor(myActivity.getResources().getColor(R.color.black));
@@ -825,7 +825,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
                 }
                 break;
             case 3:
-                switch (idx){
+                switch (idx) {
                     case 0: // switch from 3 to 0
                         player1Text.setBackgroundResource(R.color.yellow);
                         player1Text.setTextColor(myActivity.getResources().getColor(R.color.black));
