@@ -50,7 +50,7 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
         if(info == null) { // if info is null
             Log.i("PresidentDumbAI", "info is null");
         }
-        else if(info instanceof NotYourTurnInfo || info instanceof IllegalMoveInfo){
+        else if(info instanceof NotYourTurnInfo || info instanceof IllegalMoveInfo) {
 
         }
         else if(info instanceof PresidentState) {
@@ -61,7 +61,7 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
             ArrayList<Card> temp = savedState.getPlayers().get(this.playerNum).getHand();
 
             // if round is over and in trading, then that should be only move that CPU does
-            if(savedState.getRoundStart()){
+            if(savedState.getRoundStart()) {
                 ArrayList<Card> trade = toTrade(temp);
                 game.sendAction(new PresidentTradeAction(this, trade));
                 return;
@@ -69,16 +69,16 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
 
             // if current set is 0 or the current turn and previous played turn is equal,
             // then CPU should play
-            if(savedState.getCurrentSet().size() == 0 || savedState.getTurn() == savedState.getPrev()){
-                if(getFourMin(temp) != null){
+            if(savedState.getCurrentSet().size() == 0 || savedState.getTurn() == savedState.getPrev()) {
+                if(getFourMin(temp) != null) {
                     game.sendAction(new PresidentPlayAction(this, getFourMin(temp)));
                 }
-                else if(getTripleMin(temp) != null){
+                else if(getTripleMin(temp) != null) {
                     game.sendAction(new PresidentPlayAction(this, getTripleMin(temp)));
                 }
                 else{
                     ArrayList<Card> c = bestEmptySet(temp); // card to play
-                    if(c == null){
+                    if(c == null) {
                         game.sendAction(new PresidentPassAction(this));
                         return;
                     }
@@ -93,13 +93,13 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                 // Play the lowest Card possible
                 case 1: // if current set is 1
                     Card t = getMin(temp);
-                    if(t == null){
+                    if(t == null) {
                         game.sendAction(new PresidentPassAction(this));
                         return;
                     }
                     temp.clear();
                     temp.add(t);
-                    if(temp.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()){
+                    if(temp.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()) {
                         game.sendAction(new PresidentPassAction(this));
                     }
                     else {
@@ -118,7 +118,7 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                 case 3: // if current set is 3
                     // Find the highest 3-of-a-kind set of cards in hand
                     ArrayList<Card> threeCard = getTripleMin(temp);
-                    if(threeCard == null){
+                    if(threeCard == null) {
                         game.sendAction(new PresidentPassAction(this));
                         return;
                     }
@@ -127,7 +127,7 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                 case 4: // if current set is 4
                     // Find the highest 4-of-a-kind set of cards in hand
                     ArrayList<Card> fourCard = getFourMin(temp);
-                    if(fourCard == null){
+                    if(fourCard == null) {
                         game.sendAction(new PresidentPassAction(this));
                         return;
                     }
@@ -146,8 +146,8 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
      * @param temp the player's hand
      * @return the cards player should trade
      */
-    private ArrayList<Card> toTrade(ArrayList<Card> temp){
-        switch (savedState.getPlayers().get(this.playerNum).getRank()){
+    private ArrayList<Card> toTrade(ArrayList<Card> temp) {
+        switch (savedState.getPlayers().get(this.playerNum).getRank()) {
             case 0:
                 break;
             case 1:
@@ -159,9 +159,9 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                 break;
             case 3:
                 Card min1 = getMin(temp);
-                for(int i = 0; i < temp.size(); i++){
+                for(int i = 0; i < temp.size(); i++) {
                     if(temp.get(i).getValue() == min1.getValue()
-                    && temp.get(i).getSuit().equals(min1.getSuit())){
+                    && temp.get(i).getSuit().equals(min1.getSuit())) {
                         temp.remove(i);
                         break;
                     }
@@ -182,20 +182,20 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
      * @param temp player's hand
      * @return the card(s) that player plays
      */
-    private ArrayList<Card> bestEmptySet(ArrayList<Card> temp){
+    private ArrayList<Card> bestEmptySet(ArrayList<Card> temp) {
         Card maxTwo = new Card(-1, "Default");
         Card nextCard = new Card(-1, "Default");
         Card minCard;
         ArrayList<Card> noTwo = new ArrayList<>();
 
-        for(int i = 0; i < temp.size(); i++){
-            if(temp.get(i).getValue() != 13){
+        for(int i = 0; i < temp.size(); i++) {
+            if(temp.get(i).getValue() != 13) {
                 noTwo.add(new Card(temp.get(i).getValue(), temp.get(i).getSuit()));
             }
         }
         if(noTwo.size() == temp.size()) {
                 minCard = getMin(noTwo);
-                if(minCard == null){
+                if(minCard == null) {
                     return null;
                 }
                 noTwo.clear();
@@ -203,12 +203,12 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                 return noTwo;
         }
         else{
-            for(int i = 0; i < temp.size(); i++){
-                if(temp.get(i).getValue() == 13){
+            for(int i = 0; i < temp.size(); i++) {
+                if(temp.get(i).getValue() == 13) {
                     maxTwo.setCardVal(temp.get(i).getValue());
                     maxTwo.setCardSuit(temp.get(i).getSuit());
                 }
-                else{
+                else {
                     nextCard.setCardSuit(temp.get(i).getSuit());
                     nextCard.setCardVal(temp.get(i).getValue());
                 }
@@ -226,38 +226,38 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
      * @param temp Arraylist of Cards that holds the DumbAI's hand
      * @return the min card
      */
-    private Card getMin(ArrayList<Card> temp){
+    private Card getMin(ArrayList<Card> temp) {
         Card c = new Card(15, "Default");
         Card curr = new Card(15, "Default");
-        if(savedState.getCurrentSet().size() == 0){
-            for(int i = 0; i < temp.size(); i++){
-                if(c.getValue() > temp.get(i).getValue()){
+        if(savedState.getCurrentSet().size() == 0) {
+            for(int i = 0; i < temp.size(); i++) {
+                if(c.getValue() > temp.get(i).getValue()) {
                     c.setCardSuit(temp.get(i).getSuit());
                     c.setCardVal(temp.get(i).getValue());
                 }
             }
             return c;
         }
-        else{
-            for(int i = 0; i < savedState.getCurrentSet().size(); i++){
+        else {
+            for(int i = 0; i < savedState.getCurrentSet().size(); i++) {
 
-                if(savedState.getCurrentSet().get(i).getValue() != 13){
+                if(savedState.getCurrentSet().get(i).getValue() != 13) {
                     curr.setCardVal(savedState.getCurrentSet().get(i).getValue());
                     curr.setCardSuit(savedState.getCurrentSet().get(i).getSuit());
                     break;
                 }
             }
-            if(curr.getValue() == 15){
+            if(curr.getValue() == 15) {
                 return null;
             }
-            for(int i = 0; i < temp.size(); i++){
+            for(int i = 0; i < temp.size(); i++) {
                 if(temp.get(i).getValue() > curr.getValue() &&
                         temp.get(i).getValue() < c.getValue() && temp.get(i).getValue() != 13){
                     c.setCardSuit(temp.get(i).getSuit());
                     c.setCardVal(temp.get(i).getValue());
                 }
             }
-            if(c.getValue() == 15){
+            if(c.getValue() == 15) {
                 return null;
             }
             else {
@@ -273,24 +273,24 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
      * @param temp the player's hand
      * @return null if no doubles found, returns c if found
      */
-    private ArrayList<Card> getDoubleMin(ArrayList<Card> temp){
+    private ArrayList<Card> getDoubleMin(ArrayList<Card> temp) {
         Card firstMin = getMin(temp);
-        if(firstMin == null){
+        if(firstMin == null) {
             return null;
         }
         Card secondMin = new Card(15, "Default");
         Card curr = new Card(15, "Default");
         ArrayList<Card> c = new ArrayList<>();
-        for(int i = 0; i < savedState.getCurrentSet().size(); i++){
-            if(savedState.getCurrentSet().get(i).getValue() != 13){
+        for(int i = 0; i < savedState.getCurrentSet().size(); i++) {
+            if(savedState.getCurrentSet().get(i).getValue() != 13) {
                 curr.setCardSuit(savedState.getCurrentSet().get(i).getSuit());
                 curr.setCardVal(savedState.getCurrentSet().get(i).getValue());
                 break;
             }
         } // get current val of current set
-        for(int i = 0; i < temp.size(); i++){
+        for(int i = 0; i < temp.size(); i++) {
             if(temp.get(i).getValue() == firstMin.getValue() &&
-                !temp.get(i).getSuit().equals(firstMin.getSuit())){
+                !temp.get(i).getSuit().equals(firstMin.getSuit())) {
                 secondMin.setCardSuit(temp.get(i).getSuit());
                 secondMin.setCardVal(temp.get(i).getValue());
                 c.add(firstMin);
@@ -298,8 +298,8 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                 return c;
             }
         } // gets two min cards that are greater than set
-        for(int i = 0; i < temp.size(); i++){
-            if(temp.get(i).getValue() == 13){
+        for(int i = 0; i < temp.size(); i++) {
+            if(temp.get(i).getValue() == 13) {
                 secondMin.setCardVal(temp.get(i).getValue());
                 secondMin.setCardSuit(temp.get(i).getSuit());
                 c.add(firstMin);
@@ -319,19 +319,19 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
      */
     private ArrayList<Card> getTripleMin(ArrayList<Card> temp){
         ArrayList<Card> TripleMin = getDoubleMin(temp);
-        if(TripleMin == null){
+        if(TripleMin == null) {
             return null;
         }
         Card thirdMin = new Card(15, "Default");
         Card curr = new Card(15, "Default");
-        for(int i = 0; i < savedState.getCurrentSet().size(); i++){
-            if(savedState.getCurrentSet().get(i).getValue() != 13){
+        for(int i = 0; i < savedState.getCurrentSet().size(); i++) {
+            if(savedState.getCurrentSet().get(i).getValue() != 13) {
                 curr.setCardSuit(savedState.getCurrentSet().get(i).getSuit());
                 curr.setCardVal(savedState.getCurrentSet().get(i).getValue());
                 break;
             }
         } // get current val of current set
-        for(int i = 0; i < temp.size(); i++){
+        for(int i = 0; i < temp.size(); i++) {
             if(TripleMin.get(1).getValue() == 13) {
                 if (temp.get(i).getValue() == TripleMin.get(0).getValue() &&
                         !temp.get(i).getSuit().equals(TripleMin.get(0).getSuit())) {
@@ -353,13 +353,13 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
             else{
                 if(TripleMin.get(0).getValue() == temp.get(i).getValue() &&
                     !TripleMin.get(0).getSuit().equals(temp.get(i).getSuit()) &&
-                    !TripleMin.get(1).getSuit().equals(temp.get(i).getSuit())){
+                    !TripleMin.get(1).getSuit().equals(temp.get(i).getSuit())) {
                     thirdMin.setCardVal(temp.get(i).getValue());
                     thirdMin.setCardSuit(temp.get(i).getSuit());
                     TripleMin.add(thirdMin);
                     return TripleMin;
                 }
-                else if(temp.get(i).getValue() == 13){
+                else if(temp.get(i).getValue() == 13) {
                     thirdMin.setCardVal(temp.get(i).getValue());
                     thirdMin.setCardSuit(temp.get(i).getSuit());
                     TripleMin.add(thirdMin);
@@ -377,15 +377,15 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
      * @param temp the player's hand
      * @return null if no four-of-a-kind's found, returns c if found
      */
-    private ArrayList<Card> getFourMin(ArrayList<Card> temp){
+    private ArrayList<Card> getFourMin(ArrayList<Card> temp) {
         ArrayList<Card> FourMin = getTripleMin(temp);
-        if(FourMin == null){
+        if(FourMin == null) {
             return null;
         }
         Card FourthMin = new Card(15, "Default");
         Card curr = new Card(15, "Default");
-        for(int i = 0; i < savedState.getCurrentSet().size(); i++){
-            if(savedState.getCurrentSet().get(i).getValue() != 13){
+        for(int i = 0; i < savedState.getCurrentSet().size(); i++) {
+            if(savedState.getCurrentSet().get(i).getValue() != 13) {
                 curr.setCardSuit(savedState.getCurrentSet().get(i).getSuit());
                 curr.setCardVal(savedState.getCurrentSet().get(i).getValue());
                 break;
@@ -394,8 +394,8 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
         int count = 0;
         Card select = new Card(-1, "Default");
         Card select_2 = new Card(-1, "Default");
-        for(int i = 0; i < FourMin.size(); i++){
-            if(FourMin.get(i).getValue() == 13){
+        for(int i = 0; i < FourMin.size(); i++) {
+            if(FourMin.get(i).getValue() == 13) {
                 count++;
             }
             else{
@@ -411,8 +411,8 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
         }
         switch (count){ // number of two's in set
             case 0:
-                for(int i = 0; i < temp.size(); i++){ // look for a two
-                    if(temp.get(i).getValue() == 13){
+                for(int i = 0; i < temp.size(); i++) { // look for a two
+                    if(temp.get(i).getValue() == 13) {
                         FourthMin.setCardSuit(temp.get(i).getSuit());
                         FourthMin.setCardVal(temp.get(i).getValue());
                         FourMin.add(FourthMin);
@@ -421,11 +421,11 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                 }
                 break;
             case 1: // one two
-                for(int i = 0; i < temp.size(); i++){
+                for(int i = 0; i < temp.size(); i++) {
                     if(temp.get(i).getValue() == select.getValue() &&
                         temp.get(i).getValue() == select_2.getValue() &&
                         !temp.get(i).getSuit().equals(select.getSuit()) &&
-                        !temp.get(i).getSuit().equals(select_2.getSuit())){
+                        !temp.get(i).getSuit().equals(select_2.getSuit())) {
                         FourthMin.setCardSuit(temp.get(i).getSuit());
                         FourthMin.setCardVal(temp.get(i).getValue());
                         FourMin.add(FourthMin);
@@ -434,9 +434,9 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                 }
                 break;
             case 2: // two two's
-                for(int i = 0; i < temp.size(); i++){ // add card if it is equal to selected card
+                for(int i = 0; i < temp.size(); i++) { // add card if it is equal to selected card
                     if(temp.get(i).getValue() == select.getValue() &&
-                        !temp.get(i).getSuit().equals(select.getSuit())){
+                        !temp.get(i).getSuit().equals(select.getSuit())) {
                         FourthMin.setCardSuit(temp.get(i).getSuit());
                         FourthMin.setCardVal(temp.get(i).getValue());
                         FourMin.add(FourthMin);
@@ -445,8 +445,8 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                 }
                 break;
             case 3: // all two's
-                for(int i = 0; i < temp.size(); i++){
-                    if(temp.get(i).getValue() != 13){
+                for(int i = 0; i < temp.size(); i++) {
+                    if(temp.get(i).getValue() != 13) {
                         FourthMin.setCardSuit(temp.get(i).getSuit());
                         FourthMin.setCardVal(temp.get(i).getValue());
                         FourMin.add(FourthMin);
