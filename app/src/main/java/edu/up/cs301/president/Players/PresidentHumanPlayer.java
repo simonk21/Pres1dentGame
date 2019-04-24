@@ -1,5 +1,6 @@
 package edu.up.cs301.president.Players;
 
+import android.content.pm.ActivityInfo;
 import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.View;
