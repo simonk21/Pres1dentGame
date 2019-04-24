@@ -100,7 +100,14 @@ public class PlayerTracker implements Serializable {
 
     public int getRank() { return rank; }
 
-    public void setRank(int rank) { this.rank = rank; }
+    public void setRank(int rank) {
+       if(rank >= 0 && rank <= 3){
+           this.rank = rank;
+       }
+       else{
+           this.rank = -1;
+       }
+    }
 
     public void setLeaveGame(int leave) { this.leave = leave; }
 
