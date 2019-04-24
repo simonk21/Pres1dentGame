@@ -90,3 +90,13 @@ public class PresidentMainActivity extends GameMainActivity {
 	}
 
 } // PresidentMainActivity class
+
+
+/**
+ External Citation
+ Date:     24 Apr 2019
+ Problem:  CWanted the game to run in only landscape
+ Resource:
+ https://stackoverflow.com/questions/14182366/making-an-android-app-run-full-screen-and-landscape
+ Solution: added to the AndroidManifest.xml for the orientation
+ */
