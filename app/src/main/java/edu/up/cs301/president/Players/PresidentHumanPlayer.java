@@ -304,6 +304,7 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
             myActivity.setContentView(R.layout.in_game_layout);
             setAsGui(myActivity);
             updateDisplay();
+            updatePlayerGui();
 
         } else if(button.getId() == R.id.rulesButton){
             // Loads up the GUI that describes the rules to the
