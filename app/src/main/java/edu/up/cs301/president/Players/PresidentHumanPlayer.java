@@ -254,7 +254,8 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
             }
                 action = new PresidentPlayAction(this, temp);
         } else if(button.getId() == R.id.tradeButton) {
-            // play button: player will put down cards
+            // tradeButton : button to initialize the trade based on the
+            // 1-2 cards that the player selected
             if(selectedCard == null){
                 Toast.makeText(this.myActivity, "No Card Selected", Toast.LENGTH_SHORT).show();
                 return;
@@ -270,13 +271,18 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
             action = new PresidentTradeAction(this, temp);
 
         } else if (button.getId() == R.id.passButton) {
+            // If the player wants to pass the turn
             selectedCard = null;
             action = new PresidentPassAction(this);
 
         } else if (button.getId() == R.id.orderButton) {
+            // If the player wants their cards ordered from least
+            // to greatest, only viable if its that players
+            // turn
             action = new PresidentOrderAction(this);
 
         } else if (button.getId() == R.id.leaveGame){
+            // Closes the game by forcibly ending the process
             state.getPlayers().get(this.playerNum).setLeaveGame(1);
             myActivity.finish();
             System.exit(0);
@@ -289,12 +295,14 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
              * Solution: Example code from post
              */
         } else if(button.getId() == R.id.returnRulesButton){
+            // Returns the player to the Game
             myActivity.setContentView(R.layout.in_game_layout);
             setAsGui(myActivity);
             updateDisplay();
 
         } else if(button.getId() == R.id.rulesButton){
-
+            // Loads up the GUI that describes the rules to the
+            // player
             this.myActivity.setContentView(R.layout.rules_tab);
             this.returnRulesButton = myActivity.findViewById(R.id.returnRulesButton);
             returnRulesButton.setOnClickListener(this);

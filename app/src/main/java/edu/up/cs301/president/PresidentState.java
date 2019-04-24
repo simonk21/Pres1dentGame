@@ -29,6 +29,11 @@ public class PresidentState extends GameState {
 
     private ArrayList<PlayerTracker> players;
 
+    /**
+     * PresidentState Constructor,
+     * Initializes the PresidentState
+     * Game State.
+     */
     public PresidentState() {
         deck = new Deck(); // initializes deck
         currentSet = new ArrayList<>(); // current set played

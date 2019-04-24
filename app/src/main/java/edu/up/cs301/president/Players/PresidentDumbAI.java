@@ -36,6 +36,13 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
         super(name);
     }
 
+
+    /**
+     * Method to receive various game-states
+     * from the GameState and send them to
+     * the DumbAI throughout the game
+     * @param info
+     */
     @Override
     protected void receiveInfo(GameInfo info) {
         sleep(500);
@@ -59,6 +66,9 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
             // finds the max card
             ArrayList<Card> temp = savedState.getPlayers().get(this.playerNum).getHand();
 
+            // If the round just started,
+            // Initialize the trade function based
+            // on the DumbAI's rank.
             if(savedState.getRoundStart()){
                 ArrayList<Card> trade = toTrade(temp);
                 game.sendAction(new PresidentTradeAction(this, trade));
@@ -68,7 +78,8 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
 
             sleep(500);
 
-            // if the current set isn't 0, then possibly pass
+            // if the current set isn't 0, then possibly pass:
+            // 20% chance for the Dumb AI to randomly Pass the turn.
             if(savedState.getCurrentSet().size() != 0 && Math.random() < 0.2){
                 game.sendAction(new PresidentPassAction(this));
                 return;
@@ -84,6 +95,8 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
                 case 1: // if current set is 1, then play if can beat value of current set
                     temp.clear();
                     temp.add(t);
+                     // Check if the card to be played is a legal play. If it isnt,
+                     // pass the turn. If it is, play it.
                     if(temp.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()){
                         game.sendAction(new PresidentPassAction(this));
                     }
@@ -92,10 +105,19 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
                     }
                     return;
             }
-            game.sendAction(new PresidentPassAction(this)); // if all else fails, pass
+            // A 'Catch-All' case to ensure that the DumbAI doesn't freeze up.
+            game.sendAction(new PresidentPassAction(this)); // If all else fails, pass
         }
     }
 
+    /**
+     * Method that initializes trade for the Dumb AI based on ranking
+     * If the DumbAI is Vice-President (Case 2) then return the lowest
+     * card to be traded. If the DumbAI is President (Case 3) return
+     * the two lowest cards in its hand to be traded off.
+     * @param temp
+     * @return
+     */
     private ArrayList<Card> toTrade(ArrayList<Card> temp){
         switch (savedState.getPlayers().get(this.playerNum).getRank()){
             case 0:

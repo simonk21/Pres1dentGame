@@ -55,12 +55,25 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
         }
     }
 
+    /**
+     * Check if the player can move, if not their
+     * turn, return false
+     * @param playerIdx
+     * 		the player's player-number (ID)
+     * @return
+     */
     @Override
     protected boolean canMove(int playerIdx) {
         int whoseTurn = state.getTurn();
         return playerIdx == whoseTurn;
     }
 
+    /**
+     * checkIfGameOver
+     * If a player has more than 11 points, if
+     * they do they win the game
+     * @return
+     */
     @Override
     protected String checkIfGameOver() {
         int score = state.checkGame();
@@ -72,6 +85,14 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
         }
     }
 
+    /**
+     * makeMove
+     * Function that sends an action to the PresidentGameState
+     * depending on what action was passed
+     * @param action
+     * 			The move that the player has sent to the game
+     * @return
+     */
     @Override
     protected boolean makeMove(GameAction action) {
         if( action == null ){
@@ -310,6 +331,15 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
         return true;
     }
 
+    /**
+     * trade()
+     * This function initiates the trade section of the game
+     * and automatically trades the highest card(s) for the
+     * players assigned the rank of Vice-Scum / Scum
+     * and the lowest cards for President / Vice-President
+     * This function demonstrates basic
+     * @return
+     */
     public boolean trade(){
         for(int i = 0; i < state.getPlayers().size(); i++){
             if(state.getPlayers().get(i).getRank() == 0){
@@ -354,6 +384,12 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
         return true;
     }
 
+    /**
+     * getMax
+     * Find the highest valued card in the players hand
+     * @param idx
+     * @return
+     */
     public Card getMax(int idx){
         Card max = new Card(-1, "Default");
         ArrayList<Card> hand = state.getPlayers().get(idx).getHand();
@@ -366,6 +402,13 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
         return max;
     }
 
+    /**
+     * removeTrade
+     * remove the card(s) to be traded and update
+     * the gui to reflect this change
+     * @param removeCard_1
+     * @param idx
+     */
     public void removeTrade(Card removeCard_1, int idx){
         if(removeCard_1 != null){
             for(int i = 0; i < state.getPlayers().get(idx).getHand().size(); i++){
@@ -382,7 +425,9 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
      * also checks if a new round can start
      * @return true is player can
      */
-    private boolean checkNoCards(){ // TODO need to check this method and add comments
+    private boolean checkNoCards(){
+        // If the player has no cards in their hand, assign them a rank based
+        // on the ranks that already have been assigned
         if(state.getPlayers().get(state.getTurn()).getHand().size() < 1){
             state.checkPresident(state.getTurn());
             if(state.getPrev() == state.getTurn()){
@@ -398,6 +443,7 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
                 state.setRoundStart(true);
                 return true;
             }
+            // If the played has no cards in hand, skip its turn.
             state.nextPlayer();
             return true;
         }
@@ -410,7 +456,7 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
      * @param temp card set of player
      * @return 0 if
      */
-    private int checkSetValid(ArrayList<Card> temp){ // TODO check this method and comment better
+    private int checkSetValid(ArrayList<Card> temp){
         Card c = new Card(-1, "Default");
         int count = 0;
         for(int i = 0; i < temp.size(); i++){

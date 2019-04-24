@@ -81,6 +81,8 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
             }
 
             switch (savedState.getCurrentSet().size()) {
+                // If the Size of the Current Played Set is 1,
+                // Play the lowest Card possible
                 case 1: // if current set is 1
                     Card t = getMin(temp);
                     if(t == null){
@@ -97,6 +99,7 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                     }
                     break;
                 case 2: // if current set is 2
+                    // Find the highest 2-of-a-kind set of cards in hand
                     ArrayList<Card> twoCard = getDoubleMax(temp);
                     if (twoCard == null || twoCard.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()) {
                         game.sendAction(new PresidentPassAction(this));
@@ -105,6 +108,7 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                     game.sendAction(new PresidentPlayAction(this, twoCard));
                     break;
                 case 3: // if current set is 3
+                    // Find the highest 3-of-a-kind set of cards in hand
                     ArrayList<Card> threeCard = getTripleMax(temp);
                     if(threeCard == null || threeCard.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()){
                         game.sendAction(new PresidentPassAction(this));
@@ -113,6 +117,7 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                     game.sendAction(new PresidentPlayAction(this, threeCard));
                     break;
                 case 4: // if current set is 4
+                    // Find the highest 4-of-a-kind set of cards in hand
                     ArrayList<Card> fourCard = getFourMax(temp);
                     if(fourCard == null || fourCard.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()){
                         game.sendAction(new PresidentPassAction(this));
@@ -124,6 +129,15 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
         }
     }
 
+    /**
+     * toTrade
+     * Method that initializes trade for the Dumb AI based on ranking
+     * If the SmartAI is Vice-President (Case 2) then return the lowest
+     * card to be traded. If the SmartAI is President (Case 3) return
+     * the two lowest cards in its hand to be traded off.
+     * @param temp
+     * @return
+     */
     private ArrayList<Card> toTrade(ArrayList<Card> temp){
         switch (savedState.getPlayers().get(this.playerNum).getRank()){
             case 0:
@@ -153,6 +167,13 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
         return temp;
     }
 
+    /**
+     * bestEmptySet
+     * Method that finds the best card to play on an empty
+     * currentSet based on what is in its hand
+     * @param temp
+     * @return
+     */
     private ArrayList<Card> bestEmptySet(ArrayList<Card> temp){
         Card maxTwo = new Card(-1, "Default");
         Card nextCard = new Card(-1, "Default");
@@ -280,8 +301,14 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
         return null; // if unable then return null
     }
 
-
-    private ArrayList<Card> getTripleMax(ArrayList<Card> temp){ // TODO I want to fix this method
+    /**
+     * getTripleMax
+     * finds three cards that are of same value
+     * then returns them
+     * @param temp the player's hand
+     * @return null if no triples found, returns c if found
+     */
+    private ArrayList<Card> getTripleMax(ArrayList<Card> temp){
         Card max1 = new Card(-1, "Default");
         Card max2 = new Card(-1, "Default");
         Card max3 = new Card(-1, "Default");
@@ -311,6 +338,13 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
         return null;
     }
 
+    /**
+     * getFourMax
+     * finds four cards that are of same value
+     * then returns them
+     * @param temp the player's hand
+     * @return null if no four-of-a-kind's found, returns c if found
+     */
     private ArrayList<Card> getFourMax(ArrayList<Card> temp){ // TODO I want to fix this method
         Card max1 = new Card(-1, "Default");
         Card max2 = new Card(-1, "Default");
