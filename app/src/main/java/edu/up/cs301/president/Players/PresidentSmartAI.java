@@ -50,10 +50,10 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
         if(info == null) { // if info is null
             Log.i("PresidentDumbAI", "info is null");
         }
-        if(info instanceof NotYourTurnInfo || info instanceof IllegalMoveInfo){
-            return; // an instance of not your turn or illegal move should return
+        else if(info instanceof NotYourTurnInfo || info instanceof IllegalMoveInfo){
+
         }
-        if(info instanceof PresidentState) {
+        else if(info instanceof PresidentState) {
 
             savedState = (PresidentState) info; // current state of game
 
@@ -70,14 +70,22 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
             // if current set is 0 or the current turn and previous played turn is equal,
             // then CPU should play
             if(savedState.getCurrentSet().size() == 0 || savedState.getTurn() == savedState.getPrev()){
-                ArrayList<Card> c = bestEmptySet(temp); // card to play
-                if(c == null){ // this should never happen
-                    game.sendAction(new PresidentPassAction(this));
-                    return;
+                if(getFourMin(temp) != null){
+                    game.sendAction(new PresidentPlayAction(this, getFourMin(temp)));
                 }
-                temp.clear(); // clear temp hand
-                game.sendAction(new PresidentPlayAction(this, c)); // play card
-                return;
+                else if(getTripleMin(temp) != null){
+                    game.sendAction(new PresidentPlayAction(this, getTripleMin(temp)));
+                }
+                else{
+                    ArrayList<Card> c = bestEmptySet(temp); // card to play
+                    if(c == null){
+                        game.sendAction(new PresidentPassAction(this));
+                        return;
+                    }
+                    temp.clear(); // clear temp hand
+                    game.sendAction(new PresidentPlayAction(this, c)); // play card
+
+                }
             }
 
             switch (savedState.getCurrentSet().size()) {
@@ -100,7 +108,7 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                     break;
                 case 2: // if current set is 2
                     // Find the highest 2-of-a-kind set of cards in hand
-                    ArrayList<Card> twoCard = getDoubleMax(temp);
+                    ArrayList<Card> twoCard = getDoubleMin(temp);
                     if (twoCard == null || twoCard.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()) {
                         game.sendAction(new PresidentPassAction(this));
                         return;
@@ -109,23 +117,21 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
                     break;
                 case 3: // if current set is 3
                     // Find the highest 3-of-a-kind set of cards in hand
-                    game.sendAction(new PresidentPassAction(this));
-//                    ArrayList<Card> threeCard = getTripleMax(temp);
-//                    if(threeCard == null || threeCard.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()){
-//                        game.sendAction(new PresidentPassAction(this));
-//                        return;
-//                    }
-//                    game.sendAction(new PresidentPlayAction(this, threeCard));
+                    ArrayList<Card> threeCard = getTripleMin(temp);
+                    if(threeCard == null){
+                        game.sendAction(new PresidentPassAction(this));
+                        return;
+                    }
+                    game.sendAction(new PresidentPlayAction(this, threeCard));
                     break;
                 case 4: // if current set is 4
                     // Find the highest 4-of-a-kind set of cards in hand
-//                    ArrayList<Card> fourCard = getFourMax(temp);
-//                    if(fourCard == null || fourCard.get(0).getValue() <= savedState.getCurrentSet().get(0).getValue()){
-//                        game.sendAction(new PresidentPassAction(this));
-//                        return;
-//                    }
-//                    game.sendAction(new PresidentPlayAction(this, fourCard));
-                    game.sendAction(new PresidentPassAction(this));
+                    ArrayList<Card> fourCard = getFourMin(temp);
+                    if(fourCard == null){
+                        game.sendAction(new PresidentPassAction(this));
+                        return;
+                    }
+                    game.sendAction(new PresidentPlayAction(this, fourCard));
                     break;
             }
         }
@@ -181,6 +187,7 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
         Card nextCard = new Card(-1, "Default");
         Card minCard;
         ArrayList<Card> noTwo = new ArrayList<>();
+
         for(int i = 0; i < temp.size(); i++){
             if(temp.get(i).getValue() != 13){
                 noTwo.add(new Card(temp.get(i).getValue(), temp.get(i).getSuit()));
@@ -266,7 +273,7 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
      * @param temp the player's hand
      * @return null if no doubles found, returns c if found
      */
-    private ArrayList<Card> getDoubleMax(ArrayList<Card> temp){
+    private ArrayList<Card> getDoubleMin(ArrayList<Card> temp){
         Card firstMin = getMin(temp);
         if(firstMin == null){
             return null;
@@ -304,36 +311,59 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
     }
 
     /**
-     * getTripleMax
+     * getTripleMin
      * finds three cards that are of same value
      * then returns them
      * @param temp the player's hand
      * @return null if no triples found, returns c if found
      */
-    private ArrayList<Card> getTripleMax(ArrayList<Card> temp){
-        Card max1 = new Card(-1, "Default");
-        Card max2 = new Card(-1, "Default");
-        Card max3 = new Card(-1, "Default");
+    private ArrayList<Card> getTripleMin(ArrayList<Card> temp){
+        ArrayList<Card> TripleMin = getDoubleMin(temp);
+        if(TripleMin == null){
+            return null;
+        }
+        Card thirdMin = new Card(15, "Default");
+        Card curr = new Card(15, "Default");
+        for(int i = 0; i < savedState.getCurrentSet().size(); i++){
+            if(savedState.getCurrentSet().get(i).getValue() != 13){
+                curr.setCardSuit(savedState.getCurrentSet().get(i).getSuit());
+                curr.setCardVal(savedState.getCurrentSet().get(i).getValue());
+                break;
+            }
+        } // get current val of current set
         for(int i = 0; i < temp.size(); i++){
-            if(max1.getValue() < temp.get(i).getValue()){
-                max1.setCardVal(temp.get(i).getValue());
-                max2.setCardSuit(temp.get(i).getSuit());
-                for(int j = 0; j <  temp.size(); j++){
-                    if(max1.getValue() == temp.get(j).getValue() && i !=  j){
-                        max2.setCardVal(temp.get(j).getValue());
-                        max2.setCardSuit(temp.get(j).getSuit());
-                        for(int k = 0; k < temp.size(); k++){
-                            if(max1.getValue() == temp.get(k).getValue() && i != k && j != k){
-                                max3.setCardSuit(temp.get(k).getSuit());
-                                max3.setCardVal(temp.get(k).getValue());
-                                ArrayList<Card> c = new ArrayList<>();
-                                c.add(max1);
-                                c.add(max2);
-                                c.add(max3);
-                                return c;
-                            }
-                        }
-                    }
+            if(TripleMin.get(1).getValue() == 13) {
+                if (temp.get(i).getValue() == TripleMin.get(0).getValue() &&
+                        !temp.get(i).getSuit().equals(TripleMin.get(0).getSuit())) {
+                    thirdMin.setCardVal(temp.get(i).getValue());
+                    thirdMin.setCardSuit(temp.get(i).getSuit());
+                    TripleMin.add(thirdMin);
+                    return TripleMin;
+                }
+            }
+            else if(TripleMin.get(0).getValue() == 13) {
+                if (temp.get(i).getValue() == TripleMin.get(1).getValue() &&
+                        !temp.get(i).getSuit().equals(TripleMin.get(1).getSuit())) {
+                    thirdMin.setCardVal(temp.get(i).getValue());
+                    thirdMin.setCardSuit(temp.get(i).getSuit());
+                    TripleMin.add(thirdMin);
+                    return TripleMin;
+                }
+            }
+            else{
+                if(TripleMin.get(0).getValue() == temp.get(i).getValue() &&
+                    !TripleMin.get(0).getSuit().equals(temp.get(i).getSuit()) &&
+                    !TripleMin.get(1).getSuit().equals(temp.get(i).getSuit())){
+                    thirdMin.setCardVal(temp.get(i).getValue());
+                    thirdMin.setCardSuit(temp.get(i).getSuit());
+                    TripleMin.add(thirdMin);
+                    return TripleMin;
+                }
+                else if(temp.get(i).getValue() == 13){
+                    thirdMin.setCardVal(temp.get(i).getValue());
+                    thirdMin.setCardSuit(temp.get(i).getSuit());
+                    TripleMin.add(thirdMin);
+                    return TripleMin;
                 }
             }
         }
@@ -347,41 +377,83 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
      * @param temp the player's hand
      * @return null if no four-of-a-kind's found, returns c if found
      */
-    private ArrayList<Card> getFourMax(ArrayList<Card> temp){ // TODO I want to fix this method
-        Card max1 = new Card(-1, "Default");
-        Card max2 = new Card(-1, "Default");
-        Card max3 = new Card(-1, "Default");
-        Card max4 = new Card(-1, "Default");
-        for(int i = 0; i < temp.size(); i++){
-            if(max1.getValue() < temp.get(i).getValue()){
-                max1.setCardVal(temp.get(i).getValue());
-                max2.setCardSuit(temp.get(i).getSuit());
-                for(int j = 0; j <  temp.size(); j++){
-                    if(max1.getValue() == temp.get(j).getValue() && i !=  j){
-                        max2.setCardVal(temp.get(j).getValue());
-                        max2.setCardSuit(temp.get(j).getSuit());
-                        for(int k = 0; k < temp.size(); k++){
-                            if(max1.getValue() == temp.get(k).getValue() && i != k && j != k){
-                                max3.setCardSuit(temp.get(k).getSuit());
-                                max3.setCardVal(temp.get(k).getValue());
-                                for(int l = 0; l < temp.size(); l++){
-                                    if(max1.getValue() == temp.get(l).getValue() &&
-                                            i != l && j != l && k != l){
-                                        max4.setCardVal(temp.get(l).getValue());
-                                        max4.setCardSuit(temp.get(l).getSuit());
-                                        ArrayList<Card> c = new ArrayList<>();
-                                        c.add(max1);
-                                        c.add(max2);
-                                        c.add(max3);
-                                        c.add(max4);
-                                        return c;
-                                    }
-                                }
-                            }
-                        }
-                    }
+    private ArrayList<Card> getFourMin(ArrayList<Card> temp){
+        ArrayList<Card> FourMin = getTripleMin(temp);
+        if(FourMin == null){
+            return null;
+        }
+        Card FourthMin = new Card(15, "Default");
+        Card curr = new Card(15, "Default");
+        for(int i = 0; i < savedState.getCurrentSet().size(); i++){
+            if(savedState.getCurrentSet().get(i).getValue() != 13){
+                curr.setCardSuit(savedState.getCurrentSet().get(i).getSuit());
+                curr.setCardVal(savedState.getCurrentSet().get(i).getValue());
+                break;
+            }
+        } // get current val of current set
+        int count = 0;
+        Card select = new Card(-1, "Default");
+        Card select_2 = new Card(-1, "Default");
+        for(int i = 0; i < FourMin.size(); i++){
+            if(FourMin.get(i).getValue() == 13){
+                count++;
+            }
+            else{
+                if(select.getValue() == -1) {
+                    select.setCardVal(FourMin.get(i).getValue());
+                    select.setCardSuit(FourMin.get(i).getSuit());
+                }
+                else{
+                    select_2.setCardVal(FourMin.get(i).getValue());
+                    select.setCardSuit(FourMin.get(i).getSuit());
                 }
             }
+        }
+        switch (count){ // number of two's in set
+            case 0:
+                for(int i = 0; i < temp.size(); i++){ // look for a two
+                    if(temp.get(i).getValue() == 13){
+                        FourthMin.setCardSuit(temp.get(i).getSuit());
+                        FourthMin.setCardVal(temp.get(i).getValue());
+                        FourMin.add(FourthMin);
+                        return FourMin;
+                    }
+                }
+                break;
+            case 1: // one two
+                for(int i = 0; i < temp.size(); i++){
+                    if(temp.get(i).getValue() == select.getValue() &&
+                        temp.get(i).getValue() == select_2.getValue() &&
+                        !temp.get(i).getSuit().equals(select.getSuit()) &&
+                        !temp.get(i).getSuit().equals(select_2.getSuit())){
+                        FourthMin.setCardSuit(temp.get(i).getSuit());
+                        FourthMin.setCardVal(temp.get(i).getValue());
+                        FourMin.add(FourthMin);
+                        return FourMin;
+                    }
+                }
+                break;
+            case 2: // two two's
+                for(int i = 0; i < temp.size(); i++){ // add card if it is equal to selected card
+                    if(temp.get(i).getValue() == select.getValue() &&
+                        !temp.get(i).getSuit().equals(select.getSuit())){
+                        FourthMin.setCardSuit(temp.get(i).getSuit());
+                        FourthMin.setCardVal(temp.get(i).getValue());
+                        FourMin.add(FourthMin);
+                        return FourMin;
+                    }
+                }
+                break;
+            case 3: // all two's
+                for(int i = 0; i < temp.size(); i++){
+                    if(temp.get(i).getValue() != 13){
+                        FourthMin.setCardSuit(temp.get(i).getSuit());
+                        FourthMin.setCardVal(temp.get(i).getValue());
+                        FourMin.add(FourthMin);
+                        return FourMin;
+                    }
+                }
+                break;
         }
         return null;
     }
