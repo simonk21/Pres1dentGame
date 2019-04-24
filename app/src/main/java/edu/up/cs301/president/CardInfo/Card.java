@@ -53,7 +53,8 @@ public class Card implements Serializable {
 
     /**
      * getFace
-     * returns the string of card value
+     * returns the name of the card
+     * based on its set value
      * @return String of Card Value
      */
     public String getFace(){

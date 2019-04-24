@@ -73,6 +73,12 @@ public class PlayerTracker implements Serializable {
         }
     }
 
+    /**
+     * getStringRank
+     * Method that returns the Rank
+     * of the Player
+     * @return
+     */
     public String getStringRank(){
         String stringRank = "none";
         switch(rank){
