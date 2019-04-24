@@ -86,12 +86,12 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
                 return;
             }
 
-            // if the current set isn't 0, then possibly pass:
-            // 20% chance for the Dumb AI to randomly Pass the turn.
-            if(savedState.getCurrentSet().size() != 0 && Math.random() < 0.2) {
-                game.sendAction(new PresidentPassAction(this));
-                return;
-            }
+//            // if the current set isn't 0, then possibly pass:
+//            // 20% chance for the Dumb AI to randomly Pass the turn.
+//            if(savedState.getCurrentSet().size() != 0 && Math.random() < 0.2) {
+//                game.sendAction(new PresidentPassAction(this));
+//                return;
+//            }
 
             // checks current set size and plays as follows
             switch (savedState.getCurrentSet().size()) {
@@ -203,11 +203,12 @@ public class PresidentDumbAI extends GameComputerPlayer implements Serializable 
         Card c = new Card(-1, "Default");
         if(savedState.getCurrentSet().size() != 0) {
             for(int i = 0; i < temp.size(); i++) {
-                if (c.getValue() < temp.get(i).getValue() &&
-                    c.getValue() > savedState.getCurrentSet().get(0).getValue()) {
+                if (c.getValue() < temp.get(i).getValue()) {
                     c.setCardSuit(temp.get(i).getSuit());
                     c.setCardVal(temp.get(i).getValue());
-                    return c;
+                    if(c.getValue() > savedState.getCurrentSet().get(0).getValue()) {
+                        return c;
+                    }
                  }
              }
         }
