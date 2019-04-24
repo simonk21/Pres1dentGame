@@ -9,19 +9,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="vertical">
 
             <Button
                 android:id="@+id/returnRulesButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="Return to Game" />
 
             <LinearLayout
@@ -47,10 +45,10 @@
                         android:id="@+id/textView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="10"
+                        android:layout_weight="2"
                         android:background="@color/white"
                         android:gravity="center"
-                        android:text="President Game"
+                        android:text="How To Play President Game"
                         android:textColor="@color/black"
                         android:textSize="50dp" />
 
@@ -62,8 +60,8 @@
                         android:background="@color/white"
                         android:ems="10"
                         android:gravity="center"
-                        android:inputType="textMultiLine"
-                        android:text="Rules:" />
+                        android:text="Scroll To View All The Rules!"
+                        android:inputType="textMultiLine" />
                 </LinearLayout>
 
                 <Space
@@ -79,60 +77,90 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                android:background="@color/white"
+                android:scrollbars="vertical"
+                android:text="\n Player Ranking \n \n
+    1.	 First player to get rid of their cards will receive the ranking of President \n \n
+    2.	 Second player to get rid of their cards will receive the ranking of Vice President \n\n
+    3.	 Third player to get rid of their cards will receive the ranking of Vice Scum \n \n
+    4.	 Player with cards left will receive the ranking of Scum \n \n
+    5.   At the beginning of the game, all players have a ranking of  'none' \n \n \n
 
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@color/white"
-                    android:text="Playing The Game: \n
-    1. Play cards in sequential order from lowest to highest, where Ace is high
-     and two is wild. \n
-    2. First person to go out (have no cards in hand) gets the title President and gets two points \n
-    3. Next person to go out gets the title Vice President and gets one point \n
-    4. First person to get to 11 points wins \n
-    5. Playing doubles, triples, or four of a kind is legal \n
-    6. Twos act as the highest card if played alone, but if played in anything more act like the other
-     cards played with them \n
+    Card Ranking: \n \n
+    (Low) 3 4 5 6 7 8 9 10 J Q K A (High) and 2 is a wild card \n \n
+    The suit does not change the value of the card \n \n \n
 
-Ranking \n
-    1.	 First player to get rid of their cards will receive the ranking of President \n
-    2.	 Second player to get rid of their cards will receive the ranking of Vice President \n
-    3.	 Third player to get rid of their cards will receive the ranking of Vice Scum \n
-    4.	 Player with cards left \n
+    Rules: \n
 
+    1. Player can pass their turn even if the player's hand contains a card that can \n \n
+        beat the current set \n \n
+    2. Player can play during their turn and can play cards that are of higher value \n \n
+        than the current set. If the current set contains a pair of Kings, then the current \n \n
+        player must play a pair of Aces, an Ace and a wild card, or two wild cards. Otherwise, \n \n
+        the player must pass. \n \n
+    3. Players can play up to four cards and as little as one card \n \n \n
 
-To Select A Card or Set of Cards to Play: \n
-    1.	Select on the cards that you want to play \n
-        a.	 When card is selected, it will become shaded \n
-        b.	 To deselect card, click on it again and it will become unshaded \n
-    2.	Press the Play Button \n
-        a.	 If card set is not higher than the current set or the cards are not of the same value, then an “Invalid Move” message will display on your screen \n
-        b.	 If it isn’t your turn yet, then a “Not Your Turn” message will display on your screen \n
-        c.	 If able to play, your card set will display in the current set pile in the center \n
+    How the Game Works: \n \n
+    1. Play cards in sequential order from lowest to highest, where Ace is high and two is wild. \n \n
+    2. First person to go out (have no cards in hand) gets the title President and gets two points \n \n
+    3. Next person to go out gets the title Vice President and gets one point \n \n
+    4. First person to get to 11 points wins \n \n
+    5. Playing doubles, triples, or four of a kind is legal \n \n
+    6. Twos act as the highest card if played alone, but if played with other value cards is then \n \n
+       treated of the same value as those cards. \n \n
+    7. When a set is finished, trading will take place. \n \n
+        a. President: Chooses two cards that he/she would like to trade. \n \n
+           You want to choose your worst cards to give to the Scum. \n \n
+        b. Vice President: Chooses one card that he/she would like to trade. \n \n
+           You want to choose your worst card to give to the Vice Scum. \n \n
+        c. Vice Scum/Scum: Have no choice on selecting card to trade. The game \n \n
+            will choose your best card(s) to give to the Vice President and President. \n \n \n
 
-To Order Your Hand from Lowest to Highest Value: \n
-    1.	When it’s your turn, select the “Order Cards” button \n
+    How To Play on The App: \n \n
+    To Select A Card or Set of Cards to Play: \n \n
+    1.	Select on the cards that you want to play \n \n
+        a.	 When card is selected, it will become shaded \n \n
+        b.	 To deselect card, click on it again and it will become unshaded \n \n
+    2.	Press the Play Button \n \n
+        a.	 If card set is not higher than the current set or the cards are not of the same value, \n \n
+             then an “Invalid Move” message will display on your screen \n \n
+        b.	 If it isn’t your turn yet, then a “Not Your Turn” message will display on your screen \n \n
+        c.	 If able to play, your card set will display in the current set pile in the center \n \n
 
-To Pass Your Turn: \n
-    1.	When it’s your turn, select the “Pass” button \n
-        a.	 It will pass your turn and move on or display a “Not Your Turn” message \n
+    To Order Your Hand from Lowest to Highest Value: \n \n
+    1.	When it’s your turn, select the “Order Cards” button \n \n
 
-To Leave Game \n
-    1.	Select the “Leave Game” button \n
-    NOTE:	You can leave the game without disrupting the play, but if you’re the host
-    the game will end.\n"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-                    android:textSize="12sp" />
-            </LinearLayout>
+    To Pass Your Turn: \n \n
+    1.	When it’s your turn, select the “Pass” button \n \n
+        a.	 It will pass your turn and move on or display a “Not Your Turn” message \n \n \n
 
+    To Leave Game \n \n
+    1.	Select the “Leave Game” button \n \n
+    To Trade \n \n
+    1. Trade will only work when trading is in progess message pops up \n \n
+    2. If you have the ranking of President or Vice President, then select the \n \n
+       card(s) you want to trade (as you would do to the Play a card) \n \n
+    3. Press the Trade Button \n \n
+        a. The card you selected should be removed from your hand \n \n
+        b. The best cards from the Vice Scum or Scum will be placed in your hand \n \n
 
+    Best of luck, Asshole! \n \n \n
+    "
+                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:textSize="20sp"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
     </LinearLayout>

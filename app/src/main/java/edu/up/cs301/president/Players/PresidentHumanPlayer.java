@@ -1,6 +1,7 @@
 package edu.up.cs301.president.Players;
 
 import android.graphics.PorterDuff;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -310,8 +311,21 @@ public class PresidentHumanPlayer extends GameHumanPlayer implements View.OnClic
             // Loads up the GUI that describes the rules to the
             // player
             this.myActivity.setContentView(R.layout.rules_tab);
+            TextView rules = myActivity.findViewById(R.id.textView4);
+            rules.setMovementMethod(new ScrollingMovementMethod());
             this.returnRulesButton = myActivity.findViewById(R.id.returnRulesButton);
             returnRulesButton.setOnClickListener(this);
+
+            /**
+             External Citation:
+             Date:    24 April 2019
+             Problem: Didn't know how to make rules scrollable
+
+             Resource:
+             https://www.youtube.com/watch?v=aZPsgEcCkkc
+             Solution: I used the example code from the video
+
+             */
 
         }
         else {
