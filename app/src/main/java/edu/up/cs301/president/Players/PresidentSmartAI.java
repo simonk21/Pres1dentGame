@@ -46,7 +46,7 @@ public class PresidentSmartAI extends GameComputerPlayer implements Serializable
      */
     @Override
     protected void receiveInfo(GameInfo info) {
-       // sleep(500); // delay CPU
+        sleep(500); // delay CPU
         if(info == null) { // if info is null
             Log.i("PresidentDumbAI", "info is null");
         }

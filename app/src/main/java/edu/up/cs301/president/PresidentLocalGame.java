@@ -80,12 +80,12 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
      */
     @Override
     protected String checkIfGameOver() {
-        int score = state.checkGame();
-        if(score == -1) {
+        int idx = state.checkGame();
+        if(idx == -1) {
             return null;
         }
         else{
-            return this.playerNames[score] + "is a winner!";
+            return this.playerNames[idx] + " is a winner!";
         }
     }
 
