@@ -100,7 +100,7 @@ public class PresidentState extends GameState {
             deck = new Deck();
             deck.deal(players);
             for(int i = 0; i < players.size(); i++){
-                if(players.get(i).getRank() == 0){
+                if(players.get(i).getRank() == 3){
                     turn = i;
                 }
             }

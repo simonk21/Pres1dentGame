@@ -295,10 +295,8 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
                 case -1:
                     return false;
                 case 0:
-                    state.nextPlayer();
                     break;
                 case 1:
-                    state.nextPlayer();
                     break;
                 case 2:
                     if(toTrade.size() != 1){
@@ -330,6 +328,10 @@ public class PresidentLocalGame extends LocalGame implements Serializable {
                 trade();
                 state.setRoundStart(false);
                 return true;
+            }
+            while(state.getPlayers().get(state.getTurn()).getRank() == 0 ||
+                state.getPlayers().get(state.getTurn()).getRank() == 1){
+                state.nextPlayer();
             }
         }
         return true;
